@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krisis Mental Gen Z - Gen Zehat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            min-height: 80vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #764ba2;
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #667eea;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #764ba2;
+            text-align: center;
+        }
+
+        .intro p {
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .main-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
+            background: white;
+            padding: 20px 10px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover, .menu-card.active-tab {
+            border-color: #764ba2;
+            background: #f5f3ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(118, 75, 162, 0.2);
+        }
+
+        .menu-card.active-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #764ba2;
+        }
+
+        .menu-title {
+            display: block;
+            margin-top: 10px;
+            font-weight: 700;
+            color: #5b21b6;
+            font-size: 1em;
+            line-height: 1.2;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-emoji {
+            display: inline-block;
+            font-size: 2.5em;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .content-container {
+            display: none;
+            animation: slideDown 0.5s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #5b21b6;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #764ba2;
+            box-shadow: 0 5px 15px rgba(118, 75, 162, 0.1);
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.05em;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-icon {
+            font-size: 1.3em;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: #f8fafc;
+        }
+
+        .accordion-content-inner {
+            padding: 20px;
+            color: #4a5568;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2000px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #e9d5ff 0%, #ddd6fe 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .example-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #764ba2;
+            transition: all 0.3s ease;
+        }
+
+        .example-label {
+            font-weight: 700;
+            color: #5b21b6;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-left: 5px solid #ef4444;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .warning-box h4 {
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ddd6fe 100%);
+            border-left: 5px solid #7c3aed;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid #764ba2;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #5b21b6;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 0.85em;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #764ba2;
+            font-weight: bold;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+
+        .danger-list li::before {
+            content: '▪️';
+            color: #ef4444;
+            font-size: 1em;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            h1 { font-size: 1.5em; }
+            .main-menu-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .navigation-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background-color: #764ba2;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .whatsapp { background-color: #25D366; }
+        .instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Krisis Mental Gen Z</h1>
+            <p class="subtitle">Saat HP dan Sosmed Tak Lagi Bikin Happy</p>
+        </header>
+
+        <div class="intro">
+            <p>Bagi Gen Z, HP adalah bagian tubuh yang tak terpisahkan. Namun, di balik kemudahannya, ada dampak besar bagi kesehatan mental. Klik menu di bawah untuk mempelajari lebih lanjut:</p>
+        </div>
+
+        <div class="main-menu-grid">
+            <div class="menu-card" onclick="showSection('fomo', this)">
+                <span class="floating-emoji" style="animation-delay: 0s;">📡</span>
+                <span class="menu-title">FOMO & Update</span>
+            </div>
+            <div class="menu-card" onclick="showSection('perbandingan', this)">
+                <span class="floating-emoji" style="animation-delay: 0.5s;">🎭</span>
+                <span class="menu-title">Jebakan "Sempurna"</span>
+            </div>
+            <div class="menu-card" onclick="showSection('pujian', this)">
+                <span class="floating-emoji" style="animation-delay: 1s;">👍</span>
+                <span class="menu-title">Haus Pujian</span>
+            </div>
+            <div class="menu-card" onclick="showSection('solusi', this)">
+                <span class="floating-emoji" style="animation-delay: 1.5s;">🛠️</span>
+                <span class="menu-title">Solusi & Tips</span>
+            </div>
+        </div>
+
+        <div id="fomo" class="content-container">
+            <div class="section">
+                <h2 class="section-title">1. FOMO: Takut Ketinggalan Update</h2>
+                <div class="accordion-item">
+                <div class="accordion-header"><span>❓ Apa itu FOMO?</span><span>▼</span></div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        FOMO adalah rasa gelisah jika tidak tahu atau ketinggalan apa yang lagi ramai (viral) atau apa yang sedang dilakukan orang lain. <br>Rasanya seperti ada yang kurang kalau belum buka HP.<br> Kondisi otak jadi selalu dalam kondisi "siaga", mirip seperti orang yang merasa terancam dikucilkan dari pergaulan.</div>
+                </div>
+            </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>📉 Dampak Buruk FOMO</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul class="danger-list">
+                                <li><span class="highlight">🔁 Gelisah Terus:</span> Merasa harus cek HP setiap menit.</li>
+                                <li><span class="highlight">💤 Susah Tidur:</span> Begadang cuma buat scrolling sampai mata perih.</li>
+                                <li><span class="highlight">👀 Sulit Fokus:</span> Sedang belajar atau kerja, tangan gatal ingin buka Instagram atau TikTok dan sosmed lainnya.</li>
+                                <li><span class="highlight">💔 Gak Puas dg Hidupnya:</span> Merasa hidup membosankan dibanding orang lain yang terlihat selalu senang.
+</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <span class="example-label">Contoh Nyata:</span>
+                    <p>Seorang mahasiswa yang setiap 15 menit cek HP saat belajar,<br>Merasa sedih kalau lihat teman nongkrong tapi dia tidak diajak,<br>atau bela-belain beli barang mahal hanya supaya dianggap "keren" di mata teman-temannya.</div>
+            </div>
+        </div>
+
+        <div id="perbandingan" class="content-container">
+            <div class="section">
+                <h2 class="section-title">2. Jebakan Kehidupan Sempurna</h2>
+                <div class="accordion-item">
+                <div class="accordion-header"><span>❓ Apa itu Jebakan Sempurna?</span><span>▼</span></div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        Sosmed itu ibarat panggung sandiwara. <br>Orang hanya memposting bagian yang bagus saja (sudah diedit, pakai filter, dan dipilih yang paling cantik). <br>Masalahnya, sering dianggap itu sebagai kenyataan. <br>Akhirnya jadi merasa "kok aku nggak sehebat/secantik dia ya?"</div>
+                </div>
+            </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>😖 Dampak Membandingkan Diri</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul class="danger-list">
+                                <li><span class="highlight">👎 Insecure Fisik:</span> Merasa diri jelek karena melihat wajah orang lain yang tampak mulus tanpa pori-pori berkat filter.</li>
+                                <li><span class="highlight">💥 Merasa Gagal:</span> Merasa tidak berguna saat melihat teman sudah sukses atau kerja di tempat bagus, padahal perjalanan tiap orang beda-beda.</li>
+                                <li><span class="highlight">💫 Hilang Jati Diri:</span> Capek karena terus-menerus meniru gaya hidup orang lain yang sebenarnya kita tidak sanggup.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <span class="example-label">Contoh Nyata:</span>
+                    <p>Si S (21 tahun) yang diet ketat sampai sakit karena ingin punya badan seperti seorang model di sosmed, <br>atau nekat ambil pinjaman online (pinjol) demi beli skincare mahal supaya tidak kalah saing dengan teman-temannya.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="pujian" class="content-container">
+            <div class="section">
+                <h2 class="section-title">3. Haus Pujian & Kecanduan Jempol</h2>
+                <div class="accordion-item">
+                <div class="accordion-header"><span>❓ Apa itu Haus Pujian?</span><span>▼</span></div>
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        Kita jadi merasa berharga hanya kalau postingan kita banyak yang "Like" atau "View". <br>Saat dapat banyak notifikasi, otak merasa senang (seperti kecanduan). <br>Tapi kalau sepi peminat, perasaan berubah jadi merasa sedih, tidak laku, atau gagal.</div>
+                </div>
+            </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>🎢 Dampak Psikologis</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul class="danger-list">
+                                <li><span class="highlight">🕸️ Self-Esteem Labil:</span> Kalau like banyak merasa hebat, kalau sedikit langsung merasa minder.</li>
+                                <li><span class="highlight">🌊 Stres Konten:</span> Bingung dan pusing memikirkan konten apa yang bakal viral.</li>
+                                <li><span class="highlight">🤝 Hubungan Palsu:</span>  Ngobrol sama teman bukan buat berbagi cerita, tapi cuma buat foto-foto demi konten.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-card">
+                    <span class="example-label">Contoh Nyata:</span>
+                    <p>Si R (17 tahun) yang langsung menghapus fotonya atau artikelnya jika lebih 1 jam yang like masih sedikit, <br>atau suasana hatinya (mood) hancur seharian hanya karena postingannya tidak ada yang mengomentari.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="solusi" class="content-container">
+            <div class="section">
+                <h2 class="section-title">Cara Tetap Sehat Mental</h2>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>👤 Untuk Diri Sendiri</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Istirahat dari HP: Matikan 1 jam sebelum tidur & saat makan.</li>
+                                <li>Pilih-pilih Teman di Sosmed: Unfollow atau mute akun yang bikin kamu merasa minder. Ikuti akun yang memberi semangat atau ilmu.
+</li>
+                                <li>Cari Hobi Nyata: Cobalah olahraga, menggambar, atau masak. Nikmati dunia nyata tanpa harus difoto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>👨‍👩‍👧 Untuk Orang Tua</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Jangan Galak, Tapi Ajak Ngobrol: Tanya apa yang anak rasakan di sosmed dengan cara yang santai.</li>
+                                <li>Jadilah Contoh: Jangan melarang anak main HP kalau orang tuanya sendiri terus-terusan pegang HP.</li>
+                                <li>Aturan Bersama: Misalnya, di meja makan tidak boleh ada yang pegang HP.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>🏫 Sekolah & Pemerintah</span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Edukasi: Sekolah perlu mengajarkan cara main sosmed yang sehat.</li>
+				<li>Aturan di Kelas: Sebisa mungkin jangan pakai HP saat jam belajar agar siswa bisa fokus ngobrol langsung dengan teman.</li>
+                                <li>Label Editan: Pemerintah bisa mewajibkan foto iklan/influencer diberi label jika sudah diedit berlebihan agar anak muda tidak tertipu standar kecantikan palsu.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h3 style="margin-bottom: 20px;">💡 Kesimpulan</h3>
+               
+                     <li>HP dan sosmed itu seperti pisau. Bisa membantu, tapi bisa melukai kalau salah pakai. Krisis mental ini bukan berarti kamu lemah, tapi karena otak kita memang tidak sanggup menerima informasi sebanyak itu setiap hari.</li>
+                     <li>Kuncinya adalah keseimbangan. Jangan biarkan hidupmu diatur oleh jumlah "Like".</li> <p>Yuk, matikan notifikasimu sebentar, dan mulailah nikmati hidup di dunia nyata!</p>
+               
+                        
+                    </div><p style="margin-top: 15px; font-weight: bold;">Mari Lakukan Digital Detox Harian:</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">30 Menit</div>
+                    <div class="stat-label">Tanpa HP setelah bangun pagi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1 Jam</div>
+                    <div class="stat-label">Matikan HP sebelum tidur</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">No HP!</div>
+                    <div class="stat-label">Saat sedang makan</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-container">
+            <a href="https://muin123-dr.github.io/efekHP/021.html" class="nav-btn">&lt;&lt; kembali</a>
+            <a href="https://muin123-dr.github.io/efekHP/000.html" class="nav-btn">(daftar isi)</a>
+            <a href="https://muin123-dr.github.io/efekHP/023.html" class="nav-btn">lanjut &gt;&gt;</a>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://whatsapp.com/channel/0029VbAtZNp47Xe6JFu65N2u" class="social-btn whatsapp" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M20.52 3.48a11.9 11.9 0 00-16.84 0 11.89 11.89 0 00-3.5 8.42c0 2.1.55 4.15 1.6 5.95L2 22l4.25-1.4a11.83 11.83 0 005.95 1.6c4.46 0 8.6-2.8 10.02-7.07a11.9 11.9 0 00-1.7-10.65zm-8.2 14.6a9.52 9.52 0 01-4.8-1.3l-.35-.2-3 1 1-3.1-.23-.36a9.5 9.5 0 0115.7-11.2 9.48 9.48 0 01-7.3 14.3zm5.07-6.4c-.28-.14-1.67-.82-1.93-.91-.26-.1-.45-.14-.64.14s-.73.9-.9 1.08c-.16.18-.32.2-.6.07a7.8 7.8 0 01-2.3-1.42 8.8 8.8 0 01-1.63-2c-.18-.3 0-.46.13-.6.14-.14.3-.34.44-.5a1.76 1.76 0 00.26-.44c.09-.15.05-.27-.02-.4-.07-.13-.64-1.54-.88-2.1-.23-.55-.46-.48-.64-.49a1.2 1.2 0 00-.45-.02c-.15 0-.4.06-.6.3-.2.24-.77.75-.77 1.83s.79 2.12.9 2.28c.1.15 1.55 2.37 3.77 3.32a13.4 13.4 0 001.76.74 1.78 1.78 0 002.03-2.57z"/>
+            </svg>
+        </a>
+        <a href="https://www.instagram.com/dr.msmuin" class="social-btn instagram" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5a4.25 4.25 0 00-4.25 4.25v8.5a4.25 4.25 0 004.25 4.25h8.5a4.25 4.25 0 004.25-4.25v-8.5a4.25 4.25 0 00-4.25-4.25h-8.5zm8.75 2.25a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/>
+            </svg>
+        </a>
+    </footer>
+
+    <div style="text-align: center; margin-top: 20px; color: white;">
+        <p>© 2025 Gen Zehat - Dr. Muin</p>
+        <p>Ikhtiar Sehat adalah bentuk rasa Syukur</p>
+        <p>🔅🔅🔅</p>
+        <p>.</p>
+        <p>.</p>
+    </div>
+
+    <script>
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.content-container').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.menu-card').forEach(card => card.classList.remove('active-tab'));
+            
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.style.display = 'block';
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            if (element) element.classList.add('active-tab');
+        }
+
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                accordionItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

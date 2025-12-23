@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gen Zehat - Sisi Gelap Smartphone</title>
     <style>
         body {
@@ -14,9 +14,10 @@
             justify-content: space-between;
             align-items: center;
             font-family: 'Poppins', 'Arial', sans-serif;
+            /* Latar belakang cerah ke gelap (animasi dipertahankan) */
             background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 50%, #0a1128 50%, #001f54 100%);
             background-size: 200% 200%;
-            animation: dayToNight 10s forwards;
+            animation: dayToNight 10s forwards linear;
             color: white;
             text-align: center;
             overflow: hidden;
@@ -26,6 +27,55 @@
         @keyframes dayToNight {
             0% { background-position: 0% 0%; }
             100% { background-position: 100% 100%; }
+        }
+
+        /* Gambar Smartphone Latar Belakang */
+        .bg-phone {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* Di belakang konten utama */
+            max-width: 85%;
+            max-height: 85vh;
+            object-fit: contain;
+            opacity: 1;
+            /* Animasi meredupkan HP saat gelap datang agar teks terbaca */
+            animation: fadePhone 10s forwards linear;
+        }
+
+        @keyframes fadePhone {
+            0%, 60% { opacity: 1; filter: brightness(100%); }
+            100% { opacity: 0.3; filter: brightness(50%) contrast(120%); }
+        }
+
+        /* Bingkai Berkedip (Muncul saat gelap) */
+        .phone-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100; /* Paling depan */
+            border-style: solid;
+            border-width: 15px; /* Ketebalan bingkai desktop */
+            border-color: transparent;
+            pointer-events: none; /* Agar klik tembus ke tombol di bawahnya */
+            opacity: 0;
+            /* Muncul setelah 9.5s, lalu mulai berkedip */
+            animation: appearFrame 0.5s forwards 9.5s, blinkFrame 0.8s infinite 10s;
+            box-sizing: border-box;
+        }
+
+        @keyframes appearFrame {
+            to { opacity: 1; }
+        }
+
+        @keyframes blinkFrame {
+            0%   { border-color: #ffff00; box-shadow: inset 0 0 30px #ffff00, 0 0 20px #ffff00; } /* Kuning */
+            33%  { border-color: #ffffff; box-shadow: inset 0 0 30px #ffffff, 0 0 20px #ffffff; } /* Putih */
+            66%  { border-color: #00ffff; box-shadow: inset 0 0 30px #00ffff, 0 0 20px #00ffff; } /* Cyan Cerah */
+            100% { border-color: #ffff00; box-shadow: inset 0 0 30px #ffff00, 0 0 20px #ffff00; } /* Kembali ke Kuning */
         }
 
         /* Bintang-bintang */
@@ -38,6 +88,7 @@
             box-shadow: 0 0 3px white;
             animation: twinkle 3s infinite;
             opacity: 0;
+            z-index: 2;
         }
 
         @keyframes twinkle {
@@ -45,14 +96,12 @@
             50% { opacity: 1; }
         }
 
-        /* Bintang lebih besar */
         .star.large {
             width: 5px;
             height: 5px;
             box-shadow: 0 0 6px white, 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
-        /* Garis cahaya/shooting star */
         .shooting-star {
             position: absolute;
             width: 3px;
@@ -61,26 +110,19 @@
             border-radius: 50%;
             box-shadow: 0 0 10px 2px white;
             opacity: 0;
+            z-index: 2;
         }
 
         @keyframes shoot {
-            0% {
-                transform: translate(0, 0);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-300px, 300px);
-                opacity: 0;
-            }
+            0% { transform: translate(0, 0); opacity: 1; }
+            100% { transform: translate(-300px, 300px); opacity: 0; }
         }
 
         .shooting-star::before {
             content: '';
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 100px;
-            height: 3px;
+            top: 0; right: 0;
+            width: 100px; height: 3px;
             background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, white 100%);
             transform: translateX(2px);
         }
@@ -89,14 +131,15 @@
             max-width: 800px;
             padding: 40px;
             border-radius: 20px;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4); /* Sedikit lebih gelap agar kontras dengan HP cerah */
             backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            z-index: 10;
+            z-index: 10; /* Di depan gambar HP */
+            margin: 20px;
         }
 
         .header {
@@ -134,6 +177,7 @@
             font-weight: bold;
             margin-bottom: 10px;
             letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
         .brand span.red { color: #ff0000; }
@@ -147,21 +191,24 @@
                 0 0 10px #ffff00,
                 0 0 20px #ffff00,
                 0 0 30px #ffff00,
-                2px 2px 10px rgba(0, 0, 0, 0.7);
+                2px 2px 10px rgba(0, 0, 0, 0.9);
             font-weight: bold;
         }
 
         .subtitle {
             font-size: 24px;
             margin-bottom: 30px;
-            opacity: 0.9;
+            opacity: 1;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            font-weight: 600;
         }
 
         .author {
             font-size: 28px;
             font-style: italic;
             margin: 40px 0 50px;
-            text-shadow: 1px 1px 5px black;
+            text-shadow: 2px 2px 8px black;
+            font-weight: 600;
         }
 
         .btn {
@@ -177,6 +224,8 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
             text-decoration: none;
+            position: relative;
+            z-index: 11;
         }
 
         .btn:hover {
@@ -188,45 +237,51 @@
         .footer {
             padding: 20px;
             font-size: 20px;
-            opacity: 0.8;
+            opacity: 0.9;
             z-index: 10;
+            text-shadow: 1px 1px 3px black;
         }
 
         /* Mobile responsive */
         @media (max-width: 768px) {
+            /* Penyesuaian bingkai untuk layar kecil */
+            .phone-frame { border-width: 8px; }
+            
+            .container { padding: 30px 20px; }
             .logo { width: 90px; height: 90px; }
             .brand { font-size: 27px; }
-            .title { font-size: 40px; }
-            .subtitle { font-size: 20px; }
-            .author { font-size: 22px; }
+            .title { font-size: 38px; }
+            .subtitle { font-size: 18px; }
+            .author { font-size: 20px; margin: 30px 0 40px; }
             .btn { font-size: 18px; padding: 10px 28px; }
-            .footer { font-size: 18px; }
+            .footer { font-size: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .title { font-size: 32px; }
+            /* Bingkai lebih tipis lagi di layar sangat kecil */
+            .phone-frame { border-width: 5px; }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;600;400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Generate bintang-bintang dan shooting stars -->
+    <img src="https://muin123-dr.github.io/HP/HP.png" alt="Smartphone Background" class="bg-phone">
+
+    <div class="phone-frame"></div>
+
     <script>
-        // Tunggu animasi selesai baru tampilkan bintang
         setTimeout(() => {
-            // Buat bintang-bintang
             for (let i = 0; i < 150; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
-                
-                // Beberapa bintang lebih besar
-                if (Math.random() > 0.8) {
-                    star.classList.add('large');
-                }
-                
+                if (Math.random() > 0.8) star.classList.add('large');
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
                 star.style.animationDelay = Math.random() * 3 + 's';
                 document.body.appendChild(star);
             }
 
-            // Fungsi untuk membuat shooting star
             function createShootingStar() {
                 const shootingStar = document.createElement('div');
                 shootingStar.className = 'shooting-star';
@@ -234,18 +289,11 @@
                 shootingStar.style.top = Math.random() * 50 + '%';
                 shootingStar.style.animation = 'shoot ' + (1 + Math.random() * 2) + 's linear';
                 document.body.appendChild(shootingStar);
-
-                // Hapus setelah animasi selesai
-                setTimeout(() => {
-                    shootingStar.remove();
-                }, 3000);
+                setTimeout(() => { shootingStar.remove(); }, 3000);
             }
 
-            // Buat shooting star secara periodik
             setInterval(() => {
-                if (Math.random() > 0.5) {
-                    createShootingStar();
-                }
+                if (Math.random() > 0.5) createShootingStar();
             }, 3000);
 
         }, 10000);
@@ -263,7 +311,7 @@
         <h1 class="title">SISI GELAP SMARTPHONE</h1>
         <p class="subtitle">Membedah tuntas efek HP bagi Gen Z<br>Disertai Solusinya</p>
         <p class="author">Dr. Mochamad Syamsul Muin</p>
-        <a href="https://muin123-dr.github.io/Website/" class="btn" target="_blank">Mulai Baca</a>
+        <a href="https://muin123-dr.github.io/HP/000.html" class="btn" target="_blank">Mulai Baca</a>
     </div>
 
     <div class="footer">
