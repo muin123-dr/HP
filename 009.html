@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jatuhnya Ketahanan Mental dan Daya Juang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #332200 0%, #665500 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+            color: #f5f0e0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(51, 42, 0, 0.96);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            min-height: 80vh;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #b59410;
+        }
+
+        h1 {
+            color: #ffcc00;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            color: #e6d8a5;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .intro {
+            background: rgba(181, 148, 16, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #b59410;
+            text-align: left;
+        }
+
+        .intro p {
+            color: #f0e6c8;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .main-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
+            background: #665500;
+            padding: 20px 10px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 2px solid #8a7500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover, .menu-card.active-tab {
+            border-color: #ffcc00;
+            background: #776600;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.2);
+        }
+
+        .menu-card.active-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #ffcc00;
+        }
+
+        .menu-title {
+            display: block;
+            margin-top: 10px;
+            font-weight: 700;
+            color: #ffcc00;
+            font-size: 0.9em;
+            line-height: 1.2;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-emoji {
+            display: inline-block;
+            font-size: 2.5em;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .content-container {
+            display: none;
+            animation: slideDown 0.5s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #ffcc00;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #8a7500;
+            padding-bottom: 10px;
+        }
+
+        .accordion-item {
+            background: #332800;
+            border: 1px solid #8a7500;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #b59410;
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #776600 0%, #332800 100%);
+            color: #f5f0e0;
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1em;
+            user-select: none;
+        }
+
+        .accordion-icon {
+            font-size: 1.1em;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: #221b00;
+        }
+
+        .accordion-content-inner {
+            padding: 20px;
+            color: #f0e6c8;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2500px;
+        }
+
+        .highlight {
+            background: rgba(255, 204, 0, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #ffcc00;
+        }
+
+        .example-card {
+            background: #665500;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ffcc00;
+        }
+
+        .example-label {
+            font-weight: 700;
+            color: #ffcc00;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #665500 0%, #332200 100%);
+            color: #f5f0e0;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid #8a7500;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            border-left: 3px solid #b59410;
+        }
+
+        .stat-number {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #e6d8a5;
+            font-size: 0.85em;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #ffcc00;
+            font-weight: bold;
+        }
+
+        .danger-list li::before {
+            content: '⚠️';
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; margin: 10px; }
+            h1 { font-size: 1.4em; }
+            .main-menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        }
+
+        footer {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .social-btn:hover { transform: scale(1.1); }
+        .whatsapp { background-color: #25D366; }
+        .instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Jatuhnya Ketahanan Mental dan Daya Juang</h1>
+            <p class="subtitle">Mengapa Semua Serba Instan Bisa Melemahkan Daya Juang?</p>
+        </header>
+
+        <div class="intro">
+            <p>Generasi Z (lahir 1997-2012) tumbuh dengan segala kemudahan. Informasi ada di ujung jari, hiburan tersedia tanpa jeda, dan bantuan bisa datang dalam hitungan detik. Namun, di balik kemudahan ini, ada dampak yang mulai mengkhawatirkan: Mudah Frustasi dan tidak berani berjuang.</p>
+        </div>
+
+        <div class="main-menu-grid">
+            <div class="menu-card" onclick="showSection('akar-masalah', this)">
+                <span class="floating-emoji" style="animation-delay: 0s;">🧩</span>
+                <span class="menu-title">Akar Masalah</span>
+            </div>
+            <div class="menu-card" onclick="showSection('manifestasi', this)">
+                <span class="floating-emoji" style="animation-delay: 0.5s;">📱</span>
+                <span class="menu-title">Manifestasi Nyata</span>
+            </div>
+            <div class="menu-card" onclick="showSection('ambisi', this)">
+                <span class="floating-emoji" style="animation-delay: 1s;">🎯</span>
+                <span class="menu-title">Kurangnya Ambisi</span>
+            </div>
+            <div class="menu-card" onclick="showSection('solusi', this)">
+                <span class="floating-emoji" style="animation-delay: 1.5s;">💪</span>
+                <span class="menu-title">Solusi Komprehensif</span>
+            </div>
+        </div>
+
+        <div id="akar-masalah" class="content-container">
+            <div class="section">
+                <h2 class="section-title">1. Akar Masalah: Terbentuknya "Mentalitas Instan"</h2>
+                <div class="example-card">
+                    <p>Lingkungan digital dirancang untuk memberi kepuasan seketika (instant gratification). Notifikasi, like, video pendek, dan scrolling tanpa akhir memberikan hadiah dopamin cepat (dopamine rush) ke otak. Akibatnya, otak terbiasa mengharapkan hasil instan dan mulai menganggap proses yang lama, berulang, atau membosankan sebagai sesuatu yang "terlalu sulit" atau "mengganggu".</p>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>Mekanisme Utama Pelemahan Ketahanan</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Mudah Frustrasi:</b> <br>Tugas yang butuh proses panjang terasa membosankan, tantangan kecil pun tampak berat, dan mudah putus asa saat menghadapi kegagalan. Segala sesuatu yang membutuhkan revisi 2-3 kali dianggap "kegagalan".</li>
+                                <li><b>Ketergantungan Bantuan Eksternal (Over-reliance):</b> <br>Grup WhatsApp, Google, AI atau orang tua yang selalu siap membantu mengurangi kesempatan untuk belajar dari kesulitan.</li>
+                                <li><b>Perhatian yang Terfragmentasi:</b> <br>Konten cepat (durasi singkat) melatih otak untuk terus beralih fokus, sehingga tugas panjang terasa melelahkan.</li>
+                                <li><b>Perbandingan Sosial yang Tidak Sehat:</b> <br>Media sosial penuh dengan "highlight reel" kesuksesan orang lain, membuat standar diri jadi tidak realistis dan memangkas/mengurangi motivasi untuk berjuang/kerja keras.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="manifestasi" class="content-container">
+            <div class="section">
+                <h2 class="section-title">2. Manifestasi Nyata dalam Kehidupan Sehari-hari</h2>
+                <div class="example-card">
+                    <p>Penurunan daya juang bukan hanya soal "kurang sabar", tapi tampak dalam berbagai aspek:</p>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>a. Dalam Akademis & Karir</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Menunda skripsi atau proyek karena merasa berat, sulit konsisten; panik saat deadline dan meminta orang tua mengurus administrasi dosen.</li>
+                                <li>Cepat bosan dengan pekerjaan repetitif, menyerah pada target bulanan pertama, sering ganti kerja (job-hopping) tanpa mengembangkan keterampilan (skill) inti.</li>
+                                <li>Menyerah mengerjakan tugas sulit dalam 5 menit dan langsung mencari jawaban di internet.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>b. Dalam Hubungan & Keluarga</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Saat ada konflik kecil dengan pasangan, langsung minta campur tangan orang tua.</li>
+                                <li><b>Fenomena Kakek-Nenek sebagai Pengasuh Utama (Grandparent as Primary Carer):</b> Ketika anak sakit atau rewel, yang mengambil alih pengasuhan dan keputusan sering kali adalah kakek/nenek. Ini menunjukkan ketidaksiapan orang tua Gen Z menghadapi stres pengasuhan, merasa kewalahan dan tidak percaya diri menangani sendiri.</li>
+                                <li><b>Ketergantungan Dewasa:</b> Pasangan muda yang sudah berkeluarga masih sangat bergantung pada orang tua, baik secara finansial, emosional, maupun dalam pengambilan keputusan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>c. Dalam Kesehatan Mental</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Toleransi Frustrasi Rendah:</b> Mudah putus asa dan menyerah saat menghadapi kegagalan kecil.</li>
+                                <li><b>Regulasi Emosi Lemah:</b> Cenderung melarikan diri ke hiburan digital saat cemas, daripada mempraktekkan cara mengatasi stres yang sehat.</li>
+                                <li><b>Hilangnya Apresiasi pada Proses:</b> Hanya fokus pada hasil akhir yang instan (seperti nilai bagus atau likes), tanpa menghargai pembelajaran dari perjalanan yang berliku.</li>
+                                <li>Menghindari hal sederhana seperti administrasi atau logistik, yang memperpanjang ketergantungan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ambisi" class="content-container">
+            <div class="section">
+                <h2 class="section-title">3. Kurangnya Ambisi dan Cita-Cita Tinggi: Ketika Impian Dikebiri oleh Kenyamanan Instan</h2>
+                <div class="intro">
+                    <p>Di tengah derasnya arus kemudahan digital, satu gejala yang kian mencolok adalah meredupnya semangat untuk bermimpi besar. Generasi Z cenderung menghindari target jangka panjang yang menuntut konsistensi, pengorbanan, dan ketidakpastian.</p>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>a. Mengapa Ambisi Bisa Melemah?</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Kepuasan Jangka Pendek Menggantikan Visi Jangka Panjang:</b> Ketika segala sesuatu bisa didapat dengan cepat—dari makanan, hiburan, hingga validasi sosial—maka impian besar yang butuh waktu bertahun-tahun untuk dicapai terasa tidak menarik.</li>
+                                <li><b>Takut Gagal, Takut Lambat:</b> Budaya instan membentuk ekspektasi bahwa hasil harus cepat dan sempurna. Proses yang lambat atau hasil yang tak langsung terlihat memunculkan rasa malu dan keengganan untuk mencoba, sehingga banyak yang memilih zona nyaman.</li>
+                                <li><b>Krisis Makna dan Arah Hidup:</b> Di tengah banjir informasi dan pilihan, banyak Gen Z mengalami kebingungan eksistensial: “Aku mau jadi apa?” Tanpa fondasi nilai yang kuat, ambisi mudah larut dalam distraksi.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>b. Gejala dalam Kehidupan Sehari-hari</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Cita-cita yang Dangkal atau Tidak Konsisten, sering berganti-ganti tujuan hanya karena tren.</li>
+                                <li>Minimnya Role Model (Sosok idola/panutan) yang Menginspirasi Proses, karena sosok panutan yang ditampilkan media sering kali adalah mereka yang sukses secara instan.</li>
+                                <li>Enggan Menyusun Rencana Hidup jangka panjang karena dianggap membosankan atau tidak relevan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="solusi" class="content-container">
+            <div class="section">
+                <h2 class="section-title">4. Solusi Komprehensif: Membangun Kembali "Otot Mental"</h2>
+                <div class="example-card">
+                    <p>Mengatasi masalah ini membutuhkan kerja sama dari semua pihak.</p>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>1. Untuk Individu (Gen Z Sendiri)</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Latih "Menunda Kepuasan":</b> Gunakan teknik Pomodoro (25 menit fokus, 5 menit istirahat). Tahan diri untuk tidak mengecek notifikasi selama periode fokus.</li>
+                                <li><b>Jadwalkan "Waktu Tanpa Ponsel":</b> Misalnya, 1 jam pertama setelah bangun tidur dan 90 menit sebelum tidur. Gunakan alarm analog.</li>
+                                <li><b>Coba Dulu Sendiri:</b> Saat ada masalah, beri waktu 20-30 menit untuk mencoba menyelesaikannya sendiri sebelum mencari bantuan atau jawaban instan.</li>
+                                <li><b>Buat Jurnal Proses:</b> Catat usaha, hambatan, dan pembelajaran harian. Ini melatih pola pikir untuk menghargai proses.</li>
+                                <li><b>Pilih Tantangan Kecil:</b> Ambil satu tanggung jawab kecil di luar zona nyaman setiap minggu, seperti mengurus administrasi sederhana sendiri.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>2. Untuk Orang Tua & Keluarga</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Beralih dari Menyelamatkan ke Melatih:</b> Alih-alih langsung memberi solusi, tanyakan: "Apa yang sudah kamu coba?" atau "Menurutmu langkah pertama apa yang bisa diambil?"</li>
+                                <li><b>Biarkan Anak Merasakan Konsekuensi Alami:</b> Jika anak lupa mengerjakan PR, biarkan ia menerima konsekuensi dari guru. Ini adalah pembelajaran berharga.</li>
+                                <li><b>Batasi Peran sebagai "Customer Service 24 Jam":</b> Tetapkan batasan, misalnya tidak merespons chat untuk hal non-darurat setelah jam 10 malam.</li>
+                                <li><b>Ceritakan Kegagalan Anda Sendiri:</b> Berbagi pengalaman pribadi saat Anda berjuang dan gagal akan memodelkan ketahanan untuk anak.</li>
+                                <li><b>Atur Peran Kakek-Nenek dengan Jelas:</b> Kakek-nenek sebaiknya membantu dalam keadaan darurat, bukan mengambil alih peran pengasuhan secara rutin.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>3. Untuk Institusi (Sekolah, Kampus, Perusahaan) & Masyarakat</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Terapkan Project-Based Learning:</b> Berikan proyek jangka panjang yang menilai proses, iterasi, dan usaha, bukan hanya hasil akhir.</li>
+                                <li><b>Ajarkan Keterampilan Hidup:</b> Integrasikan pelajaran tentang mengelola stres, regulasi emosi, problem-solving, dan keuangan dasar.</li>
+                                <li><b>Buat Aturan Penggunaan Ponsel:</b> Sesi belajar tertentu harus bebas ponsel untuk melatih fokus mendalam. Dorong kemandirian dengan tidak mengizinkan orang tua menyelesaikan masalah administratif atau akademis anak yang sudah dewasa.</li>
+                                <li><b>Buat Program Onboarding yang Menantang:</b> Berikan simulasi masalah nyata kepada karyawan baru untuk melatih pengambilan keputusan.</li>
+                                <li><b>Kampanyekan "Kesuksesan adalah Proses":</b> Media dan platform digital perlu menampilkan lebih banyak konten tentang perjalanan, kegagalan, dan pembelajaran di balik kesuksesan.</li>
+                                <li><b>Sediakan Ruang Komunitas Tanpa Layar:</b> Fasilitasi kegiatan seperti olahraga, kelompok riset, atau seni yang melatih ketekunan dan interaksi langsung.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h3 style="margin-bottom: 20px;">💡 Kesimpulan</h3>
+            <p>Penurunan ketahanan mental Gen Z merupakan konsekuensi dari lingkungan yang terbentuk. Smartphone dan teknologi bukan musuh, namun penggunaannya yang tanpa keseimbangan dapat melemahkan daya juang.</p>
+            <p style="margin-top: 10px;">Dengan upaya bersama, Gen Z dapat tumbuh menjadi generasi yang tidak hanya cakap digital, tetapi juga tangguh mental dan siap menghadapi kompleksitas kehidupan dengan daya juang yang kuat.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">Pomodoro</div>
+                    <div class="stat-label">25 menit fokus (No Cek Notif, 5 menit istirahat</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Coba Dulu</div>
+                    <div class="stat-label">Jangan langsung minta Bantuan</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Ambil Tantangan</div>
+                    <div class="stat-label">Terima Tanggung jawab (kecil) diluar zona nyaman.</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Klik icon WA</div>
+                    <div class="stat-label">tk artikel versi WA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://whatsapp.com/channel/0029VbAtZNp47Xe6JFu65N2u/302" class="social-btn whatsapp" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M20.52 3.48a11.9 11.9 0 00-16.84 0 11.89 11.89 0 00-3.5 8.42c0 2.1.55 4.15 1.6 5.95L2 22l4.25-1.4a11.83 11.83 0 005.95 1.6c4.46 0 8.6-2.8 10.02-7.07a11.9 11.9 0 00-1.7-10.65zm-8.2 14.6a9.52 9.52 0 01-4.8-1.3l-.35-.2-3 1 1-3.1-.23-.36a9.5 9.5 0 0115.7-11.2 9.48 9.48 0 01-7.3 14.3zm5.07-6.4c-.28-.14-1.67-.82-1.93-.91-.26-.1-.45-.14-.64.14s-.73.9-.9 1.08c-.16.18-.32.2-.6.07a7.8 7.8 0 01-2.3-1.42 8.8 8.8 0 01-1.63-2c-.18-.3 0-.46.13-.6.14-.14.3-.34.44-.5a1.76 1.76 0 00.26-.44c.09-.15.05-.27-.02-.4-.07-.13-.64-1.54-.88-2.1-.23-.55-.46-.48-.64-.49a1.2 1.2 0 00-.45-.02c-.15 0-.4.06-.6.3-.2.24-.77.75-.77 1.83s.79 2.12.9 2.28c.1.15 1.55 2.37 3.77 3.32a13.4 13.4 0 001.76.74a1.78 1.78 0 002.03-2.57z"/>
+            </svg>
+        </a>
+        <a href="https://www.instagram.com/dr.msmuin" class="social-btn instagram" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5a4.25 4.25 0 00-4.25 4.25v8.5a4.25 4.25 0 004.25 4.25h8.5a4.25 4.25 0 004.25-4.25v-8.5a4.25 4.25 0 00-4.25-4.25h-8.5zm8.75 2.25a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/>
+            </svg>
+        </a>
+    </footer>
+
+    <div style="text-align: center; margin-top: 40px; color: #b59410; padding-bottom: 100px;">
+        <p>© 2025 Gen Zehat - Dr. Muin</p>
+        <p>Ikhtiar Sehat adalah bentuk rasa Syukur</p>
+        <p>🔅🔅🔅</p>
+    </div>
+
+    <script>
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.content-container').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.menu-card').forEach(card => card.classList.remove('active-tab'));
+            
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.style.display = 'block';
+                setTimeout(() => {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+            if (element) element.classList.add('active-tab');
+        }
+
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                accordionItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
