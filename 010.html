@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citra Diri Gen Z di Era Smartphone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #3D0019 0%, #5A0026 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+            color: #FCE4EC;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(61, 0, 25, 0.96);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.6s ease;
+            position: relative;
+            min-height: 80vh;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #AD1457;
+        }
+
+        h1 {
+            color: #D81B60;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            color: #F8BBD0;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .intro {
+            background: rgba(173, 20, 87, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #AD1457;
+            text-align: left;
+        }
+
+        .intro p {
+            color: #F8BBD0;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        .main-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
+            background: #5A0026;
+            padding: 20px 10px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 2px solid #8A0038;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover, .menu-card.active-tab {
+            border-color: #D81B60;
+            background: #6D002F;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(216, 27, 96, 0.2);
+        }
+
+        .menu-card.active-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid #D81B60;
+        }
+
+        .menu-title {
+            display: block;
+            margin-top: 10px;
+            font-weight: 700;
+            color: #D81B60;
+            font-size: 0.9em;
+            line-height: 1.2;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating-emoji {
+            display: inline-block;
+            font-size: 2.5em;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .content-container {
+            display: none;
+            animation: slideDown 0.5s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #D81B60;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #8A0038;
+            padding-bottom: 10px;
+        }
+
+        .accordion-item {
+            background: #3D0019;
+            border: 1px solid #8A0038;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            border-color: #AD1457;
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #6D002F 0%, #3D0019 100%);
+            color: #FCE4EC;
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1em;
+            user-select: none;
+        }
+
+        .accordion-icon {
+            font-size: 1.1em;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            background: #2A0012;
+        }
+
+        .accordion-content-inner {
+            padding: 20px;
+            color: #F8BBD0;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2500px;
+        }
+
+        .highlight {
+            background: rgba(216, 27, 96, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #D81B60;
+        }
+
+        .example-card {
+            background: #5A0026;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #D81B60;
+        }
+
+        .example-label {
+            font-weight: 700;
+            color: #D81B60;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #5A0026 0%, #3D0019 100%);
+            color: #FCE4EC;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: left;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            border: 1px solid #8A0038;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            border-left: 3px solid #AD1457;
+        }
+
+        .stat-number {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #D81B60;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #F8BBD0;
+            font-size: 0.85em;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #D81B60;
+            font-weight: bold;
+        }
+
+        .danger-list li::before {
+            content: '⚠️';
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; margin: 10px; }
+            h1 { font-size: 1.4em; }
+            .main-menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+        }
+
+        footer {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .social-btn:hover { transform: scale(1.1); }
+        .whatsapp { background-color: #25D366; }
+        .instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 Citra Diri Gen Z yang Tergerus</h1>
+            <p class="subtitle">Ketika Dunia Maya Mengaburkan Kenyataan</p>
+        </header>
+
+        <div class="intro">
+            <p>Smartphone dan media sosial telah menjadi bagian tak terpisahkan dari kehidupan Generasi Z. Namun, di balik kesan keren dan terhubung, ada krisis kesehatan mental yang diam-diam tumbuh: <b>kerusakan citra diri yang sangat dalam.</b> <br>Klik Poin-poin dibawah untuk mempelajari lebih detail.</p>
+        </div>
+
+        <div class="main-menu-grid">
+            <div class="menu-card" onclick="showSection('akar-masalah', this)">
+                <span class="floating-emoji" style="animation-delay: 0s;">🧩</span>
+                <span class="menu-title">Akar Masalah</span>
+            </div>
+            <div class="menu-card" onclick="showSection('dampak', this)">
+                <span class="floating-emoji" style="animation-delay: 0.5s;">💔</span>
+                <span class="menu-title">Dampaknya</span>
+            </div>
+            <div class="menu-card" onclick="showSection('solusi-individu', this)">
+                <span class="floating-emoji" style="animation-delay: 1s;">💪</span>
+                <span class="menu-title">Solusi Individu</span>
+            </div>
+            <div class="menu-card" onclick="showSection('peran-lingkungan', this)">
+                <span class="floating-emoji" style="animation-delay: 1.5s;">🤝</span>
+                <span class="menu-title">Peran Lingkungan</span>
+            </div>
+        </div>
+
+        <div id="akar-masalah" class="content-container">
+            <div class="section">
+                <h2 class="section-title">1. AKAR MASALAH</h2>
+                <div class="example-card">
+                    <p>Kita hidup di era di mana kenyataan mudah direkayasa dan disunting. <br>Media sosial menciptakan ekosistem “kesempurnaan” yang palsu, dan algoritma menjaga kita tetap terpaku di dalamnya.</p>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>1.1 Mekanisme Distorsi Realitas Digital</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Konten Visual yang Diedit Massal:</b> <br>Hampir 95% konten visual yang kita lihat sudah melalui proses editing sebelum diunggah. <br>Filter wajah bisa mengubah hingga 40% proporsi wajah asli, menciptakan standar cantik/tampan yang bahkan tidak ada di dunia nyata.</li>
+                                <li><b>Algoritma yang Memperkuat Ilusi:</b> <br>Platform media sosial dirancang untuk menunjukkan konten yang paling banyak disukai dan diikuti—yang cenderung menampilkan puncak pencapaian, kecantikan yang sudah diedit, dan kehidupan glamor. <br>Algoritma ini menciptakan “echo chamber” atau ruang gema di mana pengguna hanya melihat standar kecantikan yang sempit dan berulang, sehingga mengabaikan keragaman tubuh, kulit, dan ekspresi manusia yang sesungguhnya.</li>
+                                <li><b>Normalisasi Editing yang Ekstrem:</b> <br>Filter, retouching, dan manipulasi gambar sudah menjadi hal biasa. Batas antara asli dan palsu jadi kabur. <br>Otak kita mulai menganggap yang “dipoles” ini sebagai standar baru yang harus dicapai.</li>
+                                <li><b>Highlight Reel Effect:</b> <br>Media sosial hanya menampilkan momen terbaik (penampilan sempurna, pose terbaik, kesuksesan) tanpa menunjukkan proses, kegagalan, atau keseharian yang biasa-biasa saja.</li>
+                                <li><b>Konsumerisme Estetika:</b> <br>Iklan produk kecantikan, fitness, dan gaya hidup yang disisipkan di feed mengaitkan penerimaan sosial dengan penampilan, mendorong belanja sebagai “solusi” untuk citra diri.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>1.2 Epidemi Body Dysmorphia Digital</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>“Snapchat Dysmorphia”:</b> <br>Ini adalah istilah medis yang menggambarkan kondisi di mana seseorang tidak lagi mengenali atau menerima wajah asli mereka karena terlalu terbiasa melihat versi filter. <br>Banyak remaja membawa foto hasil filter sebagai referensi untuk operasi plastik.</li>
+                                <li><b>Internalisasi Standar Tidak Realistis:</b> <br>Seiring waktu, pengguna mulai mengadopsi standar sempit ini sebagai tolok ukur diri sendiri—mengubah definisi “normal” menjadi sangat tidak manusiawi.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dampak" class="content-container">
+            <div class="section">
+                <h2 class="section-title">2. DAMPAKNYA</h2>
+                <div class="example-card">
+                    <p>Paparan terus-menerus terhadap standar tidak realistis ini tidak hanya merusak cara kita melihat tubuh, tetapi juga harga diri, hubungan sosial, dan kesehatan mental secara keseluruhan.</p>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>2.1 Masalah Citra Tubuh (Body Image Issues) yang Meluas</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Standar Kecantikan yang Tidak Manusiawi:</b>
+                                    <ul>
+                                        <li>Remaja Perempuan: <br>Dihadapkan pada tubuh “ideal” yang kontradiktif: pinggang sangat kecil + pinggul besar + payudara penuh + perut rata absolut—kombinasi yang hampir mustahil dicapai secara alami. <br>Wajah “sempurna” dengan kulit tanpa pori, hidup mancung sempurna, bibir penuh, mata besar, rahang V-line adalah hasil editing, bukan genetik.</li>
+                                        <li>Remaja Laki-laki: <br>Juga terdampak, dengan obsesi pada “six-pack abs” dan “V-taper” body, penggunaan steroid ilegal di usia belia, dan gangguan makan seperti bigorexia (merasa terlalu kurus).</li>
+                                    </ul>
+                                </li>
+                                <li><b>Perilaku Berbahaya yang Meningkat:</b>
+                                    <ul>
+                                        <li>Gangguan makan (anoreksia, bulimia, binge eating) meningkat 40% pada Gen Z.</li>
+                                        <li>Olahraga berlebihan hingga cedera atau amenorrhea (berhenti haid).</li>
+                                        <li>Kecanduan skincare dengan produk berbahaya (merkuri, hydroquinone berlebihan).</li>
+                                        <li>Melakukan prosedur berisiko seperti filler, botox, dan operasi plastik di usia remaja.</li>
+                                    </ul>
+                                </li>
+                                <li><b>Body Dysmorphic Disorder (BDD) Meningkat Drastis:</b> <br>Data Kemenkes RI & RSCM (2024) menunjukkan konsultasi psikiatri karena gangguan citra tubuh naik 380% sejak 2019, mayoritas usia 13–25 tahun.</li>
+                                <li><b>Body Check dan Avoidance:</b> <br>Kebiasaan kompulsif memeriksa tubuh berulang di kamera depan atau cermin, atau justru menghindari paparan (misal: pakai baju longgar, tidak menghadiri acara) karena merasa tidak percaya diri.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>2.2 Penurunan Kepercayaan Diri yang Sistemik</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Social Comparison yang Tidak Sehat:</b> <br>Gen Z melakukan perbandingan sosial 100+ kali per hari melalui scroll media sosial. Setiap scroll adalah pengingat bahwa “orang lain lebih baik”: lebih cantik/ganteng, lebih langsing, lebih fashionable, lebih sukses, lebih bahagia.</li>
+                                <li><b>Validation Addiction (Kecanduan Validasi):</b> <br>Kepercayaan diri tidak lagi bersumber dari dalam, melainkan dari metrik eksternal: jumlah likes, comments, views, dan followers. Satu komentar negatif bisa menghancurkan harga diri berhari-hari.</li>
+                                <li><b>Dampak Psikologis:</b>
+                                    <ul>
+                                        <li>Impostor Syndrome merajalela: <br>merasa diri palsu atau tidak cukup baik.</li>
+                                        <li>Social Anxiety meningkat: <br>takut bertemu orang karena “di real life tidak secantik di foto”.</li>
+                                        <li>Depresi: <br>merasa tidak akan pernah bisa “cukup” seperti standar online.</li>
+                                        <li>Kecemasan FOMO dan FOLO: <br>Takut ketinggalan (Fear of Missing Out) dan takut hidup offline (Fear of Living Offline) karena merasa hidup sendiri tidak menarik jika tidak dipajang dengan sempurna di media sosial.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>2.3 Dampak Spesifik pada Remaja Perempuan</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Objektifikasi Diri (Self-Objectification):</b> <br>Melihat tubuh sendiri sebagai objek yang harus memenuhi standar visual. <br>Nilai diri ditentukan oleh seberapa “menarik” menurut standar media sosial.</li>
+                                <li><b>Sexualization Dini:</b> <br>Tekanan untuk tampil “sexy” di usia yang belum matang, konten “thirst trap” yang menormalisasi objektifikasi, dan risiko eksploitasi online.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>2.4 Fenomena Filter Dysmorphia dan Identity Crisis</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Ketidakmampuan Mengenali Diri Sendiri:</b> Gen Z menghabiskan lebih banyak waktu melihat versi digital diri mereka (dengan filter) daripada cermin. Akibatnya:
+                                    <ul>
+                                        <li>Cognitive Dissonance: <br>Konflik batin antara “diri digital” vs “diri fisik”.</li>
+                                        <li>Mirror Shock: <br>Kaget dan kecewa saat melihat wajah asli di cermin.</li>
+                                        <li>Photo Avoidance: <br>Menolak foto tanpa filter atau bertemu orang secara langsung.</li>
+                                    </ul>
+                                </li>
+                                <li><b>Identitas Terfragmentasi:</b> <br>Keberagaman peran (sebagai pelajar, anak, teman) terganggu karena harga diri diukur dari like dan komentar, bukan dari nilai intrinsik.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>2.5 Contoh Kasus Nyata yang Mengkhawatirkan</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul class="danger-list">
+                                <li>Remaja 15 tahun mengalami komplikasi gangguan makan dipicu obsesi tubuh ideal di Instagram.</li>
+                                <li>Mahasiswi mengalami infeksi serius setelah prosedur filler ilegal untuk “bibir seperti Kylie Jenner”.</li>
+                                <li>Siswi SMA di Bandung (15 tahun) melakukan filler bibir dan botox karena “bibirku tipis banget di foto”.</li>
+                                <li>Mahasiswi di Yogyakarta bunuh diri (2024) setelah meninggalkan catatan: “Saya capek jelek terus di antara teman-teman yang cantik semua.” (padahal fotonya tanpa filter sangat wajar dan manis).</li>
+                                <li>Remaja laki-laki (17 tahun) di Medan menjadi anorexia karena ingin six-pack seperti fitness influencer yang ternyata pakai steroid + edit foto.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="solusi-individu" class="content-container">
+            <div class="section">
+                <h2 class="section-title">3. SOLUSI INDIVIDU</h2>
+                <div class="example-card">
+                    <p>Kamu bisa mengambil kendali. Mulailah dari hal-hal kecil ini:</p>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>3.1 Digital Wellness Practice</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Kurangi Paparan Media Sosial:</b>
+                                    <ul>
+                                        <li>Batasi scrolling Instagram/TikTok maksimal 30 menit per hari.</li>
+                                        <li>Unfollow akun yang membuatmu merasa tidak cukup (bahkan jika itu teman atau selebriti favorit).</li>
+                                        <li>Follow akun body-positive, keragaman tubuh, dan yang fokus pada keterampilan atau ilmu.</li>
+                                    </ul>
+                                </li>
+                                <li><b>Reality Check Harian:</b>
+                                    <ul>
+                                        <li>Habiskan 10 menit per hari di depan cermin tanpa filter, biasakan dan terima penampilan asli.</li>
+                                        <li>Foto diri tanpa filter dan edit minimal sekali seminggu, simpan sebagai “Reality Folder”.</li>
+                                        <li>Journaling: tuliskan 3 hal yang kamu syukuri dari tubuhmu (bukan tentang penampilan, tapi fungsi: misal, “kaki ini membawaku jalan-jalan”, “tangan ini bisa memeluk orang tersayang”).</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>3.2 Reframe Konsep Kecantikan & Latihan Self-Compassion</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Edukasi Diri Sendiri:</b> <br>Pahami bagaimana filter dan editing bekerja. Ingat: “sempurna” itu tidak nyata.</li>
+                                <li><b>Fokus pada Kesehatan, Bukan Penampilan:</b> <br>Olahraga untuk kuat, makan untuk nutrisi.</li>
+                                <li><b>Identifikasi Nilai Diri di Luar Fisik:</b> <br>Bakat, kebaikan, kecerdasan, kreativitas.</li>
+                                <li><b>Latihan Afirmasi Positif:</b>
+                                    <ul>
+                                        <li>“Tubuhku adalah rumah yang harus kusayangi, bukan pajangan yang harus disempurnakan.”</li>
+                                        <li>“Nilaimu bukan dari likes, tapi dari bagaimana kamu memperlakukan diri dan orang lain.”</li>
+                                        <li>“Setiap tubuh unik, dan itu adalah kekuatan, bukan kekurangan.”</li>
+                                    </ul>
+                                </li>
+                                <li><b>Latihan “Self-Compassion Body Check”:</b> <br>Saat bercermin, sebutkan 3 fungsi tubuh yang disyukuri (misal: berjalan, bernapas, memeluk).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>3.3 Desensitisasi Filter & Ritual Digital Sehat</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Batasi Penggunaan Filter:</b> <br>Coba “No-Filter Challenge” 30 hari: semua foto yang diunggah tanpa filter/edit.</li>
+                                <li><b>Pasang “Jam Offline Visual”:</b> <br>1–2 jam per hari tanpa paparan visual media sosial; singkirkan ponsel dari kamar tidur.</li>
+                                <li><b>Reframing Perbandingan:</b> <br>Saat melihat konten “sempurna”, ingat 3 faktor tak terlihat: pencahayaan, angle, editing, dan tim produksi di baliknya.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>3.4 Bangun Kompetensi di Luar Penampilan</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li><b>Kembangkan Proyek Skill:</b> <br>Menulis, coding, musik, olahraga fungsional—dengan target proses, bukan hasil sempurna.</li>
+                                <li><b>Catatan Kemajuan Internal:</b> <br>Buat jurnal “nilai diri” yang berisi keberanian, kebaikan, ketekunan; review mingguan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>3.5 Cari Dukungan Profesional Jika Perlu</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Jangan ragu konsultasi ke psikolog jika isu citra tubuh sudah mengganggu kehidupan sehari-hari.</li>
+                                <li>Bergabung dengan support group (online/offline) untuk body positivity.</li>
+                                <li>Jika ada kecenderungan gangguan makan, segera cari bantuan medis.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="peran-lingkungan" class="content-container">
+            <div class="section">
+                <h2 class="section-title">4. PERAN LINGKUNGAN</h2>
+                <div class="example-card">
+                    <p>Mengatasi krisis citra diri Gen Z memerlukan dukungan dari seluruh ekosistem sosial dan digital.</p>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>4.1 Orang Tua & Keluarga</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Ciptakan komunikasi terbuka sejak dini tentang citra tubuh dan media sosial.</li>
+                                <li>Hindari komentar (negatif maupun pujian) yang fokus pada penampilan fisik.</li>
+                                <li>Jadilah panutan dengan healthy body image dan self-care yang sehat.</li>
+                                <li>Awasi dan diskusikan penggunaan media sosial, serta tunda aksesnya.</li>
+                                <li>Waspadai tanda peringatan gangguan citra tubuh/makan dan cari bantuan profesional.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>4.2 Sekolah & Institusi Pendidikan</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Adakan program literasi media dan body image yang kritis.</li>
+                                <li>Ciptakan lingkungan inklusif bebas body-shaming dan rayakan keberagaman tubuh.</li>
+                                <li>Sediakan support system seperti konselor dan peer support group.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>4.3 Platform Digital & Industri</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Wajibkan label untuk konten yang difilter/diedit.</li>
+                                <li>Desain algoritma yang bertanggung jawab dan ekspos keragaman tubuh.</li>
+                                <li>Gunakan model beragam body type dalam kampanye dengan editing minimal.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>4.4 Pemerintah & Kebijakan Publik</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Regulasi ketat iklan diet/produk kecantikan instan untuk remaja.</li>
+                                <li>Galakkan kampanye edukasi publik dan kurikulum kesehatan mental.</li>
+                                <li>Dukung penelitian dan akses konseling terkait isu ini.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>4.5 Klinik Kecantikan & Tenaga Medis</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Wajibkan skrining psikologis untuk pasien operasi estetika di bawah 25 tahun.</li>
+                                <li>Tolak permintaan operasi yang berpatokan pada foto berfilter.</li>
+                                <li>Latih tenaga medis untuk mendeteksi dan merujuk gangguan citra tubuh.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h3 style="margin-bottom: 20px;">💡 Kesimpulan</h3>
+            <p>Dampak smartphone pada citra diri Gen Z adalah krisis kesehatan mental yang nyata dan mendesak. Namun ada harapan. Dengan edukasi yang tepat, dukungan sistemik yang kuat, dan perubahan struktural pada platform digital, Gen Z dapat belajar membangun self-esteem yang sehat dan autentik.</p>
+            <p style="margin-top: 10px;">Pesan untuk Gen Z: Kamu adalah lebih dari penampilanmu. Tubuhmu adalah instrumen untuk menjalani hidup, bukan ornamen untuk dinilai orang lain. Setiap “ketidaksempurnaan” adalah bukti bahwa kamu manusia nyata, bukan avatar digital. Dan itu adalah kekuatan terbesarmu.</p>
+            <p style="margin-top: 10px;">Masa depan citra diri yang sehat untuk Gen Z dimulai hari ini—dengan setiap percakapan, setiap pilihan konten, dan setiap langkah menuju self-acceptance.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">Reality Check</div>
+                    <div class="stat-label">10 menit di cermin tanpa filter setiap hari</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">No-Filter Challenge</div>
+                    <div class="stat-label">30 hari unggah foto tanpa edit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Unfollow Toxic</div>
+                    <div class="stat-label">Hanya ikuti akun yang membangun</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">Klik icon WA</div>
+                    <div class="stat-label">Untuk artikel versi WA</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://whatsapp.com/channel/0029VbAtZNp47Xe6JFu65N2u/302" class="social-btn whatsapp" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M20.52 3.48a11.9 11.9 0 00-16.84 0 11.89 11.89 0 00-3.5 8.42c0 2.1.55 4.15 1.6 5.95L2 22l4.25-1.4a11.83 11.83 0 005.95 1.6c4.46 0 8.6-2.8 10.02-7.07a11.9 11.9 0 00-1.7-10.65zm-8.2 14.6a9.52 9.52 0 01-4.8-1.3l-.35-.2-3 1 1-3.1-.23-.36a9.5 9.5 0 0115.7-11.2 9.48 9.48 0 01-7.3 14.3zm5.07-6.4c-.28-.14-1.67-.82-1.93-.91-.26-.1-.45-.14-.64.14s-.73.9-.9 1.08c-.16.18-.32.2-.6.07a7.8 7.8 0 01-2.3-1.42 8.8 8.8 0 01-1.63-2c-.18-.3 0-.46.13-.6.14-.14.3-.34.44-.5a1.76 1.76 0 00.26-.44c.09-.15.05-.27-.02-.4-.07-.13-.64-1.54-.88-2.1-.23-.55-.46-.48-.64-.49a1.2 1.2 0 00-.45-.02c-.15 0-.4.06-.6.3-.2.24-.77.75-.77 1.83s.79 2.12.9 2.28c.1.15 1.55 2.37 3.77 3.32a13.4 13.4 0 001.76.74a1.78 1.78 0 002.03-2.57z"/>
+            </svg>
+        </a>
+        <a href="https://www.instagram.com/dr.msmuin" class="social-btn instagram" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5a4.25 4.25 0 00-4.25 4.25v8.5a4.25 4.25 0 004.25 4.25h8.5a4.25 4.25 0 004.25-4.25v-8.5a4.25 4.25 0 00-4.25-4.25h-8.5zm8.75 2.25a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/>
+            </svg>
+        </a>
+    </footer>
+
+    <div style="text-align: center; margin-top: 40px; color: #AD1457; padding-bottom: 100px;">
+        <p>© 2025 Gen Zehat - Dr. Muin</p>
+        <p>Ikhtiar Sehat adalah bentuk rasa Syukur</p>
+        <p>🔅🔅🔅</p>
+    </div>
+
+    <script>
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.content-container').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.menu-card').forEach(card => card.classList.remove('active-tab'));
+            
+            const target = document.getElementById(sectionId);
+            if (target) {
+                target.style.display = 'block';
+                setTimeout(() => {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+            if (element) element.classList.add('active-tab');
+        }
+
+        const accordionItems = document.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            header.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                accordionItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
