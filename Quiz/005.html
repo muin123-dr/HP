@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Gangguan Kesehatan Fisik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #16a085 0%, #f39c12 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #16a085;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* Start Screen Styles */
+        #start-screen p {
+            margin: 15px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* Score Board */
+        .score-board {
+            background: linear-gradient(135deg, #16a085 0%, #f39c12 100%);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Quiz Styles */
+        .question-number {
+            color: #16a085;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background: #f7f7f7;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            text-align: left;
+        }
+
+        .option:hover {
+            background: #d5f4e6;
+            border-color: #16a085;
+            transform: translateX(5px);
+        }
+
+        /* --- MODIFIED Feedback Overlay Styles --- */
+        #feedback-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95); /* Sedikit lebih solid */
+            display: none;
+            /* Mengubah arah menjadi baris (horizontal) */
+            flex-direction: row; 
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 20px;
+            /* Menambahkan jarak antar elemen */
+            gap: 30px; 
+            /* Penting agar efek flash tidak keluar container */
+            overflow: hidden; 
+        }
+
+        .feedback-icon {
+            /* Memperbesar ukuran ikon */
+            font-size: 100px; 
+            margin-bottom: 0; /* Menghapus margin bawah karena sudah row */
+        }
+
+        .feedback-text {
+            /* Memperbesar ukuran teks */
+            font-size: 40px; 
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .correct { color: #27ae60; animation: bounce 0.5s ease; }
+        .wrong { color: #e74c3c; animation: shake 0.5s ease; }
+
+        /* --- NEW Flash Effect Animation --- */
+        @keyframes flashAnim {
+            0% { opacity: 1; background-color: white; }
+            100% { opacity: 0; background-color: white; }
+        }
+
+        /* Pseudo-element untuk efek flash yang dipicu class 'flashing' */
+        #feedback-overlay.flashing::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20; /* Pastikan berada di atas teks/ikon */
+            animation: flashAnim 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #16a085 0%, #f39c12 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .btn-study { background: #3498db; }
+
+        .btn:hover { transform: scale(1.05); }
+
+        /* Animations */
+        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo Gen Zehat" class="logo">
+        
+        <div id="start-screen">
+            <h1>Sudah siap melanjutkan Quiz?</h1>
+            <p>Jika belum klik tombol dibawah:</p>
+            <a href="https://muin123-dr.github.io/HP/005.html" class="btn btn-study">PELAJARI MATERI</a>
+            <p style="margin-top: 30px;">Jika sudah siap klik dibawah ini:</p>
+            <button class="btn" onclick="startQuiz()">MULAI!</button>
+        </div>
+
+        <div id="quiz-wrapper" class="hidden">
+            <div class="score-board">Skor: <span id="score">0</span></div>
+            <div id="quiz-container"></div>
+        </div>
+
+        <div id="feedback-overlay">
+            <div id="feedback-icon" class="feedback-icon"></div>
+            <div id="feedback-text" class="feedback-text"></div>
+        </div>
+
+        <div id="result-container" class="hidden">
+            </div>
+    </div>
+
+    <script>
+        const questions = [
+            { number: 1, question: "Apa yang dimaksud dengan \"Text Neck\"?", options: ["Leher yang bagus karena sering main HP", "Gangguan leher akibat posisi menunduk saat melihat layar HP", "Leher yang kuat", "Olahraga untuk leher", "Tidak ada masalah pada leher"], correct: 1 },
+            { number: 2, question: "Berapa beban yang ditanggung leher saat kepala menunduk 60 derajat?", options: ["5 kg", "10 kg", "15 kg", "27 kg (seberat anak 8 tahun)", "50 kg"], correct: 3 },
+            { number: 3, question: "Apa yang dimaksud dengan aturan 20-20-20 untuk mata?", options: ["20 menit layar, 20 menit istirahat, 20 menit tidur", "Setiap 20 menit menatap layar, lihat objek sejauh 20 kaki (6 meter) selama 20 detik", "Main HP 20 jam sehari", "Beli HP baru setiap 20 bulan", "Lihat HP 20 kali sehari"], correct: 1 },
+            { number: 4, question: "Apa dampak screen time lebih dari 4 jam per hari?", options: ["Membuat lebih sehat", "Meningkatkan umur", "Naikkan risiko kematian dini", "Tidak ada dampaknya", "Membuat lebih produktif"], correct: 2 },
+            { number: 5, question: "Screen time 10 jam bisa menyebabkan:", options: ["Tubuh lebih kuat", "Prediabetes di usia 17 tahun", "Lebih pintar", "Lebih tinggi", "Tidak ada masalah"], correct: 1 },
+            { number: 6, question: "Berapa penurunan metabolisme akibat gaya hidup rebahan?", options: ["10%", "30%", "50%", "90%", "Tidak ada penurunan"], correct: 3 },
+            { number: 7, question: "Berapa kali frekuensi berkedip turun saat menatap layar?", options: ["Dari 20 kali menjadi 5 kali per menit", "Dari 10 kali menjadi 8 kali per menit", "Tidak ada perubahan", "Dari 5 kali menjadi 20 kali per menit", "Dari 30 kali menjadi 25 kali per menit"], correct: 0 },
+            { number: 8, question: "Apa yang dimaksud dengan latihan \"Chin Tuck\"?", options: ["Menggelengkan kepala", "Tarik dagu ke dalam untuk melatih leher", "Menundukkan kepala", "Mengangkat kepala ke atas", "Memutar kepala 360 derajat"], correct: 1 },
+            { number: 9, question: "Berapa target langkah kaki per hari yang disarankan?", options: ["1.000 langkah", "5.000 langkah", "10.000 langkah", "20.000 langkah", "Tidak perlu jalan kaki"], correct: 2 },
+            { number: 10, question: "Apa kesimpulan utama dari artikel ini?", options: ["HP tidak berbahaya untuk kesehatan fisik", "Kerusakan fisik akibat HP bisa dicegah dengan kebiasaan sederhana", "Semakin lama main HP semakin sehat", "Tidak perlu istirahat saat main HP", "Postur buruk tidak masalah"], correct: 1 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-wrapper').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const q = questions[currentQuestion];
+            
+            let optionsHTML = '';
+            q.options.forEach((option, index) => {
+                optionsHTML += `<div class="option" onclick="checkAnswer(${index})">${String.fromCharCode(65 + index)}. ${option}</div>`;
+            });
+
+            quizContainer.innerHTML = `
+                <div class="question-number">Soal ${q.number} dari ${questions.length}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">${optionsHTML}</div>
+            `;
+        }
+
+        function checkAnswer(selectedIndex) {
+            const q = questions[currentQuestion];
+            const overlay = document.getElementById('feedback-overlay');
+            const icon = document.getElementById('feedback-icon');
+            const text = document.getElementById('feedback-text');
+            
+            const isCorrect = (selectedIndex === q.correct);
+            
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+                icon.innerHTML = "✅";
+                text.innerHTML = "BENAR!";
+                text.className = "feedback-text correct";
+            } else {
+                icon.innerHTML = "❌";
+                text.innerHTML = "SALAH!";
+                text.className = "feedback-text wrong";
+            }
+
+            // Menampilkan overlay
+            overlay.style.display = 'flex';
+            // Menambahkan class 'flashing' untuk memicu animasi cahaya flash
+            overlay.classList.add('flashing');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                // Menghapus class 'flashing' agar bisa dipicu lagi nanti
+                overlay.classList.remove('flashing'); 
+                
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    displayQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-wrapper').classList.add('hidden');
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.classList.remove('hidden');
+
+            if (score === 100) {
+                createConfetti();
+                resultContainer.innerHTML = `
+                    <div style="font-size: 60px;">🏆</div>
+                    <h2 class="correct" style="font-size: 30px; margin: 15px 0;">KAMU HEBAT!</h2>
+                    <p style="font-size: 20px; font-weight: bold;">Skor Sempurna: ${score}</p>
+                    <p style="margin: 15px 0;">Selamat! Kamu memahami materi dengan sangat baik.</p>
+                    <a href="https://muin123-dr.github.io/HP/quiz/005.html" class="btn">Naik Level!</a>
+                `;
+            } else {
+                resultContainer.innerHTML = `
+                    <div style="font-size: 60px;">😢</div>
+                    <h2 class="wrong" style="font-size: 24px; margin: 15px 0;">JANGAN MENYERAH! AYO ULANGI!</h2>
+                    <p style="font-size: 20px;">Skor Kamu: ${score}</p>
+                    <button class="btn" onclick="restartQuiz()">ULANGI!</button>
+                `;
+            }
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('quiz-wrapper').classList.remove('hidden');
+            displayQuestion();
+        }
+    </script>
+</body>
+</html>

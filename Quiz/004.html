@@ -367,7 +367,7 @@
                 } else {
                     showResult();
                 }
-            }, 1500);
+            }, 1000);
         }
 
         function showResult() {
@@ -378,9 +378,9 @@
             if (score < 100) {
                 resultContainer.innerHTML = `
                     <div class="sleep-icon">😢</div>
-                    <div class="result-title fail-title">JANGAN MENYERAH!<br>AYO ILANGI!</div>
+                    <div class="result-title fail-title">JANGAN MENYERAH!<br>AYO ULANGI!</div>
                     <p style="font-size: 24px; margin: 20px 0;">Skor Kamu: ${score}</p>
-                    <button class="btn" onclick="restartQuiz()">Ilangi</button>
+                    <button class="btn" onclick="restartQuiz()">Ulangi</button>
                 `;
             } else {
                 createConfetti();
@@ -395,7 +395,7 @@
                         🎉 Selamat! Kamu sang juara yang menguasai materi! 🎉
                     </p>
                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <a href="https://muin123-dr.github.io/HP/Quiz/005.html" class="btn champion-animation">Naik Level</a>
+                        <a href="https://muin123-dr.github.io/HP/quiz/005.html" class="btn champion-animation">Naik Level</a>
                     </div>
                 `;
             }
