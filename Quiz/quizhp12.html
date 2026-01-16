@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Modus Penipuan Smartphone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #d35400;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #e67e22;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f7f7f7;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .option:hover {
+            background: #fdebd0;
+            border-color: #e67e22;
+            transform: translateX(5px);
+        }
+
+        .result-container {
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .fail-title {
+            color: #e74c3c;
+            animation: shake 0.5s;
+        }
+
+        .success-title {
+            color: #27ae60;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #e67e22 0%, #d35400 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .trophy {
+            font-size: 100px;
+            margin: 20px 0;
+            animation: trophy-spin 2s ease-in-out infinite;
+        }
+
+        @keyframes trophy-spin {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        .stars {
+            font-size: 40px;
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .alert-icon {
+            font-size: 60px;
+            margin: 10px 0;
+        }
+
+        .lock-animation {
+            font-size: 80px;
+            animation: lock 2s ease-in-out infinite;
+        }
+
+        @keyframes lock {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="alert-icon">⚠️</div>
+        <h1>Quiz Modus Penipuan Smartphone</h1>
+        
+        <div class="score-board">
+            Skor: <span id="score">0</span>
+        </div>
+
+        <div id="quiz-container" class="question-container">
+            <!-- Questions will be inserted here -->
+        </div>
+
+        <div id="result-container" class="result-container hidden">
+            <!-- Result will be shown here -->
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                question: "Apa yang dimaksud dengan Vishing?",
+                options: [
+                    "Penipuan lewat video call",
+                    "Penipuan lewat telepon dengan menyamar sebagai pihak berwenang",
+                    "Penipuan lewat email",
+                    "Penipuan lewat game online",
+                    "Penipuan lewat marketplace"
+                ],
+                correct: 1
+            },
+            {
+                number: 2,
+                question: "Penipu dalam Vishing sering mengaku sebagai:",
+                options: [
+                    "Teman sekelas",
+                    "Petugas bank, polisi, pajak, atau keluarga",
+                    "Guru",
+                    "Tetangga",
+                    "Ojek online"
+                ],
+                correct: 1
+            },
+            {
+                number: 3,
+                question: "Ciri khas Vishing adalah:",
+                options: [
+                    "Nada bicara santai dan bersahabat",
+                    "Nada bicara mendesak, memaksa, dan melarang korban menutup telepon",
+                    "Memberikan hadiah gratis tanpa syarat",
+                    "Berbicara dengan sopan dan tidak mendesak",
+                    "Tidak pernah meminta data pribadi"
+                ],
+                correct: 1
+            },
+            {
+                number: 4,
+                question: "Apa yang dimaksud dengan Smishing?",
+                options: [
+                    "Penipuan lewat telepon",
+                    "Penipuan melalui WhatsApp, SMS, Telegram dengan pesan yang mengelabui",
+                    "Penipuan lewat email",
+                    "Penipuan lewat ATM",
+                    "Penipuan lewat toko online"
+                ],
+                correct: 1
+            },
+            {
+                number: 5,
+                question: "Contoh modus Smishing adalah:",
+                options: [
+                    "Datang langsung ke rumah",
+                    "Kabar menang hadiah undian palsu dengan link berbahaya atau pengakuan salah transfer",
+                    "Menelepon terus-menerus",
+                    "Mengirim surat pos",
+                    "Memasang iklan di TV"
+                ],
+                correct: 1
+            },
+            {
+                number: 6,
+                question: "File berbahaya yang sering dikirim penipu biasanya berformat:",
+                options: [
+                    ".jpg dan .png",
+                    ".apk, .pdf, .zip",
+                    ".mp3 dan .mp4",
+                    ".doc dan .txt",
+                    "Tidak ada format khusus"
+                ],
+                correct: 1
+            },
+            {
+                number: 7,
+                question: "Dampak dari menginstal file berbahaya adalah:",
+                options: [
+                    "HP menjadi lebih cepat",
+                    "Data SMS (termasuk OTP) terbaca penipu dan rekening bisa dikuras",
+                    "Baterai lebih awet",
+                    "Koneksi internet lebih cepat",
+                    "Tidak ada dampak apapun"
+                ],
+                correct: 1
+            },
+            {
+                number: 8,
+                question: "Apa yang dimaksud dengan SIM Swap?",
+                options: [
+                    "Menukar kartu SIM dengan teman",
+                    "Penipu mengambil alih nomor ponselmu untuk menerima OTP",
+                    "Mengganti provider telekomunikasi",
+                    "Membeli SIM card baru",
+                    "Upgrade kartu SIM ke 5G"
+                ],
+                correct: 1
+            },
+            {
+                number: 9,
+                question: "Apa yang harus dilakukan untuk melindungi diri dari penipuan?",
+                options: [
+                    "Selalu percaya pada semua telepon dan pesan",
+                    "Jangan panik, jangan berikan OTP/PIN, dan selalu verifikasi lewat saluran resmi",
+                    "Langsung transfer uang jika diminta",
+                    "Klik semua link yang diterima",
+                    "Memberikan data pribadi kepada siapa saja"
+                ],
+                correct: 1
+            },
+            {
+                number: 10,
+                question: "Apa kunci utama menghindari penipuan lewat smartphone?",
+                options: [
+                    "Membeli HP yang mahal",
+                    "Sikap skeptis dan selalu verifikasi",
+                    "Tidak pernah menggunakan smartphone",
+                    "Hanya menggunakan smartphone di rumah",
+                    "Berganti nomor setiap bulan"
+                ],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const q = questions[currentQuestion];
+            
+            let optionsHTML = '';
+            q.options.forEach((option, index) => {
+                optionsHTML += `
+                    <div class="option" onclick="checkAnswer(${index})">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
+            });
+
+            quizContainer.innerHTML = `
+                <div class="question-number">Soal ${q.number} dari ${questions.length}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">
+                    ${optionsHTML}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selectedIndex) {
+            const q = questions[currentQuestion];
+            
+            if (selectedIndex === q.correct) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                setTimeout(() => {
+                    displayQuestion();
+                }, 300);
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.classList.remove('hidden');
+
+            if (score < 100) {
+                resultContainer.innerHTML = `
+                    <div class="alert-icon">😢</div>
+                    <div class="result-title fail-title">JANGAN MENYERAH!<br>AYO ILANGI!</div>
+                    <p style="font-size: 24px; margin: 20px 0;">Skor Kamu: ${score}</p>
+                    <p style="font-size: 16px; color: #666; margin: 20px 0;">
+                        Kewaspadaan adalah kunci! Baca lagi artikelnya dan coba lagi. Stay alert, stay safe! 🔒
+                    </p>
+                    <button class="btn" onclick="restartQuiz()">Ilangi</button>
+                `;
+            } else {
+                createConfetti();
+                resultContainer.innerHTML = `
+                    <div class="lock-animation">🔒</div>
+                    <div class="trophy">🏆</div>
+                    <div class="result-title success-title">KAMU HEBAT!</div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 24px; margin: 20px 0; color: #27ae60; font-weight: bold;">
+                        Skor Sempurna: ${score}
+                    </p>
+                    <p style="font-size: 18px; margin: 20px 0;">
+                        🎉 Selamat! Kamu sudah memahami modus penipuan smartphone! 🎉
+                    </p>
+                    <p style="font-size: 16px; margin: 20px 0; color: #666;">
+                        Sekarang kamu siap menghadapi penipu! Ingat: Jangan panik, jangan beri OTP, dan selalu verifikasi! 🛡️
+                    </p>
+                    <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 15px; margin: 20px 0;">
+                        <p style="font-size: 14px; color: #856404; font-weight: bold;">
+                            ⚠️ 3 ATURAN EMAS:<br>
+                            1️⃣ Jangan Panik<br>
+                            2️⃣ Jangan Beri OTP/PIN<br>
+                            3️⃣ Verifikasi via Saluran Resmi
+                        </p>
+                    </div>
+                    <a href="https://muin123-dr.github.io/HP/" class="btn" target="_blank">Naik Level</a>
+                `;
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>

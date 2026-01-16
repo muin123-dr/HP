@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis: Ketahanan Mental dan Daya Juang</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        .question-container {
+            display: block;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.wrong {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .score-container {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #3498db;
+            width: 10%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .score-perfect {
+            color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .score-low {
+            color: #2c3e50;
+        }
+        
+        .final-score {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: #3498db;
+        }
+        
+        .celebrations {
+            margin: 30px 0;
+        }
+        
+        .confetti {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin: 0 5px;
+            border-radius: 50%;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .confetti:nth-child(1) { background-color: #e74c3c; animation-delay: 0s; }
+        .confetti:nth-child(2) { background-color: #3498db; animation-delay: 0.3s; }
+        .confetti:nth-child(3) { background-color: #2ecc71; animation-delay: 0.6s; }
+        .confetti:nth-child(4) { background-color: #f1c40f; animation-delay: 0.9s; }
+        .confetti:nth-child(5) { background-color: #9b59b6; animation-delay: 1.2s; }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+            min-width: 200px;
+        }
+        
+        .btn-next {
+            background-color: #3498db;
+            color: white;
+            display: none;
+        }
+        
+        .btn-next:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        }
+        
+        .btn-restart {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .btn-restart:hover {
+            background-color: #1a252f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3);
+        }
+        
+        .btn-levelup {
+            background-color: #2ecc71;
+            color: white;
+            animation: pulse-green 1.5s infinite;
+        }
+        
+        .btn-levelup:hover {
+            background-color: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .correct-feedback {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+        
+        .wrong-feedback {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .question-counter {
+            text-align: right;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+            }
+            
+            .result-title {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                min-width: 180px;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kuis: Ketahanan Mental dan Daya Juang</h1>
+        <p class="subtitle">Uji pemahaman Anda tentang tantangan ketahanan mental Gen Z di era digital</p>
+        
+        <div class="question-counter">
+            Soal: <span id="current-question">1</span>/10
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="score-container">
+            Skor: <span id="score">0</span>/100
+        </div>
+        
+        <div id="quiz-container"></div>
+        
+        <div class="feedback" id="feedback"></div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-next" id="next-btn">Lanjut ke Soal Berikutnya</button>
+        </div>
+    </div>
+    
+    <div class="container result-container" id="result-container"></div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Apa yang dimaksud dengan 'mentalitas instan' menurut artikel?",
+                options: [
+                    "Kemampuan untuk menyelesaikan pekerjaan dengan sangat cepat.",
+                    "Kebiasaan otak yang terbentuk untuk mengharapkan hasil dan kepuasan secara seketika.",
+                    "Teknik manajemen waktu yang sangat efisien.",
+                    "Pola pikir yang fokus pada perencanaan jangka panjang."
+                ],
+                correct: 1,
+                feedback: "Benar! Mentalitas instan adalah kebiasaan otak yang terbentuk karena lingkungan digital yang memberikan kepuasan seketika (instant gratification)."
+            },
+            {
+                question: "Apa yang disebut sebagai 'dopamine rush' dalam konteks lingkungan digital?",
+                options: [
+                    "Perasaan cemas yang timbul karena notifikasi.",
+                    "Hadiah atau kepuasan cepat yang diberikan otak sebagai respons terhadap notifikasi atau like.",
+                    "Kelelahan mental akibat penggunaan media sosial.",
+                    "Sistem penghargaan untuk penggunaan teknologi yang bijak."
+                ],
+                correct: 1,
+                feedback: "Benar! Dopamine rush adalah hadiah dopamin cepat yang diterima otak dari notifikasi, like, dan video pendek, menciptakan kebiasaan mengharapkan kepuasan instan."
+            },
+            {
+                question: "Bagaimana 'perbandingan sosial yang tidak sehat' di media sosial mempengaruhi motivasi menurut artikel?",
+                options: [
+                    "Meningkatkan semangat kompetisi yang sehat.",
+                    "Membuat standar diri menjadi tidak realistis dan mengurangi motivasi untuk berjuang.",
+                    "Membantu menemukan role model yang tepat.",
+                    "Mengajarkan kesuksesan instan dari orang lain."
+                ],
+                correct: 1,
+                feedback: "Benar! Media sosial penuh dengan 'highlight reel' kesuksesan orang lain, membuat standar diri jadi tidak realistis dan memangkas motivasi untuk berjuang/kerja keras."
+            },
+            {
+                question: "Apa contoh manifestasi penurunan daya juang dalam bidang akademis?",
+                options: [
+                    "Rajin mengerjakan tugas jauh sebelum deadline.",
+                    "Menunda skripsi karena merasa berat dan sulit konsisten.",
+                    "Mencari berbagai sumber belajar mandiri.",
+                    "Berdiskusi intensif dengan dosen pembimbing."
+                ],
+                correct: 1,
+                feedback: "Benar! Dalam bidang akademis, penurunan daya juang terlihat dari menunda skripsi atau proyek karena merasa berat, sulit konsisten, dan panik saat deadline."
+            },
+            {
+                question: "Fenomena 'Kakek-Nenek sebagai Pengasuh Utama' menunjukkan apa tentang Gen Z?",
+                options: [
+                    "Kemampuan multigenerasi dalam pengasuhan anak.",
+                    "Ketidaksiapan orang tua Gen Z menghadapi stres pengasuhan dan kurang percaya diri.",
+                    "Keharmonisan keluarga yang melibatkan tiga generasi.",
+                    "Strategi pengasuhan anak yang inovatif."
+                ],
+                correct: 1,
+                feedback: "Benar! Fenomena ini menunjukkan ketidaksiapan orang tua Gen Z menghadapi stres pengasuhan, merasa kewalahan dan tidak percaya diri menangani sendiri."
+            },
+            {
+                question: "Mengapa ambisi dan cita-cita tinggi cenderung melemah pada Gen Z menurut artikel?",
+                options: [
+                    "Karena kurangnya fasilitas pendidikan.",
+                    "Karena kepuasan jangka pendek menggantikan visi jangka panjang.",
+                    "Karena tidak adanya tantangan dalam kehidupan.",
+                    "Karena tekanan orang tua yang berlebihan."
+                ],
+                correct: 1,
+                feedback: "Benar! Kepuasan jangka pendek dari lingkungan digital menggantikan visi jangka panjang, membuat impian besar yang butuh waktu bertahun-tahun terasa tidak menarik."
+            },
+            {
+                question: "Apa yang dimaksud dengan teknik 'Pomodoro' sebagai solusi individu?",
+                options: [
+                    "Teknik memasak Italia untuk meningkatkan fokus.",
+                    "Metode mengatur waktu dengan 25 menit fokus diikuti 5 menit istirahat.",
+                    "Cara meditasi selama 30 menit setiap hari.",
+                    "Sistem penghargaan diri setelah menyelesaikan tugas besar."
+                ],
+                correct: 1,
+                feedback: "Benar! Teknik Pomodoro adalah metode dengan 25 menit fokus dan 5 menit istirahat untuk melatih 'menunda kepuasan' dan meningkatkan fokus."
+            },
+            {
+                question: "Apa saran artikel untuk orang tua dalam menghadapi anak yang mudah menyerah?",
+                options: [
+                    "Segera memberikan solusi agar anak tidak frustasi.",
+                    "Beralih dari menyelamatkan ke melatih dengan bertanya 'Apa yang sudah kamu coba?'",
+                    "Membatasi komunikasi agar anak belajar mandiri.",
+                    "Menghukum anak ketika gagal menyelesaikan tugas."
+                ],
+                correct: 1,
+                feedback: "Benar! Orang tua disarankan beralih dari menyelamatkan ke melatih dengan bertanya 'Apa yang sudah kamu coba?' atau 'Menurutmu langkah pertama apa yang bisa diambil?'"
+            },
+            {
+                question: "Apa yang sebaiknya dilakukan institusi pendidikan menurut solusi komprehensif?",
+                options: [
+                    "Memberikan lebih banyak ujian pilihan ganda.",
+                    "Menerapkan project-based learning yang menilai proses, bukan hanya hasil akhir.",
+                    "Memperbanyak tugas hafalan.",
+                    "Mengurangi beban akademik siswa."
+                ],
+                correct: 1,
+                feedback: "Benar! Institusi pendidikan disarankan menerapkan project-based learning yang menilai proses, iterasi, dan usaha, bukan hanya hasil akhir."
+            },
+            {
+                question: "Apa inti kesimpulan artikel tentang teknologi dan ketahanan mental Gen Z?",
+                options: [
+                    "Smartphone dan teknologi adalah musuh utama ketahanan mental.",
+                    "Smartphone bukan musuh, tetapi penggunaannya tanpa keseimbangan dapat melemahkan daya juang.",
+                    "Generasi Z harus menghindari teknologi sepenuhnya.",
+                    "Teknologi tidak berdampak sama sekali pada ketahanan mental."
+                ],
+                correct: 1,
+                feedback: "Benar! Smartphone dan teknologi bukan musuh, namun penggunaannya yang tanpa keseimbangan dapat melemahkan daya juang. Keseimbangan adalah kunci."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        const nextButton = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score');
+        const progressBar = document.getElementById('progress-bar');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const feedbackDisplay = document.getElementById('feedback');
+        
+        function displayQuestion() {
+            currentQuestionDisplay.textContent = currentQuestion + 1;
+            const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            const questionData = quizData[currentQuestion];
+            
+            let questionHTML = `
+                <div class="question-container">
+                    <div class="question">${questionData.question}</div>
+                    <div class="options">
+            `;
+            
+            questionData.options.forEach((option, index) => {
+                let optionClass = "option";
+                if (userAnswers[currentQuestion] !== null) {
+                    if (index === questionData.correct) {
+                        optionClass += " correct";
+                    } else if (index === userAnswers[currentQuestion] && index !== questionData.correct) {
+                        optionClass += " wrong";
+                    }
+                    if (index === userAnswers[currentQuestion]) {
+                        optionClass += " selected";
+                    }
+                }
+                
+                questionHTML += `
+                    <div class="${optionClass}" data-index="${index}">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            questionHTML += `</div></div>`;
+            quizContainer.innerHTML = questionHTML;
+            
+            nextButton.style.display = 'none';
+            feedbackDisplay.style.display = 'none';
+            feedbackDisplay.className = 'feedback';
+            
+            if (userAnswers[currentQuestion] !== null) {
+                showFeedback(questionData);
+                nextButton.style.display = 'inline-block';
+            }
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+        }
+        
+        function selectOption(e) {
+            if (userAnswers[currentQuestion] !== null) return;
+            
+            const selectedOption = e.currentTarget;
+            const selectedIndex = parseInt(selectedOption.getAttribute('data-index'));
+            
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            const questionData = quizData[currentQuestion];
+            
+            if (selectedIndex === questionData.correct) {
+                score += 10;
+                scoreDisplay.textContent = score;
+            }
+            
+            showFeedback(questionData);
+            
+            nextButton.style.display = 'inline-block';
+            
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+        }
+        
+        function showFeedback(questionData) {
+            const userAnswerIndex = userAnswers[currentQuestion];
+            const isCorrect = userAnswerIndex === questionData.correct;
+            
+            if (isCorrect) {
+                feedbackDisplay.className = 'feedback correct-feedback';
+            } else {
+                feedbackDisplay.className = 'feedback wrong-feedback';
+            }
+            
+            feedbackDisplay.innerHTML = `
+                <strong>${isCorrect ? 'Benar!' : 'Salah!'}</strong> ${questionData.feedback}
+            `;
+            feedbackDisplay.style.display = 'block';
+        }
+        
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < quizData.length) {
+                displayQuestion();
+            } else {
+                showResult();
+            }
+        }
+        
+        function showResult() {
+            document.querySelector('.container:first-child').style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            let resultHTML = '';
+            
+            if (score === 100) {
+                resultHTML = `
+                    <div class="celebrations">
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                    </div>
+                    <h1 class="result-title score-perfect">KAMU HEBAT!</h1>
+                    <p>Selamat! Anda telah menguasai konsep ketahanan mental dan daya juang dengan sempurna.</p>
+                    <div class="final-score">Skor Anda: ${score}/100</div>
+                    <p>Anda memahami tantangan yang dihadapi Gen Z dan solusi untuk membangun kembali ketahanan mental.</p>
+                    <div style="margin-top: 40px;">
+                        <button class="btn btn-levelup" id="levelup-btn">Naik Level</button>
+                    </div>
+                `;
+            } else {
+                resultHTML = `
+                    <h1 class="result-title score-low">JANGAN MENYERAH! AYO ILANGI!</h1>
+                    <div class="final-score">Skor Anda: ${score}/100</div>
+                    <p>Anda sudah memahami beberapa konsep, tetapi masih ada ruang untuk meningkatkan pemahaman tentang ketahanan mental.</p>
+                    <p>Seperti yang dibahas artikel, ketahanan dibangun melalui proses. Coba lagi untuk memperbaiki skor Anda!</p>
+                    <div style="margin-top: 40px;">
+                        <button class="btn btn-restart" id="restart-btn">Ilangi</button>
+                    </div>
+                `;
+            }
+            
+            resultContainer.innerHTML = resultHTML;
+            
+            if (score === 100) {
+                document.getElementById('levelup-btn').addEventListener('click', function() {
+                    window.location.href = 'https://muin123-dr.github.io/HP/009.html';
+                });
+            } else {
+                document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+            }
+        }
+        
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers.fill(null);
+            
+            scoreDisplay.textContent = '0';
+            
+            document.querySelector('.container:first-child').style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            displayQuestion();
+        }
+        
+        nextButton.addEventListener('click', nextQuestion);
+        
+        displayQuestion();
+    </script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis: Masalah Privasi dan Jejak Digital</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+        
+        .question-container {
+            display: block;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .option:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.wrong {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .score-container {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 15px 0;
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #3498db;
+            width: 10%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .score-perfect {
+            color: #e74c3c;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .score-low {
+            color: #2c3e50;
+        }
+        
+        .final-score {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: #3498db;
+        }
+        
+        .celebrations {
+            margin: 30px 0;
+        }
+        
+        .confetti {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin: 0 5px;
+            border-radius: 50%;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .confetti:nth-child(1) { background-color: #e74c3c; animation-delay: 0s; }
+        .confetti:nth-child(2) { background-color: #3498db; animation-delay: 0.3s; }
+        .confetti:nth-child(3) { background-color: #2ecc71; animation-delay: 0.6s; }
+        .confetti:nth-child(4) { background-color: #f1c40f; animation-delay: 0.9s; }
+        .confetti:nth-child(5) { background-color: #9b59b6; animation-delay: 1.2s; }
+        
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+            min-width: 200px;
+        }
+        
+        .btn-next {
+            background-color: #3498db;
+            color: white;
+            display: none;
+        }
+        
+        .btn-next:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        }
+        
+        .btn-restart {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        .btn-restart:hover {
+            background-color: #1a252f;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(44, 62, 80, 0.3);
+        }
+        
+        .btn-levelup {
+            background-color: #2ecc71;
+            color: white;
+            animation: pulse-green 1.5s infinite;
+        }
+        
+        .btn-levelup:hover {
+            background-color: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .correct-feedback {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+        
+        .wrong-feedback {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .question-counter {
+            text-align: right;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+            }
+            
+            .result-title {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                min-width: 180px;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kuis: Masalah Privasi dan Jejak Digital</h1>
+        <p class="subtitle">Uji pemahaman Anda tentang perlindungan data pribadi dan jejak digital</p>
+        
+        <div class="question-counter">
+            Soal: <span id="current-question">1</span>/10
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="score-container">
+            Skor: <span id="score">0</span>/100
+        </div>
+        
+        <div id="quiz-container">
+            <!-- Soal dan pilihan ganda akan dimuat di sini oleh JavaScript -->
+        </div>
+        
+        <div class="feedback" id="feedback">
+            <!-- Umpan balik untuk jawaban akan ditampilkan di sini -->
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-next" id="next-btn">Lanjut ke Soal Berikutnya</button>
+        </div>
+    </div>
+    
+    <div class="container result-container" id="result-container">
+        <!-- Hasil akhir akan ditampilkan di sini -->
+    </div>
+
+    <script>
+        // Data soal kuis berdasarkan artikel
+        const quizData = [
+            {
+                question: "Menurut artikel, apa yang dimaksud dengan prinsip 'jika layanan gratis, maka Andalah produknya'?",
+                options: [
+                    "Layanan gratis selalu berkualitas rendah",
+                    "Aplikasi gratis mengumpulkan data pribadi Anda sebagai 'bayaran tak terlihat'",
+                    "Produk gratis tidak memiliki fitur lengkap",
+                    "Pengguna layanan gratis tidak dihargai"
+                ],
+                correct: 1,
+                feedback: "Benar! Prinsip ini berarti aplikasi dan platform 'gratis' secara masif mengumpulkan data pribadi Anda sebagai bayaran tak tervisible (data harvesting)."
+            },
+            {
+                question: "Mengapa Syarat & Ketentuan (Terms & Conditions) aplikasi sering kali tidak dibaca pengguna?",
+                options: [
+                    "Karena terlalu singkat dan tidak jelas",
+                    "Karena sengaja dibuat sangat panjang dan rumit agar pengguna tidak membacanya",
+                    "Karena tidak tersedia dalam bahasa pengguna",
+                    "Karena tidak penting untuk penggunaan aplikasi"
+                ],
+                correct: 1,
+                feedback: "Benar! Aplikasi sengaja membuat Syarat & Ketentuan (Terms & Conditions atau T&C) sangat panjang dan rumit agar pengguna tidak membacanya. Hanya sekitar 1% pengguna yang benar-benar membaca T&C sebelum mengklik 'Setuju'."
+            },
+            {
+                question: "Apa contoh permintaan izin aneh yang disebutkan dalam artikel?",
+                options: [
+                    "Aplikasi kamera meminta izin akses ke kamera",
+                    "Aplikasi peta meminta izin akses lokasi",
+                    "Aplikasi senter (flashlight) yang meminta akses ke mikrofon dan lokasi",
+                    "Aplikasi pesan meminta izin akses ke kontak"
+                ],
+                correct: 2,
+                feedback: "Benar! Banyak aplikasi meminta izin yang tidak relevan dengan fungsinya. Contohnya, aplikasi senter (flashlight) yang meminta akses ke mikrofon dan lokasi padahal hanya perlu kamera."
+            },
+            {
+                question: "Apa yang dapat dilakukan oleh perusahaan asuransi dengan data dari fitness tracker menurut artikel?",
+                options: [
+                    "Membuat produk asuransi baru",
+                    "Mempengaruhi premi atau penolakan layanan yang diterima di masa depan",
+                    "Mengirimkan saran kesehatan personal",
+                    "Meningkatkan akurasi perangkat fitness tracker"
+                ],
+                correct: 1,
+                feedback: "Benar! Data sensitif—seperti riwayat kesehatan dari fitness tracker atau aplikasi kebugaran—dapat dijual ke pihak ketiga, seperti perusahaan asuransi. Hal ini berpotensi memengaruhi premi atau penolakan layanan yang Anda terima di masa depan."
+            },
+            {
+                question: "Apa yang dimaksud dengan doxing menurut artikel?",
+                options: [
+                    "Mengirimkan virus ke perangkat seseorang",
+                    "Menyebarkan informasi pribadi seseorang secara publik dengan maksud mengancam atau membahayakan",
+                    "Membuat akun palsu di media sosial",
+                    "Mencuri kata sandi akun online"
+                ],
+                correct: 1,
+                feedback: "Benar! Doxing adalah tindakan menyebarkan informasi pribadi (seperti alamat, nomor telepon, tempat kerja, atau foto keluarga) secara publik dengan maksud mengancam, mengintimidasi, atau membahayakan korban."
+            },
+            {
+                question: "Mengapa jejak digital dianggap permanen menurut artikel?",
+                options: [
+                    "Karena semua data disimpan selamanya oleh pemerintah",
+                    "Karena meskipun unggahan dihapus, salinannya sering tersisa di server, cache, atau arsip pihak ketiga",
+                    "Karena teknologi tidak memungkinkan penghapusan data",
+                    "Karena perusahaan media sosial tidak menyediakan fitur penghapusan"
+                ],
+                correct: 1,
+                feedback: "Benar! Jejak digital bersifat permanen karena meski unggahan dihapus, salinannya sering tersisa di server, cache mesin pencari, atau diarsipkan pihak ketiga. Internet tidak pernah melupakan."
+            },
+            {
+                question: "Apa risiko utama dari oversharing di media sosial menurut artikel?",
+                options: [
+                    "Mengisi penyimpanan ponsel dengan cepat",
+                    "Membuat orang lain iri dengan kehidupan kita",
+                    "Informasi dapat dimanfaatkan untuk stalking, pemerasan, atau merusak reputasi profesional",
+                    "Mengurangi jumlah like dan komentar di postingan"
+                ],
+                correct: 2,
+                feedback: "Benar! Oversharing informasi pribadi dapat dimanfaatkan untuk stalking, pemerasan, merusak reputasi profesional, dan melanggar privasi orang lain yang terlibat tanpa seizin mereka."
+            },
+            {
+                question: "Apa bahaya utama dari membagikan lokasi real-time menurut artikel?",
+                options: [
+                    "Membuat baterai ponsel cepat habis",
+                    "Memudahkan pelaku kejahatan melakukan stalking atau merencanakan pencurian",
+                    "Mengurangi kualitas sinyal GPS",
+                    "Membuat aplikasi peta tidak akurat"
+                ],
+                correct: 1,
+                feedback: "Benar! Membagikan lokasi real-time memudahkan pelaku mengikuti pergerakan atau mengetahui rute rutin korban, serta dapat digunakan untuk merencanakan pencurian saat rumah kosong."
+            },
+            {
+                question: "Apa yang dimaksud dengan 'pause before posting' menurut artikel?",
+                options: [
+                    "Berhenti menggunakan media sosial untuk sementara waktu",
+                    "Membuat jeda sebelum mengunggah konten dan mempertimbangkan dampaknya di masa depan",
+                    "Menunda pembaruan aplikasi media sosial",
+                    "Mengistirahatkan mata sebelum menatap layar terlalu lama"
+                ],
+                correct: 1,
+                feedback: "Benar! 'Pause before posting' adalah teknik berpikir sebelum mengunggah dengan menerapkan aturan untuk berhenti sejenak dan mempertimbangkan dampak unggahan 10 tahun lagi."
+            },
+            {
+                question: "Apa yang sebaiknya dilakukan untuk memisahkan identitas digital menurut artikel?",
+                options: [
+                    "Menggunakan nama samaran untuk semua akun online",
+                    "Menggunakan email/nomor telepon berbeda untuk urusan penting dan hiburan",
+                    "Menghapus semua akun media sosial lama",
+                    "Membuat hanya satu akun untuk semua layanan"
+                ],
+                correct: 1,
+                feedback: "Benar! Untuk melindungi privasi, sebaiknya pisahkan identitas digital dengan menggunakan email/nomor telepon berbeda untuk urusan penting dan hiburan."
+            }
+        ];
+
+        // Variabel state kuis
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        
+        // Elemen DOM
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        const nextButton = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score');
+        const progressBar = document.getElementById('progress-bar');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const feedbackDisplay = document.getElementById('feedback');
+        
+        // Fungsi untuk menampilkan soal saat ini
+        function displayQuestion() {
+            // Perbarui counter soal
+            currentQuestionDisplay.textContent = currentQuestion + 1;
+            
+            // Perbarui progress bar
+            const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            // Dapatkan soal saat ini
+            const questionData = quizData[currentQuestion];
+            
+            // Buat HTML untuk soal dan pilihan
+            let questionHTML = `
+                <div class="question-container">
+                    <div class="question">${questionData.question}</div>
+                    <div class="options">
+            `;
+            
+            // Tambahkan pilihan jawaban
+            questionData.options.forEach((option, index) => {
+                let optionClass = "option";
+                // Jika pengguna sudah memilih jawaban untuk soal ini
+                if (userAnswers[currentQuestion] !== null) {
+                    if (index === questionData.correct) {
+                        optionClass += " correct";
+                    } else if (index === userAnswers[currentQuestion] && index !== questionData.correct) {
+                        optionClass += " wrong";
+                    }
+                    if (index === userAnswers[currentQuestion]) {
+                        optionClass += " selected";
+                    }
+                }
+                
+                questionHTML += `
+                    <div class="${optionClass}" data-index="${index}">
+                        ${option}
+                    </div>
+                `;
+            });
+            
+            questionHTML += `</div></div>`;
+            
+            // Tampilkan soal
+            quizContainer.innerHTML = questionHTML;
+            
+            // Sembunyikan tombol "Lanjut" sampai jawaban dipilih
+            nextButton.style.display = 'none';
+            
+            // Sembunyikan feedback
+            feedbackDisplay.style.display = 'none';
+            feedbackDisplay.className = 'feedback';
+            
+            // Jika pengguna sudah memilih jawaban untuk soal ini, tampilkan feedback
+            if (userAnswers[currentQuestion] !== null) {
+                showFeedback(questionData);
+                nextButton.style.display = 'inline-block';
+            }
+            
+            // Tambahkan event listener untuk pilihan
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+        }
+        
+        // Fungsi untuk memilih opsi jawaban
+        function selectOption(e) {
+            // Hanya izinkan pemilihan jika belum memilih untuk soal ini
+            if (userAnswers[currentQuestion] !== null) return;
+            
+            const selectedOption = e.currentTarget;
+            const selectedIndex = parseInt(selectedOption.getAttribute('data-index'));
+            
+            // Simpan jawaban pengguna
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            // Dapatkan data soal saat ini
+            const questionData = quizData[currentQuestion];
+            
+           // Hitung skor jika jawaban benar
+            if (selectedIndex === questionData.correct) {
+                score += 10;
+                scoreDisplay.textContent = score;
+            }
+            
+            // Tampilkan feedback
+            showFeedback(questionData);
+            
+            // Tampilkan tombol "Lanjut"
+            nextButton.style.display = 'inline-block';
+            
+            // Nonaktifkan semua opsi setelah memilih
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+        }
+        
+        // Fungsi untuk menampilkan feedback
+        function showFeedback(questionData) {
+            const userAnswerIndex = userAnswers[currentQuestion];
+            const isCorrect = userAnswerIndex === questionData.correct;
+            
+            // Tentukan kelas dan teks feedback
+            if (isCorrect) {
+                feedbackDisplay.className = 'feedback correct-feedback';
+            } else {
+                feedbackDisplay.className = 'feedback wrong-feedback';
+            }
+            
+            // Tampilkan feedback
+            feedbackDisplay.innerHTML = `
+                <strong>${isCorrect ? 'Benar!' : 'Salah!'}</strong> ${questionData.feedback}
+            `;
+            feedbackDisplay.style.display = 'block';
+        }
+        
+        // Fungsi untuk menampilkan soal berikutnya
+        function nextQuestion() {
+            // Pindah ke soal berikutnya
+            currentQuestion++;
+            
+            // Jika masih ada soal, tampilkan soal berikutnya
+            if (currentQuestion < quizData.length) {
+                displayQuestion();
+            } else {
+                // Jika tidak ada soal lagi, tampilkan hasil
+                showResult();
+            }
+        }
+        
+        // Fungsi untuk menampilkan hasil akhir
+        function showResult() {
+            // Sembunyikan kontainer kuis
+            document.querySelector('.container:first-child').style.display = 'none';
+            
+            // Tampilkan kontainer hasil
+            resultContainer.style.display = 'block';
+            
+            let resultHTML = '';
+            
+            // Periksa apakah skor sempurna (100)
+            if (score === 100) {
+                resultHTML = `
+                    <div class="celebrations">
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                    </div>
+                    <h1 class="result-title score-perfect">KAMU HEBAT!</h1>
+                    <p>Selamat! Anda telah menguasai semua konsep tentang privasi dan jejak digital dengan sempurna.</p>
+                    <div class="final-score">Skor Anda: ${score}/100</div>
+                    <p>Anda memahami pentingnya melindungi data pribadi dan mengelola jejak digital dengan bijak.</p>
+                    <div style="margin-top: 40px;">
+                        <button class="btn btn-levelup" id="levelup-btn">Naik Level</button>
+                    </div>
+                `;
+            } else {
+                resultHTML = `
+                    <h1 class="result-title score-low">JANGAN MENYERAH! AYO ILANGI!</h1>
+                    <div class="final-score">Skor Anda: ${score}/100</div>
+                    <p>Anda sudah memahami beberapa konsep, tetapi masih ada ruang untuk meningkatkan pemahaman tentang privasi digital.</p>
+                    <p>Coba lagi untuk memperbaiki skor Anda!</p>
+                    <div style="margin-top: 40px;">
+                        <button class="btn btn-restart" id="restart-btn">Ilangi</button>
+                    </div>
+                `;
+            }
+            
+            resultContainer.innerHTML = resultHTML;
+            
+            // Tambahkan event listener untuk tombol
+            if (score === 100) {
+                document.getElementById('levelup-btn').addEventListener('click', function() {
+                    // Link ke artikel asli
+                    window.location.href = 'https://muin123-dr.github.io/HP/008.html';
+                });
+            } else {
+                document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+            }
+        }
+        
+        // Fungsi untuk memulai ulang kuis
+        function restartQuiz() {
+            // Reset state kuis
+            currentQuestion = 0;
+            score = 0;
+            userAnswers.fill(null);
+            
+            // Reset tampilan skor
+            scoreDisplay.textContent = '0';
+            
+            // Tampilkan kontainer kuis
+            document.querySelector('.container:first-child').style.display = 'block';
+            
+            // Sembunyikan kontainer hasil
+            resultContainer.style.display = 'none';
+            
+            // Tampilkan soal pertama
+            displayQuestion();
+        }
+        
+        // Event listener untuk tombol "Lanjut"
+        nextButton.addEventListener('click', nextQuestion);
+        
+        // Tampilkan soal pertama saat halaman dimuat
+        displayQuestion();
+    </script>
+</body>
+</html>

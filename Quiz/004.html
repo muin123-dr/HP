@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Gangguan Tidur Digital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px;
+            margin: 0 auto 20px auto;
+            display: block;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        /* Start Screen */
+        .start-text {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        /* Score Board */
+        .score-board {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .question-container {
+            text-align: left;
+        }
+
+        .question-number {
+            color: #34495e;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f7f7f7;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .option:hover {
+            background: #d5dbdb;
+            border-color: #34495e;
+            transform: translateX(5px);
+        }
+
+        /* Notifications */
+        #feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            padding: 30px 60px;
+            border-radius: 20px;
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #feedback.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .feedback-benar { background-color: #27ae60; }
+        .feedback-salah { background-color: #e74c3c; }
+
+        /* Results */
+        .result-container {
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .fail-title { color: #e74c3c; }
+        .success-title { color: #27ae60; }
+
+        .champion-animation {
+            animation: pulse-gold 1.5s infinite;
+            border: 4px solid gold;
+            box-shadow: 0 0 20px gold;
+        }
+
+        @keyframes pulse-gold {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: block;
+            margin: 10px auto;
+            width: fit-content;
+        }
+
+        .btn-alt {
+            background: #6c757d;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 999;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .hidden { display: none !important; }
+
+        .trophy {
+            font-size: 100px;
+            margin: 20px 0;
+            display: inline-block;
+            animation: trophy-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes trophy-bounce {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .sleep-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="feedback"></div>
+
+    <div class="container">
+        <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
+        
+        <div id="start-screen">
+            <div class="sleep-icon">😴</div>
+            <p class="start-text">Sudah siap mengikuti Quiz!</p>
+            <div style="margin-top: 20px;">
+                <p style="margin-bottom: 10px;">Jika belum klik tombol dibawah:</p>
+                <a href="https://muin123-dr.github.io/HP/004.html" class="btn btn-alt">PELAJARI MATERI</a>
+                
+                <p style="margin-top: 20px; margin-bottom: 10px;">Jika sudah siap klik tombol dibawah:</p>
+                <button class="btn" onclick="startQuiz()">MULAI</button>
+            </div>
+        </div>
+
+        <div id="main-quiz" class="hidden">
+            <h1>Quiz Gangguan Tidur Digital</h1>
+            <div class="score-board">
+                Skor: <span id="score">0</span>
+            </div>
+            <div id="quiz-container" class="question-container"></div>
+        </div>
+
+        <div id="result-container" class="result-container hidden"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                question: "Apa yang dimaksud dengan cahaya biru (blue light) dari smartphone?",
+                options: ["Cahaya dengan panjang gelombang 400-490 nm yang mirip sinar matahari pagi", "Cahaya yang hanya keluar saat malam", "Cahaya yang membantu tidur lebih cepat", "Cahaya yang tidak berpengaruh pada tidur", "Cahaya yang hanya ada di layar laptop"],
+                correct: 0
+            },
+            {
+                number: 2,
+                question: "Bagaimana cahaya biru mempengaruhi tidur?",
+                options: ["Meningkatkan produksi melatonin", "Menekan produksi melatonin sehingga kita tidak merasa mengantuk", "Membuat mata lebih sehat", "Tidak ada pengaruhnya", "Membuat tidur lebih nyenyak"],
+                correct: 1
+            },
+            {
+                number: 3,
+                question: "Paparan cahaya biru 2 jam sebelum tidur dapat menunda rasa kantuk hingga:",
+                options: ["15-30 menit", "1 jam", "90 menit hingga 3 jam", "5 jam", "Tidak menunda sama sekali"],
+                correct: 2
+            },
+            {
+                number: 4,
+                question: "Apa yang dimaksud dengan Revenge Bedtime Procrastination (RBP)?",
+                options: ["Tidur lebih awal dari biasanya", "Seseorang sengaja menunda tidur untuk \"balas dendam\" menikmati me-time meski lelah", "Tidur siang yang terlalu lama", "Bangun terlalu pagi", "Tidur sambil main HP"],
+                correct: 1
+            },
+            {
+                number: 5,
+                question: "Apa yang dimaksud dengan Doomscrolling?",
+                options: ["Scroll konten positif sebelum tidur", "Kebiasaan terus-menerus menggulir berita negatif atau konten yang memicu emosi sebelum tidur", "Scroll untuk mencari informasi penting", "Scroll sambil tidur", "Scroll hanya di pagi hari"],
+                correct: 1
+            },
+            {
+                number: 6,
+                question: "Dampak jangka pendek kurang tidur yang TIDAK disebutkan adalah:",
+                options: ["Kelelahan kronis", "Kemampuan konsentrasi turun hingga 40%", "Emosi tidak stabil dan mudah marah", "Menjadi lebih produktif", "Kantuk berat di siang hari"],
+                correct: 3
+            },
+            {
+                number: 7,
+                question: "Apa yang dimaksud dengan \"Digital Sunset\"?",
+                options: ["Mematikan HP saat matahari terbenam", "Berhenti total menggunakan semua gadget 90-60 menit sebelum tidur", "Mengurangi brightness HP saat sore", "Tidak boleh pakai HP seharian", "Hanya boleh pakai HP saat matahari terbit"],
+                correct: 1
+            },
+            {
+                number: 8,
+                question: "Solusi mengatasi gangguan tidur untuk individu yang disebutkan adalah:",
+                options: ["Main HP sampai mengantuk", "Tidur sambil nonton video", "Ciptakan ritual tidur yang menenangkan seperti membaca buku fisik atau berdzikir", "Begadang setiap malam", "Tidur dengan HP di samping bantal"],
+                correct: 2
+            },
+            {
+                number: 9,
+                question: "Mengapa smartphone harus dikeluarkan dari kamar tidur?",
+                options: ["Agar tidak dicuri", "Agar baterainya awet", "Agar kamar menjadi \"Zona Bebas Gawai\" dan tidur lebih berkualitas", "Agar tidak berisik", "Tidak ada alasan khusus"],
+                correct: 2
+            },
+            {
+                number: 10,
+                question: "Apa kesimpulan utama dari artikel ini?",
+                options: ["Tidur adalah kemewahan yang tidak penting", "Main HP sebelum tidur tidak masalah", "Tidur adalah kebutuhan biologis mendasar, mengorbankan tidur demi scrolling adalah investasi buruk", "Kurang tidur membuat lebih produktif", "Smartphone tidak berpengaruh pada kualitas tidur"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let canClick = true;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('main-quiz').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const q = questions[currentQuestion];
+            
+            let optionsHTML = '';
+            q.options.forEach((option, index) => {
+                optionsHTML += `
+                    <div class="option" onclick="checkAnswer(${index})">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
+            });
+
+            quizContainer.innerHTML = `
+                <div class="question-number">Soal ${q.number} dari ${questions.length}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">
+                    ${optionsHTML}
+                </div>
+            `;
+            canClick = true;
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (!canClick) return;
+            canClick = false;
+
+            const q = questions[currentQuestion];
+            const feedbackEl = document.getElementById('feedback');
+            
+            if (selectedIndex === q.correct) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+                feedbackEl.textContent = "BENAR! 🎉";
+                feedbackEl.className = "show feedback-benar";
+            } else {
+                feedbackEl.textContent = "SALAH! ❌";
+                feedbackEl.className = "show feedback-salah";
+            }
+
+            // Notifikasi hilang setelah 1,5 detik
+            setTimeout(() => {
+                feedbackEl.className = "";
+                currentQuestion++;
+
+                if (currentQuestion < questions.length) {
+                    displayQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1500);
+        }
+
+        function showResult() {
+            document.getElementById('main-quiz').classList.add('hidden');
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.classList.remove('hidden');
+
+            if (score < 100) {
+                resultContainer.innerHTML = `
+                    <div class="sleep-icon">😢</div>
+                    <div class="result-title fail-title">JANGAN MENYERAH!<br>AYO ILANGI!</div>
+                    <p style="font-size: 24px; margin: 20px 0;">Skor Kamu: ${score}</p>
+                    <button class="btn" onclick="restartQuiz()">Ilangi</button>
+                `;
+            } else {
+                createConfetti();
+                resultContainer.innerHTML = `
+                    <div class="trophy">🏆</div>
+                    <div class="result-title success-title">KAMU HEBAT!</div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 24px; margin: 20px 0; color: #27ae60; font-weight: bold;">
+                        Skor Sempurna: ${score}
+                    </p>
+                    <p style="font-size: 18px; margin-bottom: 20px;">
+                        🎉 Selamat! Kamu sang juara yang menguasai materi! 🎉
+                    </p>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <a href="https://muin123-dr.github.io/HP/quiz/005.html" class="btn champion-animation">Naik Level</a>
+                    </div>
+                `;
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffd700'];
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 20);
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

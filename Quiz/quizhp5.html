@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Gangguan Kesehatan Fisik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #16a085 0%, #f39c12 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #16a085;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #16a085 0%, #f39c12 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #16a085;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f7f7f7;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .option:hover {
+            background: #d5f4e6;
+            border-color: #16a085;
+            transform: translateX(5px);
+        }
+
+        .result-container {
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .fail-title {
+            color: #e74c3c;
+            animation: shake 0.5s;
+        }
+
+        .success-title {
+            color: #27ae60;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #16a085 0%, #f39c12 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .trophy {
+            font-size: 100px;
+            margin: 20px 0;
+            animation: trophy-spin 2s ease-in-out infinite;
+        }
+
+        @keyframes trophy-spin {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        .stars {
+            font-size: 40px;
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .health-icon {
+            font-size: 60px;
+            margin: 10px 0;
+        }
+
+        .flex-animation {
+            font-size: 80px;
+            animation: flex 2s ease-in-out infinite;
+        }
+
+        @keyframes flex {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="health-icon">💪</div>
+        <h1>Quiz Gangguan Kesehatan Fisik</h1>
+        
+        <div class="score-board">
+            Skor: <span id="score">0</span>
+        </div>
+
+        <div id="quiz-container" class="question-container">
+            <!-- Questions will be inserted here -->
+        </div>
+
+        <div id="result-container" class="result-container hidden">
+            <!-- Result will be shown here -->
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                question: "Apa yang dimaksud dengan \"Text Neck\"?",
+                options: [
+                    "Leher yang bagus karena sering main HP",
+                    "Gangguan leher akibat posisi menunduk saat melihat layar HP",
+                    "Leher yang kuat",
+                    "Olahraga untuk leher",
+                    "Tidak ada masalah pada leher"
+                ],
+                correct: 1
+            },
+            {
+                number: 2,
+                question: "Berapa beban yang ditanggung leher saat kepala menunduk 60 derajat?",
+                options: [
+                    "5 kg",
+                    "10 kg",
+                    "15 kg",
+                    "27 kg (seberat anak 8 tahun)",
+                    "50 kg"
+                ],
+                correct: 3
+            },
+            {
+                number: 3,
+                question: "Apa yang dimaksud dengan aturan 20-20-20 untuk mata?",
+                options: [
+                    "20 menit layar, 20 menit istirahat, 20 menit tidur",
+                    "Setiap 20 menit menatap layar, lihat objek sejauh 20 kaki (6 meter) selama 20 detik",
+                    "Main HP 20 jam sehari",
+                    "Beli HP baru setiap 20 bulan",
+                    "Lihat HP 20 kali sehari"
+                ],
+                correct: 1
+            },
+            {
+                number: 4,
+                question: "Apa dampak screen time lebih dari 4 jam per hari?",
+                options: [
+                    "Membuat lebih sehat",
+                    "Meningkatkan umur",
+                    "Naikkan risiko kematian dini",
+                    "Tidak ada dampaknya",
+                    "Membuat lebih produktif"
+                ],
+                correct: 2
+            },
+            {
+                number: 5,
+                question: "Screen time 10 jam bisa menyebabkan:",
+                options: [
+                    "Tubuh lebih kuat",
+                    "Prediabetes di usia 17 tahun",
+                    "Lebih pintar",
+                    "Lebih tinggi",
+                    "Tidak ada masalah"
+                ],
+                correct: 1
+            },
+            {
+                number: 6,
+                question: "Berapa penurunan metabolisme akibat gaya hidup rebahan?",
+                options: [
+                    "10%",
+                    "30%",
+                    "50%",
+                    "90%",
+                    "Tidak ada penurunan"
+                ],
+                correct: 3
+            },
+            {
+                number: 7,
+                question: "Berapa kali frekuensi berkedip turun saat menatap layar?",
+                options: [
+                    "Dari 20 kali menjadi 5 kali per menit",
+                    "Dari 10 kali menjadi 8 kali per menit",
+                    "Tidak ada perubahan",
+                    "Dari 5 kali menjadi 20 kali per menit",
+                    "Dari 30 kali menjadi 25 kali per menit"
+                ],
+                correct: 0
+            },
+            {
+                number: 8,
+                question: "Apa yang dimaksud dengan latihan \"Chin Tuck\"?",
+                options: [
+                    "Menggelengkan kepala",
+                    "Tarik dagu ke dalam untuk melatih leher",
+                    "Menundukkan kepala",
+                    "Mengangkat kepala ke atas",
+                    "Memutar kepala 360 derajat"
+                ],
+                correct: 1
+            },
+            {
+                number: 9,
+                question: "Berapa target langkah kaki per hari yang disarankan?",
+                options: [
+                    "1.000 langkah",
+                    "5.000 langkah",
+                    "10.000 langkah",
+                    "20.000 langkah",
+                    "Tidak perlu jalan kaki"
+                ],
+                correct: 2
+            },
+            {
+                number: 10,
+                question: "Apa kesimpulan utama dari artikel ini?",
+                options: [
+                    "HP tidak berbahaya untuk kesehatan fisik",
+                    "Kerusakan fisik akibat HP bisa dicegah dengan kebiasaan sederhana",
+                    "Semakin lama main HP semakin sehat",
+                    "Tidak perlu istirahat saat main HP",
+                    "Postur buruk tidak masalah"
+                ],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const q = questions[currentQuestion];
+            
+            let optionsHTML = '';
+            q.options.forEach((option, index) => {
+                optionsHTML += `
+                    <div class="option" onclick="checkAnswer(${index})">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
+            });
+
+            quizContainer.innerHTML = `
+                <div class="question-number">Soal ${q.number} dari ${questions.length}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">
+                    ${optionsHTML}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selectedIndex) {
+            const q = questions[currentQuestion];
+            
+            if (selectedIndex === q.correct) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                setTimeout(() => {
+                    displayQuestion();
+                }, 300);
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.classList.remove('hidden');
+
+            if (score < 100) {
+                resultContainer.innerHTML = `
+                    <div class="health-icon">😢</div>
+                    <div class="result-title fail-title">JANGAN MENYERAH!<br>AYO ILANGI!</div>
+                    <p style="font-size: 24px; margin: 20px 0;">Skor Kamu: ${score}</p>
+                    <p style="font-size: 16px; color: #666; margin: 20px 0;">
+                        Tubuh sehat adalah investasi! Baca lagi artikelnya dan coba lagi. Your body is your lifelong home! 💪
+                    </p>
+                    <button class="btn" onclick="restartQuiz()">Ilangi</button>
+                `;
+            } else {
+                createConfetti();
+                resultContainer.innerHTML = `
+                    <div class="flex-animation">💪</div>
+                    <div class="trophy">🏆</div>
+                    <div class="result-title success-title">KAMU HEBAT!</div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 24px; margin: 20px 0; color: #27ae60; font-weight: bold;">
+                        Skor Sempurna: ${score}
+                    </p>
+                    <p style="font-size: 18px; margin: 20px 0;">
+                        🎉 Selamat! Kamu sudah memahami cara menjaga kesehatan fisik! 🎉
+                    </p>
+                    <p style="font-size: 16px; margin: 20px 0; color: #666;">
+                        Sekarang waktunya praktik! Coba aturan 20-20-20 untuk mata dan lakukan Chin Tuck 10x setiap pagi! 👀💪
+                    </p>
+                    <p style="font-size: 14px; margin: 10px 0; color: #16a085; font-weight: bold;">
+                        Target: 10.000 langkah/hari & angkat HP sejajar mata!
+                    </p>
+                    <a href="https://muin123-dr.github.io/HP/" class="btn" target="_blank">Naik Level</a>
+                `;
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>

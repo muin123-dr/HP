@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Kuis: Dampak Konsumsi Media</title>
+<style>
+  body{font-family:sans-serif;background:#fffaf3;padding:20px}
+  .card{max-width:760px;margin:auto;background:#fff;padding:18px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+  h1{color:#1f2937}
+  .btn{display:block;width:100%;padding:10px;margin:8px 0;border-radius:6px;border:1px solid #ddd;background:#f3f4f6;cursor:pointer;text-align:left}
+  #status{margin-top:12px;text-align:center;font-weight:bold}
+  .champ{font-size:36px;color:#059669;animation:pop 1s infinite}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Kuis: Dampak Konsumsi Media</h1>
+  <div id="quiz"></div>
+  <div id="status"></div>
+  <div id="result" style="text-align:center;margin-top:16px"></div>
+</div>
+
+<script>
+const qs=[
+{q:"Apa fokus utama artikel HP/010?",o:["Teknologi pendidikan","Dampak konsumsi media terhadap kesehatan mental","Panduan pemasaran","Statistik internet"],a:1},
+{q:"Efek negatif paparan konten terus-menerus adalah?",o:["Peningkatan fokus","Desensitisasi terhadap emosi","Peningkatan empati","Perbaikan tidur"],a:1},
+{q:"Kebiasaan yang memperburuk kondisi mental adalah?",o:["Batasi layar","Scrolling tanpa tujuan","Berolahraga","Tidur cukup"],a:1},
+{q:"Strategi individu yang direkomendasikan?",o:["Abaikan privasi","Detoks digital","Tambah akun","Bagikan real time"],a:1},
+{q:"Peran keluarga yang disarankan meliputi?",o:["Akses tanpa batas","Teladan dan aturan layar","Perangkat di meja makan","Ganti gadget"],a:1},
+{q:"Dampak jangka panjang paparan konten negatif?",o:["Ketahanan meningkat","Gangguan kecemasan","Peningkatan sosial","Hubungan membaik"],a:1},
+{q:"Solusi pendidikan yang diusulkan adalah?",o:["Hapus etika digital","Literasi media & proses","Ganti guru dengan AI","Kurangi kegiatan"],a:1},
+{q:"Mengapa perbandingan sosial berbahaya?",o:["Lebih produktif","Standar tidak realistis","Meningkatkan syukur","Kurangi tekanan"],a:1},
+{q:"Langkah praktis lindungi kesehatan mental saat online?",o:["Unggah semua","Tunda unggahan & batasi","Balas emosi","Gunakan satu app"],a:1},
+{q:"Tujuan utama rekomendasi dalam artikel adalah?",o:["Tingkatkan engagement","Perkuat ketahanan mental","Kurangi internet","Promosi viral"],a:1}
+];
+let idx=0,score=0;
+function render(){
+  const c=document.getElementById('quiz');c.innerHTML='';
+  const q=qs[idx];
+  const el=document.createElement('div');
+  el.innerHTML=`<p><strong>${idx+1}. ${q.q}</strong></p>`;
+  q.o.forEach((opt,i)=>{const b=document.createElement('button');b.className='btn';b.textContent=opt;b.onclick=()=>choose(i);el.appendChild(b)});
+  c.appendChild(el);
+  document.getElementById('status').textContent=`Skor sementara: ${score}`;
+}
+function choose(i){ if(i===qs[idx].a) score+=10; idx++; if(idx<qs.length) render(); else finish();}
+function finish(){
+  const r=document.getElementById('result');
+  if(score===100){
+    r.innerHTML=`<div class="champ">🎉 KAMU HEBAT! 🎉<br>Skor Akhir: ${score}</div><p><a href="https://muin123-dr.github.io/HP/011.html"><button>Naik Level</button></a></p>`;
+  } else {
+    r.innerHTML=`<div style="font-size:28px;color:#b91c1c">JANGAN MENYERAH! AYO ILANGI!</div><p><button onclick="retry()">Ilangi</button></p><p>Skor Akhir: ${score}</p>`;
+  }
+}
+function retry(){idx=0;score=0;document.getElementById('result').innerHTML='';render();}
+render();
+</script>
+</body>
+</html>

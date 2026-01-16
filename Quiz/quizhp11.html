@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Bahaya Komunitas Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #c0392b;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: #c0392b;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #f7f7f7;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .option:hover {
+            background: #fadbd8;
+            border-color: #c0392b;
+            transform: translateX(5px);
+        }
+
+        .result-container {
+            text-align: center;
+        }
+
+        .result-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .fail-title {
+            color: #e74c3c;
+            animation: shake 0.5s;
+        }
+
+        .success-title {
+            color: #27ae60;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #c0392b 0%, #8e44ad 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confetti-fall 3s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .trophy {
+            font-size: 100px;
+            margin: 20px 0;
+            animation: trophy-spin 2s ease-in-out infinite;
+        }
+
+        @keyframes trophy-spin {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        .stars {
+            font-size: 40px;
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .warning-icon {
+            font-size: 60px;
+            margin: 10px 0;
+        }
+
+        .shield-animation {
+            font-size: 80px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="warning-icon">🚨</div>
+        <h1>Quiz Bahaya Komunitas Online</h1>
+        
+        <div class="score-board">
+            Skor: <span id="score">0</span>
+        </div>
+
+        <div id="quiz-container" class="question-container">
+            <!-- Questions will be inserted here -->
+        </div>
+
+        <div id="result-container" class="result-container hidden">
+            <!-- Result will be shown here -->
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                question: "Apa yang bisa terjadi jika bergabung dengan grup yang salah?",
+                options: [
+                    "Mendapatkan banyak teman",
+                    "Merusak kesehatan mental, mengubah nilai hidup, dan menjerumuskan ke aktivitas ilegal",
+                    "Menjadi lebih pintar",
+                    "Tidak ada dampak apapun",
+                    "Menjadi lebih populer"
+                ],
+                correct: 1
+            },
+            {
+                number: 2,
+                question: "Grup penyalahgunaan narkoba sering menyamarkan diri dengan nama seperti:",
+                options: [
+                    "Grup Belajar Matematika",
+                    "Komunitas Pencari Ketenangan atau Trip Journey Indonesia",
+                    "Klub Olahraga",
+                    "Forum Diskusi Sains",
+                    "Grup Resep Masakan"
+                ],
+                correct: 1
+            },
+            {
+                number: 3,
+                question: "Apa yang terjadi pada fase indoktrinasi dalam grup radikalisasi?",
+                options: [
+                    "Memberikan hadiah kepada anggota",
+                    "Menanamkan ideologi ekstrem",
+                    "Mengajak jalan-jalan",
+                    "Memberikan beasiswa",
+                    "Mengadakan lomba"
+                ],
+                correct: 1
+            },
+            {
+                number: 4,
+                question: "Apa bahaya dari grup pro-bunuh diri dan self-harm?",
+                options: [
+                    "Memberikan motivasi hidup",
+                    "Menormalisasi pikiran untuk mengakhiri hidup dan memberikan metode menyakiti diri sendiri",
+                    "Memberikan konseling gratis",
+                    "Membantu mengatasi depresi",
+                    "Tidak ada bahaya"
+                ],
+                correct: 1
+            },
+            {
+                number: 5,
+                question: "Mengapa Generasi Z rentan terjerumus ke grup berbahaya?",
+                options: [
+                    "Karena mereka bodoh",
+                    "Karena pencarian identitas, algoritma manipulatif, kurang literasi digital kritis, dan FOMO",
+                    "Karena mereka tidak suka belajar",
+                    "Karena orang tua terlalu perhatian",
+                    "Karena tidak punya smartphone"
+                ],
+                correct: 1
+            },
+            {
+                number: 6,
+                question: "Apa yang dimaksud dengan \"Echo Chamber\" dalam konteks algoritma?",
+                options: [
+                    "Ruang yang memiliki suara gema",
+                    "Platform merekomendasikan konten serupa yang semakin ekstrem, menciptakan ruang gema yang memperkuat pandangan ekstrem",
+                    "Aplikasi untuk rekaman suara",
+                    "Fitur untuk video call",
+                    "Tempat untuk bermain game"
+                ],
+                correct: 1
+            },
+            {
+                number: 7,
+                question: "Apa tanda perilaku seseorang yang terpengaruh grup berbahaya?",
+                options: [
+                    "Menjadi lebih terbuka dan ceria",
+                    "Menjadi tertutup tentang aktivitas online dan menjauh dari keluarga",
+                    "Lebih rajin belajar",
+                    "Lebih sering membantu orang tua",
+                    "Tidak ada perubahan"
+                ],
+                correct: 1
+            },
+            {
+                number: 8,
+                question: "Apa yang dimaksud dengan \"Aturan 24 Jam\"?",
+                options: [
+                    "Main HP 24 jam non-stop",
+                    "Tunggu 24 jam sebelum bergabung dengan grup baru untuk membuat keputusan yang lebih rasional",
+                    "Tidur 24 jam sehari",
+                    "Belajar 24 jam tanpa henti",
+                    "Tidak boleh pakai HP selama 24 jam"
+                ],
+                correct: 1
+            },
+            {
+                number: 9,
+                question: "Apa yang harus dilakukan jika menemukan grup berbahaya?",
+                options: [
+                    "Langsung bergabung untuk tahu isinya",
+                    "Amankan bukti, laporkan ke platform, keluar dan blokir, cari dukungan",
+                    "Mengajak teman untuk bergabung",
+                    "Menyebarkan link grup ke banyak orang",
+                    "Membiarkan saja"
+                ],
+                correct: 1
+            },
+            {
+                number: 10,
+                question: "Apa kesimpulan utama dari artikel ini?",
+                options: [
+                    "Semua komunitas online berbahaya",
+                    "Gen Z harus dilarang pakai smartphone",
+                    "Solusinya adalah kolaborasi semua pihak dengan literasi digital yang tepat",
+                    "Internet harus ditutup",
+                    "Tidak ada solusi untuk masalah ini"
+                ],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz-container');
+            const q = questions[currentQuestion];
+            
+            let optionsHTML = '';
+            q.options.forEach((option, index) => {
+                optionsHTML += `
+                    <div class="option" onclick="checkAnswer(${index})">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
+            });
+
+            quizContainer.innerHTML = `
+                <div class="question-number">Soal ${q.number} dari ${questions.length}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">
+                    ${optionsHTML}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selectedIndex) {
+            const q = questions[currentQuestion];
+            
+            if (selectedIndex === q.correct) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+            }
+
+            currentQuestion++;
+
+            if (currentQuestion < questions.length) {
+                setTimeout(() => {
+                    displayQuestion();
+                }, 300);
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultContainer = document.getElementById('result-container');
+            resultContainer.classList.remove('hidden');
+
+            if (score < 100) {
+                resultContainer.innerHTML = `
+                    <div class="warning-icon">😢</div>
+                    <div class="result-title fail-title">JANGAN MENYERAH!<br>AYO ILANGI!</div>
+                    <p style="font-size: 24px; margin: 20px 0;">Skor Kamu: ${score}</p>
+                    <p style="font-size: 16px; color: #666; margin: 20px 0;">
+                        Keselamatan digital sangat penting! Baca lagi artikelnya dan coba lagi. Stay safe online! 🛡️
+                    </p>
+                    <button class="btn" onclick="restartQuiz()">Ilangi</button>
+                `;
+            } else {
+                createConfetti();
+                resultContainer.innerHTML = `
+                    <div class="shield-animation">🛡️</div>
+                    <div class="trophy">🏆</div>
+                    <div class="result-title success-title">KAMU HEBAT!</div>
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p style="font-size: 24px; margin: 20px 0; color: #27ae60; font-weight: bold;">
+                        Skor Sempurna: ${score}
+                    </p>
+                    <p style="font-size: 18px; margin: 20px 0;">
+                        🎉 Selamat! Kamu sudah memahami bahaya komunitas online! 🎉
+                    </p>
+                    <p style="font-size: 16px; margin: 20px 0; color: #666;">
+                        Sekarang waktunya praktik! Terapkan "Aturan 24 Jam" sebelum bergabung grup baru dan audit lingkar digital kamu secara rutin! 🔍
+                    </p>
+                    <p style="font-size: 14px; margin: 10px 0; color: #c0392b; font-weight: bold;">
+                        Ingat: Verifikasi dari minimal 3 sumber kredibel!
+                    </p>
+                    <a href="https://muin123-dr.github.io/HP/" class="btn" target="_blank">Naik Level</a>
+                `;
+            }
+        }
+
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('result-container').classList.add('hidden');
+            displayQuestion();
+        }
+
+        // Start the quiz
+        displayQuestion();
+    </script>
+</body>
+</html>
