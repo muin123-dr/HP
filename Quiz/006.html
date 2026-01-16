@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis: Erosi Keterampilan Sosial</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        /* --- Start Screen Styles --- */
+        #start-screen p {
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        /* --- Quiz UI Styles --- */
+        .score-container {
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin-bottom: 25px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.4s ease;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option:hover {
+            border-color: #3498db;
+            background-color: #f0f7ff;
+            transform: translateX(5px);
+        }
+
+        /* --- Wide Feedback Overlay with Flash --- */
+        #feedback-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            gap: 25px;
+        }
+
+        .feedback-icon { font-size: 80px; }
+        .feedback-text { font-size: 35px; font-weight: 900; text-transform: uppercase; }
+
+        .correct { color: #2ecc71; animation: bounce 0.5s ease; }
+        .wrong { color: #e74c3c; animation: shake 0.5s ease; }
+
+        /* Efek Flash */
+        #feedback-overlay.flashing::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            animation: flashAnim 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes flashAnim {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* --- Result Styles --- */
+        .result-icon { font-size: 70px; margin-bottom: 15px; }
+
+        /* --- Buttons --- */
+        .btn {
+            padding: 14px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .btn-start { background-color: #3498db; color: white; }
+        .btn-study { background-color: #95a5a6; color: white; }
+        .btn-levelup { background-color: #2ecc71; color: white; animation: pulse 1.5s infinite; }
+        .btn-restart { background-color: #e74c3c; color: white; }
+
+        .btn:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        /* Animations */
+        @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+
+        .confetti {
+            position: fixed; width: 10px; height: 10px;
+            animation: confetti-fall 3s linear infinite; z-index: 1000;
+        }
+        @keyframes confetti-fall { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
+        
+        <div id="start-screen">
+            <h1>Sudah siap melanjutkan Quiz?</h1>
+            <p>Jika belum klik tombol dibawah:</p>
+            <a href="https://muin123-dr.github.io/HP/006.html" class="btn btn-study">PELAJARI MATERI</a>
+            <p style="margin-top: 25px;">Jika sudah siap klik dibawah ini:</p>
+            <button class="btn btn-start" onclick="startQuiz()">MULAI!</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="score-container">Skor: <span id="score">0</span>/100</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div id="quiz-content"></div>
+        </div>
+
+        <div id="feedback-overlay">
+            <div id="feedback-icon" class="feedback-icon"></div>
+            <div id="feedback-text" class="feedback-text"></div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <div id="result-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            { question: "Apa yang dimaksud dengan erosi keterampilan sosial tatap muka?", options: ["Peningkatan kemampuan bicara", "Penurunan kemampuan interaksi tatap muka meski mahir di layar", "Kemampuan membaca emoji", "Keterampilan sosial untuk kerja"], correct: 1 },
+            { question: "Apa yang dimaksud dengan phubbing?", options: ["Mengabaikan ponsel", "Mengabaikan lawan bicara demi smartphone", "Menggunakan ponsel untuk hubungan sosial", "Mematikan ponsel saat kumpul"], correct: 1 },
+            { question: "Berapa persen komunikasi manusia terdiri dari sinyal non-verbal?", options: ["30%", "50%", "70%", "90%"], correct: 2 },
+            { question: "Mengapa Gen Z sering kesulitan membaca isyarat non-verbal?", options: ["Fokus pada tulisan", "Terbiasa teks datar dan emoji", "Kurang pendidikan formal", "Faktor genetika"], correct: 1 },
+            { question: "Apa yang sering dilakukan di dunia maya saat ada konflik?", options: ["Negosiasi", "Bicara langsung", "Block, mute, atau ghosting", "Minta bantuan mediasi"], correct: 2 },
+            { question: "Apa itu 'Paradoks Konektivitas'?", options: ["Banyak teman online = banyak teman nyata", "Punya ribuan followers tapi merasa kesepian", "Internet cepat = komunikasi lambat", "Sedikit teman online = bahagia"], correct: 1 },
+            { question: "Mengapa erosi keterampilan sosial bisa terjadi?", options: ["Otak tidak adaptif", "Prinsip 'use it or lose it' (tidak dilatih maka lemah)", "Sekolah tidak ada pelajaran sosial", "Orang tua terlalu ketat"], correct: 1 },
+            { question: "Dampak erosi keterampilan sosial dalam karier?", options: ["Multitasking meningkat", "Gagal wawancara karena tidak berani kontak mata", "Produktivitas naik", "Ketik semakin cepat"], correct: 1 },
+            { question: "Apa itu 'Phone Stacking'?", options: ["Menumpuk ponsel rusak", "Menumpuk ponsel saat makan, yang ambil duluan bayar tagihan", "Menyimpan ponsel di laci", "Mematikan ponsel"], correct: 1 },
+            { question: "Saran artikel untuk sekolah?", options: ["Hapus pelajaran IT", "Larang ponsel", "Ajarkan soft skills (debat, drama, presentasi)", "Perbanyak tugas online"], correct: 2 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('quiz-content');
+            const data = quizData[currentQuestion];
+            const progress = ((currentQuestion) / quizData.length) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+
+            let html = `<div class="question">Soal ${currentQuestion + 1}: ${data.question}</div><div class="options">`;
+            data.options.forEach((opt, i) => {
+                html += `<div class="option" onclick="processAnswer(${i})">${opt}</div>`;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        function processAnswer(idx) {
+            const overlay = document.getElementById('feedback-overlay');
+            const icon = document.getElementById('feedback-icon');
+            const text = document.getElementById('feedback-text');
+            const isCorrect = (idx === quizData[currentQuestion].correct);
+
+            if (isCorrect) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+                icon.innerHTML = "✅";
+                text.innerHTML = "BENAR!";
+                text.className = "feedback-text correct";
+            } else {
+                icon.innerHTML = "❌";
+                text.innerHTML = "SALAH!";
+                text.className = "feedback-text wrong";
+            }
+
+            overlay.style.display = 'flex';
+            overlay.classList.add('flashing');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                overlay.classList.remove('flashing');
+                currentQuestion++;
+                if (currentQuestion < quizData.length) {
+                    displayQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1500);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            const screen = document.getElementById('result-screen');
+            const content = document.getElementById('result-content');
+            screen.classList.remove('hidden');
+
+            if (score === 100) {
+                createConfetti();
+                content.innerHTML = `
+                    <div class="result-icon">🏆</div>
+                    <h1 style="color: #2ecc71;">KAMU HEBAT!</h1>
+                    <p>Skor Sempurna: <b>${score}/100</b></p>
+                    <p>Luar biasa! Kamu memahami pentingnya keterampilan sosial.</p>
+                    <a href="https://muin123-dr.github.io/HP/Quiz/007.html" class="btn btn-levelup">Naik Level!</a>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="result-icon">😢</div>
+                    <h1 style="color: #e74c3c;">JANGAN MENYERAH! AYO ULANGI!</h1>
+                    <p>Skor Kamu: <b>${score}/100</b></p>
+                    <button class="btn btn-restart" onclick="restartQuiz()">ULANGI!</button>
+                `;
+            }
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                c.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), 3000);
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = "0";
+            document.getElementById('result-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            displayQuestion();
+        }
+    </script>
+</body>
+</html>
