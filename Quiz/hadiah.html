@@ -570,7 +570,7 @@
             document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('success-page').classList.remove('hidden');
             
-            const waMsg = `🎉 *SELAMAT! Saya berhasil menyelesaikan Quiz Berhadiah Gen Zehat* 🎉\n\n📝 *Data Diri:*\n• Nama : ${userData.nama}\n• Kelas : ${userData.kelas}\n• Alamat : ${userData.alamat}\n\n🏆 *Apakah Saya termasuk 3 orang pertama yang dapat HADIAH Rp 50.000?*📱`;
+            const waMsg = `🎉 *ALHAMDULILLAH! Saya berhasil menyelesaikan Quiz Berhadiah Gen Zehat* 🎉\n\n📝 *Data Diri:*\n• Nama : ${userData.nama}\n• Kelas : ${userData.kelas}\n• Alamat : ${userData.alamat}\n\n🏆 *Apakah Saya termasuk 3 orang pertama yang dapat HADIAH Rp 50.000?*📱`;
             // Ganti angka 628xxx dengan nomor tujuan
             const waUrl = `https://wa.me/6285942970745?text=${encodeURIComponent(waMsg)}`;
             document.getElementById('wa-btn').onclick = () => window.open(waUrl, '_blank');
