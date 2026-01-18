@@ -193,17 +193,48 @@
 
 <script>
 const qs=[
-    {q:"Apa fokus utama artikel HP/010?",o:["Teknologi pendidikan","Dampak konsumsi media terhadap kesehatan mental","Panduan pemasaran","Statistik internet"],a:1},
-    {q:"Efek negatif paparan konten terus-menerus adalah?",o:["Peningkatan fokus","Desensitisasi terhadap emosi","Peningkatan empati","Perbaikan tidur"],a:1},
-    {q:"Kebiasaan yang memperburuk kondisi mental adalah?",o:["Batasi layar","Scrolling tanpa tujuan","Berolahraga","Tidur cukup"],a:1},
-    {q:"Strategi individu yang direkomendasikan?",o:["Abaikan privasi","Detoks digital","Tambah akun","Bagikan real time"],a:1},
-    {q:"Peran keluarga yang disarankan meliputi?",o:["Akses tanpa batas","Teladan dan aturan layar","Perangkat di meja makan","Ganti gadget"],a:1},
-    {q:"Dampak jangka panjang paparan konten negatif?",o:["Ketahanan meningkat","Gangguan kecemasan","Peningkatan sosial","Hubungan membaik"],a:1},
-    {q:"Solusi pendidikan yang diusulkan adalah?",o:["Hapus etika digital","Literasi media & proses","Ganti guru dengan AI","Kurangi kegiatan"],a:1},
-    {q:"Mengapa perbandingan sosial berbahaya?",o:["Lebih produktif","Standar tidak realistis","Meningkatkan syukur","Kurangi tekanan"],a:1},
-    {q:"Langkah praktis lindungi kesehatan mental saat online?",o:["Unggah semua","Tunda unggahan & batasi","Balas emosi","Gunakan satu app"],a:1},
-    {q:"Tujuan utama rekomendasi dalam artikel adalah?",o:["Tingkatkan engagement","Perkuat ketahanan mental","Kurangi internet","Promosi viral"],a:1}
+    
+ {q:"Apa topik utama yang dibahas dalam artikel HP/010?", 
+  o:["Permainan online","Pengaruh media sosial terhadap citra diri remaja","Cara membuat konten viral","Teknologi komputer"], 
+  a:1},
+
+ {q:"Mengapa media sosial dapat memengaruhi perasaan remaja?", 
+  o:["Karena membantu belajar","Karena menampilkan kehidupan yang terlihat sempurna","Karena selalu jujur","Karena mengurangi pertemanan"], 
+  a:1},
+
+ {q:"Apa dampak negatif jika terlalu sering membandingkan diri dengan orang lain di media sosial?", 
+  o:["Lebih percaya diri","Merasa tidak percaya diri","Lebih bahagia","Lebih bersyukur"], 
+  a:1},
+
+ {q:"Kebiasaan online yang dapat merusak kesehatan mental adalah…", 
+  o:["Belajar daring","Scrolling tanpa tujuan terlalu lama","Membaca buku digital","Berkomunikasi dengan guru"], 
+  a:1},
+
+ {q:"Apa yang dimaksud dengan ‘kehidupan ideal’ di media sosial?", 
+  o:["Kehidupan sehari-hari yang apa adanya","Kehidupan yang sudah dipilih dan diedit","Kehidupan sederhana","Kehidupan sekolah"], 
+  a:1},
+
+ {q:"Salah satu cara menjaga kesehatan mental saat menggunakan media sosial adalah…", 
+  o:["Mengunggah semua aktivitas","Membatasi waktu penggunaan gawai","Mengikuti semua tren","Selalu online"], 
+  a:1},
+
+ {q:"Apa peran keluarga yang disarankan dalam artikel?", 
+  o:["Membiarkan anak bebas bermain gawai","Memberi contoh dan aturan penggunaan gawai","Membeli ponsel baru","Tidak perlu peduli"], 
+  a:1},
+
+ {q:"Apa yang sebaiknya dilakukan siswa jika merasa tidak nyaman saat bermain media sosial?", 
+  o:["Terus memaksa diri online","Berhenti sejenak dan bicara dengan orang dewasa","Membandingkan diri","Mencari validasi"], 
+  a:1},
+
+ {q:"Mengapa media sosial tidak boleh dijadikan ukuran harga diri?", 
+  o:["Karena tidak menarik","Karena like dan komentar tidak mencerminkan nilai diri","Karena sulit digunakan","Karena membosankan"], 
+  a:1},
+
+ {q:"Tujuan utama saran dalam artikel HP/010 adalah…", 
+  o:["Menambah popularitas","Menjaga kesehatan mental remaja","Mengurangi belajar","Menghindari teknologi"], 
+  a:1}
 ];
+
 
 let idx=0, score=0, canChoose=true;
 
@@ -244,11 +275,11 @@ function choose(i){
 
     if(i === qs[idx].a) {
         score += 10;
-        notifIcon.textContent = 'v';
+        notifIcon.textContent = '✅';
         notifIcon.style.color = '#1b5e20';
         notifMsg.textContent = 'BENAR';
     } else {
-        notifIcon.textContent = 'x';
+        notifIcon.textContent = '❌';
         notifIcon.style.color = '#b71c1c';
         notifMsg.textContent = 'SALAH';
     }
