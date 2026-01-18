@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Modus Penipuan Smartphone</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            border: 3px solid #ff6b6b;
+        }
+        
+        .logo {
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 200px;
+            height: auto;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .question-container {
+            display: block;
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-weight: 600;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .option:hover {
+            background-color: #fff9e6;
+            border-color: #f1c40f;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(241, 196, 15, 0.2);
+        }
+        
+        .option.selected {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .option.correct {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.wrong {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .score-container {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 15px 0;
+            color: #ff6b6b;
+            font-weight: 600;
+            padding: 10px;
+            background: linear-gradient(135deg, #ffe8e8 0%, #fff5f5 100%);
+            border-radius: 10px;
+            border: 2px solid #ff6b6b;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #3498db 50%, #f1c40f 100%);
+            width: 10%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .splash-container {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .splash-title {
+            font-size: 2.5rem;
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .splash-subtitle {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .result-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .score-perfect {
+            color: #ff6b6b;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .score-low {
+            color: #2c3e50;
+        }
+        
+        .final-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+            color: #ff6b6b;
+            background: linear-gradient(135deg, #ff6b6b 0%, #3498db 50%, #f1c40f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .celebrations {
+            margin: 30px 0;
+        }
+        
+        .confetti {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin: 0 5px;
+            border-radius: 50%;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .confetti:nth-child(1) { background-color: #ff6b6b; animation-delay: 0s; }
+        .confetti:nth-child(2) { background-color: #3498db; animation-delay: 0.3s; }
+        .confetti:nth-child(3) { background-color: #f1c40f; animation-delay: 0.6s; }
+        .confetti:nth-child(4) { background-color: #ff6b6b; animation-delay: 0.9s; }
+        .confetti:nth-child(5) { background-color: #3498db; animation-delay: 1.2s; }
+        
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+            min-width: 220px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            display: none;
+        }
+        
+        .btn-next:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(41, 128, 185, 0.3);
+        }
+        
+        .btn-restart {
+            background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+            color: white;
+        }
+        
+        .btn-restart:hover {
+            background: linear-gradient(135deg, #e74c3c 0%, #ff6b6b 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-levelup {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: white;
+            animation: pulse-gold 1.5s infinite;
+        }
+        
+        .btn-levelup:hover {
+            background: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3);
+        }
+        
+        .btn-start {
+            background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+            color: white;
+            margin: 10px;
+        }
+        
+        .btn-start:hover {
+            background: linear-gradient(135deg, #e74c3c 0%, #ff6b6b 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-material {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            margin: 10px;
+        }
+        
+        .btn-material:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(41, 128, 185, 0.3);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 40px 60px;
+            border-radius: 20px;
+            font-size: 3rem;
+            font-weight: bold;
+            z-index: 1000;
+            display: none;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            animation: flash-red-yellow 1s ease-in-out;
+            min-width: 300px;
+        }
+        
+        .notification.correct {
+            background-color: #ffeb3b;
+            color: #155724;
+            border: 8px solid #ffc107;
+        }
+        
+        .notification.wrong {
+            background-color: #ffeb3b;
+            color: #721c24;
+            border: 8px solid #ffc107;
+        }
+        
+        .notification-emoji {
+            display: block;
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        .notification-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .champion-animation {
+            position: relative;
+            margin: 30px 0;
+        }
+        
+        .trophy {
+            font-size: 5rem;
+            animation: bounce 1s infinite alternate;
+            color: #f1c40f;
+        }
+        
+        .champion-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f1c40f;
+            margin-top: 10px;
+            animation: pulse 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .security-icons {
+            font-size: 3rem;
+            margin: 20px 0;
+        }
+        
+        .lock-animation {
+            font-size: 4rem;
+            animation: lock 2s ease-in-out infinite;
+            color: #3498db;
+        }
+        
+        @keyframes flash-red-yellow {
+            0% { 
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+                background-color: #ffeb3b;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+                background-color: #ff6b6b;
+                box-shadow: 0 0 80px rgba(255, 107, 107, 0.8);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+                background-color: #ffeb3b;
+            }
+        }
+        
+        @keyframes lock {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(241, 196, 15, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .question-counter {
+            text-align: right;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+            }
+            
+            .result-title {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                min-width: 200px;
+                padding: 12px 30px;
+            }
+            
+            .notification {
+                font-size: 2rem;
+                padding: 20px 40px;
+                min-width: 250px;
+            }
+            
+            .notification-emoji {
+                font-size: 4rem;
+            }
+            
+            .splash-title {
+                font-size: 2rem;
+            }
+            
+            .splash-subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification Element -->
+    <div class="notification" id="notification">
+        <div class="notification-emoji" id="notification-emoji"></div>
+        <div class="notification-text" id="notification-text"></div>
+    </div>
+    
+    <!-- Splash Screen -->
+    <div class="container" id="splash-container">
+        <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
+        <h1 class="splash-title">Sudah siap?!</h1>
+        <div class="security-icons">
+            🔒 📱 ⚠️
+        </div>
+        <div>
+            <button class="btn btn-material" id="material-btn">PELAJARI MATERI</button>
+            <button class="btn btn-start" id="start-btn">MULAI QUIZ</button>
+        </div>
+    </div>
+    
+    <!-- Quiz Container (Initially Hidden) -->
+    <div class="container" id="quiz-main-container" style="display: none;">
+        <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
+        <h1>Quiz Modus Penipuan Smartphone</h1>
+        <p class="subtitle">Uji pengetahuan Anda tentang berbagai modus penipuan smartphone dan cara melindungi diri</p>
+        
+        <div class="question-counter">
+            Soal: <span id="current-question">1</span>/10
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div class="score-container">
+            Skor: <span id="score">0</span>/100
+        </div>
+        
+        <div id="quiz-container">
+            <!-- Soal dan pilihan ganda akan dimuat di sini oleh JavaScript -->
+        </div>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-next" id="next-btn">Lanjut ke Soal Berikutnya</button>
+        </div>
+    </div>
+    
+    <!-- Result Container -->
+    <div class="container result-container" id="result-container">
+        <!-- Hasil akhir akan ditampilkan di sini -->
+    </div>
+
+    <script>
+        // Data soal kuis
+        const quizData = [
+            {
+                question: "Apa yang dimaksud dengan Vishing?",
+                options: [
+                    "Penipuan lewat video call",
+                    "Penipuan lewat telepon dengan menyamar sebagai pihak berwenang",
+                    "Penipuan lewat email",
+                    "Penipuan lewat game online",
+                    "Penipuan lewat marketplace"
+                ],
+                correct: 1
+            },
+            {
+                question: "Penipu dalam Vishing sering mengaku sebagai:",
+                options: [
+                    "Teman sekelas",
+                    "Petugas bank, polisi, pajak, atau keluarga",
+                    "Guru",
+                    "Tetangga",
+                    "Ojek online"
+                ],
+                correct: 1
+            },
+            {
+                question: "Ciri khas Vishing adalah:",
+                options: [
+                    "Nada bicara santai dan bersahabat",
+                    "Nada bicara mendesak, memaksa, dan melarang korban menutup telepon",
+                    "Memberikan hadiah gratis tanpa syarat",
+                    "Berbicara dengan sopan dan tidak mendesak",
+                    "Tidak pernah meminta data pribadi"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa yang dimaksud dengan Smishing?",
+                options: [
+                    "Penipuan lewat telepon",
+                    "Penipuan melalui WhatsApp, SMS, Telegram dengan pesan yang mengelabui",
+                    "Penipuan lewat email",
+                    "Penipuan lewat ATM",
+                    "Penipuan lewat toko online"
+                ],
+                correct: 1
+            },
+            {
+                question: "Contoh modus Smishing adalah:",
+                options: [
+                    "Datang langsung ke rumah",
+                    "Kabar menang hadiah undian palsu dengan link berbahaya atau pengakuan salah transfer",
+                    "Menelepon terus-menerus",
+                    "Mengirim surat pos",
+                    "Memasang iklan di TV"
+                ],
+                correct: 1
+            },
+            {
+                question: "File berbahaya yang sering dikirim penipu biasanya berformat:",
+                options: [
+                    ".jpg dan .png",
+                    ".apk, .pdf, .zip",
+                    ".mp3 dan .mp4",
+                    ".doc dan .txt",
+                    "Tidak ada format khusus"
+                ],
+                correct: 1
+            },
+            {
+                question: "Dampak dari menginstal file berbahaya adalah:",
+                options: [
+                    "HP menjadi lebih cepat",
+                    "Data SMS (termasuk OTP) terbaca penipu dan rekening bisa dikuras",
+                    "Baterai lebih awet",
+                    "Koneksi internet lebih cepat",
+                    "Tidak ada dampak apapun"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa yang dimaksud dengan SIM Swap?",
+                options: [
+                    "Menukar kartu SIM dengan teman",
+                    "Penipu mengambil alih nomor ponselmu untuk menerima OTP",
+                    "Mengganti provider telekomunikasi",
+                    "Membeli SIM card baru",
+                    "Upgrade kartu SIM ke 5G"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa yang harus dilakukan untuk melindungi diri dari penipuan?",
+                options: [
+                    "Selalu percaya pada semua telepon dan pesan",
+                    "Jangan panik, jangan berikan OTP/PIN, dan selalu verifikasi lewat saluran resmi",
+                    "Langsung transfer uang jika diminta",
+                    "Klik semua link yang diterima",
+                    "Memberikan data pribadi kepada siapa saja"
+                ],
+                correct: 1
+            },
+            {
+                question: "Apa kunci utama menghindari penipuan lewat smartphone?",
+                options: [
+                    "Membeli HP yang mahal",
+                    "Sikap skeptis dan selalu verifikasi",
+                    "Tidak pernah menggunakan smartphone",
+                    "Hanya menggunakan smartphone di rumah",
+                    "Berganti nomor setiap bulan"
+                ],
+                correct: 1
+            }
+        ];
+
+        // Variabel state kuis
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        
+        // Elemen DOM
+        const splashContainer = document.getElementById('splash-container');
+        const quizMainContainer = document.getElementById('quiz-main-container');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        const nextButton = document.getElementById('next-btn');
+        const scoreDisplay = document.getElementById('score');
+        const progressBar = document.getElementById('progress-bar');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const notification = document.getElementById('notification');
+        const notificationEmoji = document.getElementById('notification-emoji');
+        const notificationText = document.getElementById('notification-text');
+        const startBtn = document.getElementById('start-btn');
+        const materialBtn = document.getElementById('material-btn');
+        
+        // Fungsi untuk menampilkan notifikasi
+        function showNotification(isCorrect) {
+            if (isCorrect) {
+                notificationEmoji.innerHTML = "✅";
+                notificationText.textContent = "BENAR!";
+                notification.className = "notification correct";
+            } else {
+                notificationEmoji.innerHTML = "❌";
+                notificationText.textContent = "SALAH!";
+                notification.className = "notification wrong";
+            }
+            
+            notification.style.display = 'block';
+            
+            // Sembunyikan notifikasi setelah 1 detik dan lanjut ke soal berikutnya
+            setTimeout(() => {
+                notification.style.display = 'none';
+                nextQuestion();
+            }, 1000);
+        }
+        
+        // Fungsi untuk menampilkan soal saat ini
+        function displayQuestion() {
+            // Perbarui counter soal
+            currentQuestionDisplay.textContent = currentQuestion + 1;
+            
+            // Perbarui progress bar
+            const progressPercentage = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            // Dapatkan soal saat ini
+            const questionData = quizData[currentQuestion];
+            
+            // Buat HTML untuk soal dan pilihan
+            let questionHTML = `
+                <div class="question-container">
+                    <div class="question">${questionData.question}</div>
+                    <div class="options">
+            `;
+            
+            // Tambahkan pilihan jawaban
+            questionData.options.forEach((option, index) => {
+                let optionClass = "option";
+                // Jika pengguna sudah memilih jawaban untuk soal ini
+                if (userAnswers[currentQuestion] !== null) {
+                    if (index === questionData.correct) {
+                        optionClass += " correct";
+                    } else if (index === userAnswers[currentQuestion] && index !== questionData.correct) {
+                        optionClass += " wrong";
+                    }
+                    if (index === userAnswers[currentQuestion]) {
+                        optionClass += " selected";
+                    }
+                }
+                
+                questionHTML += `
+                    <div class="${optionClass}" data-index="${index}">
+                        ${String.fromCharCode(65 + index)}. ${option}
+                    </div>
+                `;
+            });
+            
+            questionHTML += `</div></div>`;
+            
+            // Tampilkan soal
+            quizContainer.innerHTML = questionHTML;
+            
+            // Sembunyikan tombol "Lanjut"
+            nextButton.style.display = 'none';
+            
+            // Jika pengguna sudah memilih jawaban untuk soal ini, tampilkan tombol "Lanjut"
+            if (userAnswers[currentQuestion] !== null) {
+                nextButton.style.display = 'inline-block';
+            }
+            
+            // Tambahkan event listener untuk pilihan
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', selectOption);
+            });
+        }
+        
+        // Fungsi untuk memilih opsi jawaban
+        function selectOption(e) {
+            // Hanya izinkan pemilihan jika belum memilih untuk soal ini
+            if (userAnswers[currentQuestion] !== null) return;
+            
+            const selectedOption = e.currentTarget;
+            const selectedIndex = parseInt(selectedOption.getAttribute('data-index'));
+            
+            // Simpan jawaban pengguna
+            userAnswers[currentQuestion] = selectedIndex;
+            
+            // Dapatkan data soal saat ini
+            const questionData = quizData[currentQuestion];
+            
+            // Hitung skor jika jawaban benar
+            if (selectedIndex === questionData.correct) {
+                score += 10;
+                scoreDisplay.textContent = score;
+            }
+            
+            // Tampilkan notifikasi
+            showNotification(selectedIndex === questionData.correct);
+            
+            // Tampilkan tombol "Lanjut" sebagai fallback
+            nextButton.style.display = 'inline-block';
+            
+            // Nonaktifkan semua opsi setelah memilih
+            document.querySelectorAll('.option').forEach(option => {
+                option.style.pointerEvents = 'none';
+            });
+        }
+        
+        // Fungsi untuk menampilkan soal berikutnya
+        function nextQuestion() {
+            // Pindah ke soal berikutnya
+            currentQuestion++;
+            
+            // Jika masih ada soal, tampilkan soal berikutnya
+            if (currentQuestion < quizData.length) {
+                displayQuestion();
+            } else {
+                // Jika tidak ada soal lagi, tampilkan hasil
+                showResult();
+            }
+        }
+        
+        // Fungsi untuk menampilkan hasil akhir
+        function showResult() {
+            // Sembunyikan kontainer kuis
+            quizMainContainer.style.display = 'none';
+            
+            // Tampilkan kontainer hasil
+            resultContainer.style.display = 'block';
+            
+            let resultHTML = `
+                <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
+            `;
+            
+            // Periksa apakah skor sempurna (100)
+            if (score === 100) {
+                // Buat efek konfeti
+                createConfetti();
+                
+                resultHTML += `
+                    <div class="celebrations">
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                        <div class="confetti"></div>
+                    </div>
+                    <div class="champion-animation">
+                        <div class="trophy">🏆</div>
+                        <div class="champion-text">SELAMAT! ANDA JUARA!</div>
+                    </div>
+                    <div class="lock-animation">🔒</div>
+                    <h1 class="result-title score-perfect">KAMU HEBAT!</h1>
+                    <p>Selamat! Anda telah menguasai semua konsep tentang modus penipuan smartphone dengan sempurna.</p>
+                    <div class="final-score">Skor Anda: ${score}/100</div>
+                    <p>Anda memahami berbagai ancaman digital dan cara melindungi diri dengan baik.</p>
+                    <div class="security-icons">
+                        🔒 🔐 📱 ✅
+                    </div>
+                    <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 15px; margin: 20px 0;">
+                        <p style="font-size: 16px; color: #856404; font-weight: bold;">
+                            ⚠️ 3 ATURAN EMAS:<br>
+                            1️⃣ Jangan Panik<br>
+                            2️⃣ Jangan Beri OTP/PIN<br>
+                            3️⃣ Verifikasi via Saluran Resmi
+                        </p>
+                    </div>
+                    <div style="margin-top: 40px;">
+                        <button class="btn btn-levelup" id="levelup-btn">Naik Level</button>
+                    </div>
+                `;
+            } else {
+                resultHTML += `
+                    <div class="lock-animation">🔒</div>
+                    <h1 class="result-title score-low">JANGAN MENYERAH!<br>AYO ULANGI!</h1>
+                    <div class="final-score">Skor Anda: ${score}/100</div>
+                    <p>Anda sudah memahami beberapa konsep, tetapi masih ada ruang untuk meningkatkan pemahaman tentang modus penipuan smartphone.</p>
+                    <p>Kewaspadaan adalah kunci! Baca lagi artikelnya dan coba lagi. Stay alert, stay safe!</p>
+                    <div class="security-icons">
+                        ⚠️ 📱 🔒
+                    </div>
+                    <div style="margin-top: 40px;">
+                        <button class="btn btn-restart" id="restart-btn">ULANGI!</button>
+                    </div>
+                `;
+            }
+            
+            resultContainer.innerHTML = resultHTML;
+            
+            // Tambahkan event listener untuk tombol
+            if (score === 100) {
+                document.getElementById('levelup-btn').addEventListener('click', function() {
+                    // Link ke halaman utama atau kuis berikutnya
+                    window.location.href = 'https://muin123-dr.github.io/HP/Quiz/';
+                });
+            } else {
+                document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+            }
+        }
+        
+        // Fungsi untuk membuat efek konfeti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#3498db', '#f1c40f', '#2ecc71', '#9b59b6', '#1abc9c'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-20px';
+                    confetti.style.width = '15px';
+                    confetti.style.height = '15px';
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.zIndex = '9999';
+                    confetti.style.animation = `float 3s ease-in-out ${Math.random() * 2}s infinite`;
+                    document.body.appendChild(confetti);
+                    
+                    // Hapus konfeti setelah animasi selesai
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+        
+        // Fungsi untuk memulai ulang kuis
+        function restartQuiz() {
+            // Reset state kuis
+            currentQuestion = 0;
+            score = 0;
+            userAnswers.fill(null);
+            
+            // Reset tampilan skor
+            scoreDisplay.textContent = '0';
+            
+            // Tampilkan kontainer kuis dan sembunyikan hasil
+            quizMainContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            // Tampilkan soal pertama
+            displayQuestion();
+        }
+        
+        // Event listener untuk tombol "MULAI QUIZ"
+        startBtn.addEventListener('click', function() {
+            splashContainer.style.display = 'none';
+            quizMainContainer.style.display = 'block';
+            displayQuestion();
+        });
+        
+        // Event listener untuk tombol "PELAJARI MATERI"
+        materialBtn.addEventListener('click', function() {
+            window.location.href = 'https://muin123-dr.github.io/HP/012.html';
+        });
+        
+        // Event listener untuk tombol "Lanjut" (sebagai fallback)
+        nextButton.addEventListener('click', nextQuestion);
+    </script>
+</body>
+</html>

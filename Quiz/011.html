@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Bahaya Komunitas Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Nuansa warna: Biru, Kuning, Cokelat */
+            background: linear-gradient(135deg, #2980b9 0%, #f1c40f 50%, #8d6e63 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px;
+            margin: 0 auto 20px auto;
+            display: block;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 26px;
+        }
+
+        /* Start Screen */
+        .start-text {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        /* Score Board */
+        .score-board {
+            background: #2980b9;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .question-container {
+            text-align: left;
+        }
+
+        .question-number {
+            color: #8d6e63;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .question-text {
+            font-size: 19px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        /* Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: #fdfefe;
+            border: 2px solid #d5dbdb;
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+
+        .option:hover {
+            background: #f9f2d1;
+            border-color: #f1c40f;
+            transform: translateX(5px);
+        }
+
+        /* Notification Flash */
+        #notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 280px;
+            height: 280px;
+            background: rgba(255, 243, 176, 0.95); /* Sinar flash kekuningan */
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 0 80px 40px rgba(241, 196, 15, 0.5);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        #notification.active {
+            transform: translate(-50%, -50%) scale(1);
+            animation: flash-animation 1s forwards;
+        }
+
+        @keyframes flash-animation {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        .notif-icon {
+            font-size: 100px;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .notif-msg {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Results */
+        .result-container {
+            text-align: center;
+        }
+
+        .champ-title {
+            color: #27ae60;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            animation: winner-glow 1.5s infinite;
+        }
+
+        @keyframes winner-glow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px #27ae60); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 20px #27ae60); }
+        }
+
+        /* Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .btn-mulai { background: #2980b9; color: white; }
+        .btn-materi { background: #f1c40f; color: #2c3e50; }
+        .btn-ulangi { background: #e74c3c; color: white; }
+        .btn-level { background: #27ae60; color: white; animation: bounce 1s infinite; }
+
+        .btn:hover { transform: scale(1.05); }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hidden { display: none !important; }
+        
+        .trophy { font-size: 80px; margin: 20px 0; display: block; }
+    </style>
+</head>
+<body>
+
+    <div id="notification">
+        <div id="notif-icon" class="notif-icon"></div>
+        <div id="notif-text" class="notif-msg"></div>
+    </div>
+
+    <div class="container">
+        <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
+
+        <div id="start-screen">
+            <p class="start-text">Sudah siap mengikuti Quiz!</p>
+            
+            <a href="https://muin123-dr.github.io/HP/011.html" class="btn btn-materi">PELAJARI MATERI</a>
+            
+            
+            <button class="btn btn-mulai" onclick="startQuiz()">MULAI</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <h1>Quiz ke 11</h1>
+            <div class="score-board">
+                Skor: <span id="score">0</span>
+            </div>
+            <div id="quiz-container" class="question-container"></div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <div id="result-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                number: 1,
+                question: "Apa yang bisa terjadi jika bergabung dengan grup yang salah?",
+                options: ["Mendapatkan banyak teman", "Merusak kesehatan mental, mengubah nilai hidup, dan menjerumuskan ke aktivitas ilegal", "Menjadi lebih pintar", "Tidak ada dampak apapun", "Menjadi lebih populer"],
+                correct: 1
+            },
+            {
+                number: 2,
+                question: "Grup penyalahgunaan narkoba sering menyamarkan diri dengan nama seperti:",
+                options: ["Grup Belajar Matematika", "Komunitas Pencari Ketenangan atau Trip Journey Indonesia", "Klub Olahraga", "Forum Diskusi Sains", "Grup Resep Masakan"],
+                correct: 1
+            },
+            {
+                number: 3,
+                question: "Apa yang terjadi pada fase indoktrinasi dalam grup radikalisasi?",
+                options: ["Memberikan hadiah kepada anggota", "Menanamkan ideologi ekstrem", "Mengajak jalan-jalan", "Memberikan beasiswa", "Mengadakan lomba"],
+                correct: 1
+            },
+            {
+                number: 4,
+                question: "Apa bahaya dari grup pro-bunuh diri dan self-harm?",
+                options: ["Memberikan motivasi hidup", "Menormalisasi pikiran untuk mengakhiri hidup dan memberikan metode menyakiti diri sendiri", "Memberikan konseling gratis", "Membantu mengatasi depresi", "Tidak ada bahaya"],
+                correct: 1
+            },
+            {
+                number: 5,
+                question: "Mengapa Generasi Z rentan terjerumus ke grup berbahaya?",
+                options: ["Karena mereka bodoh", "Karena pencarian identitas, algoritma manipulatif, kurang literasi digital kritis, dan FOMO", "Karena mereka tidak suka belajar", "Karena orang tua terlalu perhatian", "Karena tidak punya smartphone"],
+                correct: 1
+            },
+            {
+                number: 6,
+                question: "Apa yang dimaksud dengan \"Echo Chamber\" dalam konteks algoritma?",
+                options: ["Ruang yang memiliki suara gema", "Platform merekomendasikan konten serupa yang semakin ekstrem, menciptakan ruang gema yang memperkuat pandangan ekstrem", "Aplikasi untuk rekaman suara", "Fitur untuk video call", "Tempat untuk bermain game"],
+                correct: 1
+            },
+            {
+                number: 7,
+                question: "Apa tanda perilaku seseorang yang terpengaruh grup berbahaya?",
+                options: ["Menjadi lebih terbuka dan ceria", "Menjadi tertutup tentang aktivitas online dan menjauh dari keluarga", "Lebih rajin belajar", "Lebih sering membantu orang tua", "Tidak ada perubahan"],
+                correct: 1
+            },
+            {
+                number: 8,
+                question: "Apa yang dimaksud dengan \"Aturan 24 Jam\"?",
+                options: ["Main HP 24 jam non-stop", "Tunggu 24 jam sebelum bergabung dengan grup baru untuk membuat keputusan yang lebih rasional", "Tidur 24 jam sehari", "Belajar 24 jam tanpa henti", "Tidak boleh pakai HP selama 24 jam"],
+                correct: 1
+            },
+            {
+                number: 9,
+                question: "Apa yang harus dilakukan jika menemukan grup berbahaya?",
+                options: ["Langsung bergabung untuk tahu isinya", "Amankan bukti, laporkan ke platform, keluar dan blokir, cari dukungan", "Mengajak teman untuk bergabung", "Menyebarkan link grup ke banyak orang", "Membiarkan saja"],
+                correct: 1
+            },
+            {
+                number: 10,
+                question: "Apa kesimpulan utama dari artikel ini?",
+                options: ["Semua komunitas online berbahaya", "Gen Z harus dilarang pakai smartphone", "Solusinya adalah kolaborasi semua pihak dengan literasi digital yang tepat", "Internet harus ditutup", "Tidak ada solusi untuk masalah ini"],
+                correct: 2
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let canClick = true;
+
+        function startQuiz() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const container = document.getElementById('quiz-container');
+            const q = questions[currentQuestion];
+            
+            let optionsHTML = '';
+            q.options.forEach((opt, idx) => {
+                optionsHTML += `<div class="option" onclick="handleAnswer(${idx})">${String.fromCharCode(65 + idx)}. ${opt}</div>`;
+            });
+
+            container.innerHTML = `
+                <div class="question-number">Soal ${q.number} dari ${questions.length}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">${optionsHTML}</div>
+            `;
+            canClick = true;
+        }
+
+        function handleAnswer(selected) {
+            if (!canClick) return;
+            canClick = false;
+
+            const q = questions[currentQuestion];
+            const notif = document.getElementById('notification');
+            const notifIcon = document.getElementById('notif-icon');
+            const notifText = document.getElementById('notif-text');
+
+            if (selected === q.correct) {
+                score += 10;
+                document.getElementById('score').textContent = score;
+                notifIcon.textContent = "v";
+                notifIcon.style.color = "#27ae60";
+                notifText.textContent = "BENAR";
+            } else {
+                notifIcon.textContent = "x";
+                notifIcon.style.color = "#e74c3c";
+                notifText.textContent = "SALAH";
+            }
+
+            notif.classList.add('active');
+
+            setTimeout(() => {
+                notif.classList.remove('active');
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    displayQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        function showResult() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            const screen = document.getElementById('result-screen');
+            const content = document.getElementById('result-content');
+            screen.classList.remove('hidden');
+
+            if (score === 100) {
+                content.innerHTML = `
+                    <div class="champ-title">🎉 KAMU HEBAT! 🎉</div>
+                    <span class="trophy">🏆</span>
+                    <p style="font-size: 20px; margin-bottom: 20px;">Skor Sempurna: <strong>${score}</strong></p>
+                    <p style="margin-bottom: 25px;">Selamat! Kamu telah menjadi juara dalam memahami bahaya komunitas online. Tetaplah waspada!</p>
+                    <a href="https://muin123-dr.github.io/HP/Quiz/012.html" class="btn btn-level">Naik Level</a>
+                `;
+            } else {
+                content.innerHTML = `
+                    <h2 style="color: #e74c3c; margin-bottom: 15px;">JANGAN MENYERAH!<br>AYO ULANGI!</h2>
+                    <div style="font-size: 60px; margin: 20px 0;">💪</div>
+                    <p style="font-size: 20px; margin-bottom: 20px;">Skor Kamu: ${score}</p>
+                    <button class="btn btn-ulangi" onclick="location.reload()">ULANGI!</button>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

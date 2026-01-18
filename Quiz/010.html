@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis: Dampak Konsumsi Media</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Nuansa warna Hijau Kuning Merah pada background */
+            background: linear-gradient(135deg, #2e7d32 0%, #fbc02d 50%, #d32f2f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .card {
+            max-width: 600px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 120px;
+            margin: 0 auto 20px auto;
+            display: block;
+        }
+
+        h1 {
+            color: #1f2937;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* Tombol Umum */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+            text-align: left;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #fef9c3; /* Kuning muda */
+            border-color: #fbc02d;
+            transform: scale(1.02);
+        }
+
+        .btn-action {
+            background: #2e7d32; /* Hijau */
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-study {
+            background: #fbc02d; /* Kuning */
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+            text-decoration: none;
+        }
+
+        /* Notifikasi Flash */
+        #notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 235, 59, 0.9); /* Sinar flash kekuningan */
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 0 100px 50px rgba(255, 235, 59, 0.6);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        #notification.active {
+            transform: translate(-50%, -50%) scale(1.2);
+            animation: flash-pulse 1s forwards;
+        }
+
+        @keyframes flash-pulse {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        .notif-icon {
+            font-size: 80px;
+            font-weight: bold;
+        }
+
+        .notif-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Skor & Hasil */
+        #status {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #4b5563;
+        }
+
+        .champ {
+            font-size: 32px;
+            color: #2e7d32;
+            font-weight: bold;
+            animation: pop 0.8s infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pop {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .winner-anim {
+            display: inline-block;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="notification">
+        <div id="notif-content" class="notif-icon"></div>
+        <div id="notif-msg" class="notif-text"></div>
+    </div>
+
+    <div class="card">
+        <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
+
+        <div id="start-screen">
+            <h1>Siap Lanjut Quiz!</h1>
+            
+            <a href="https://muin123-dr.github.io/HP/010.html" class="btn btn-study">PELAJARI MATERI</a>
+            
+            
+            <button class="btn btn-action" onclick="startQuiz()">MULAI</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <h1 id="question-title">Kuis: ke 10</h1>
+            <div id="quiz-content"></div>
+            <div id="status"></div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <div id="result-body"></div>
+        </div>
+    </div>
+
+<script>
+const qs=[
+    {q:"Apa fokus utama artikel HP/010?",o:["Teknologi pendidikan","Dampak konsumsi media terhadap kesehatan mental","Panduan pemasaran","Statistik internet"],a:1},
+    {q:"Efek negatif paparan konten terus-menerus adalah?",o:["Peningkatan fokus","Desensitisasi terhadap emosi","Peningkatan empati","Perbaikan tidur"],a:1},
+    {q:"Kebiasaan yang memperburuk kondisi mental adalah?",o:["Batasi layar","Scrolling tanpa tujuan","Berolahraga","Tidur cukup"],a:1},
+    {q:"Strategi individu yang direkomendasikan?",o:["Abaikan privasi","Detoks digital","Tambah akun","Bagikan real time"],a:1},
+    {q:"Peran keluarga yang disarankan meliputi?",o:["Akses tanpa batas","Teladan dan aturan layar","Perangkat di meja makan","Ganti gadget"],a:1},
+    {q:"Dampak jangka panjang paparan konten negatif?",o:["Ketahanan meningkat","Gangguan kecemasan","Peningkatan sosial","Hubungan membaik"],a:1},
+    {q:"Solusi pendidikan yang diusulkan adalah?",o:["Hapus etika digital","Literasi media & proses","Ganti guru dengan AI","Kurangi kegiatan"],a:1},
+    {q:"Mengapa perbandingan sosial berbahaya?",o:["Lebih produktif","Standar tidak realistis","Meningkatkan syukur","Kurangi tekanan"],a:1},
+    {q:"Langkah praktis lindungi kesehatan mental saat online?",o:["Unggah semua","Tunda unggahan & batasi","Balas emosi","Gunakan satu app"],a:1},
+    {q:"Tujuan utama rekomendasi dalam artikel adalah?",o:["Tingkatkan engagement","Perkuat ketahanan mental","Kurangi internet","Promosi viral"],a:1}
+];
+
+let idx=0, score=0, canChoose=true;
+
+function startQuiz() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    render();
+}
+
+function render(){
+    const c = document.getElementById('quiz-content');
+    c.innerHTML = '';
+    const q = qs[idx];
+    
+    const qText = document.createElement('p');
+    qText.innerHTML = `<strong>${idx+1}. ${q.q}</strong>`;
+    qText.style.marginBottom = "15px";
+    c.appendChild(qText);
+
+    q.o.forEach((opt, i) => {
+        const b = document.createElement('button');
+        b.className = 'btn';
+        b.textContent = opt;
+        b.onclick = () => choose(i);
+        c.appendChild(b);
+    });
+    
+    document.getElementById('status').textContent = `Skor: ${score} | Soal: ${idx+1}/${qs.length}`;
+}
+
+function choose(i){
+    if(!canChoose) return;
+    canChoose = false;
+
+    const notif = document.getElementById('notification');
+    const notifIcon = document.getElementById('notif-content');
+    const notifMsg = document.getElementById('notif-msg');
+
+    if(i === qs[idx].a) {
+        score += 10;
+        notifIcon.textContent = 'v';
+        notifIcon.style.color = '#1b5e20';
+        notifMsg.textContent = 'BENAR';
+    } else {
+        notifIcon.textContent = 'x';
+        notifIcon.style.color = '#b71c1c';
+        notifMsg.textContent = 'SALAH';
+    }
+
+    notif.classList.add('active');
+
+    // Tunggu 1 detik sesuai permintaan
+    setTimeout(() => {
+        notif.classList.remove('active');
+        idx++;
+        canChoose = true;
+        
+        if(idx < qs.length) {
+            render();
+        } else {
+            finish();
+        }
+    }, 1000);
+}
+
+function finish(){
+    document.getElementById('quiz-screen').classList.add('hidden');
+    const res = document.getElementById('result-screen');
+    const body = document.getElementById('result-body');
+    res.classList.remove('hidden');
+
+    if(score === 100){
+        body.innerHTML = `
+            <div class="champ">🎉 KAMU HEBAT! 🎉</div>
+            <div style="font-size: 60px; margin: 20px 0;">🏆</div>
+            <p style="font-size: 18px; margin-bottom: 20px;">Skor Sempurna: <strong>${score}</strong></p>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+                <span class="winner-anim" style="font-size: 30px;">🎊</span>
+                <a href="https://muin123-dr.github.io/HP/Quiz/011.html" class="btn btn-action" style="width: auto; padding: 15px 30px;">Naik Level</a>
+                <span class="winner-anim" style="font-size: 30px;">🎊</span>
+            </div>
+        `;
+    } else {
+        body.innerHTML = `
+            <h2 style="color: #d32f2f; margin-bottom: 10px;">JANGAN MENYERAH!<br>AYO ULANGI!</h2>
+            <div style="font-size: 50px; margin: 15px 0;">💪</div>
+            <p style="margin-bottom: 20px;">Skor Kamu: ${score}</p>
+            <button class="btn btn-action" onclick="retry()" style="background: #d32f2f;">ULANGI!</button>
+        `;
+    }
+}
+
+function retry(){
+    idx = 0;
+    score = 0;
+    document.getElementById('result-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
