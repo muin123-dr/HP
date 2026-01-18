@@ -473,7 +473,7 @@
     <!-- Quiz Container (Initially Hidden) -->
     <div class="container" id="quiz-main-container" style="display: none;">
         <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
-        <h1>Quiz Modus Penipuan Smartphone</h1>
+        <h1>Quiz ke 12</h1>
         <p class="subtitle">Uji pengetahuan Anda tentang berbagai modus penipuan smartphone dan cara melindungi diri</p>
         
         <div class="question-counter">
@@ -520,12 +520,12 @@
                 question: "Penipu dalam Vishing sering mengaku sebagai:",
                 options: [
                     "Teman sekelas",
-                    "Petugas bank, polisi, pajak, atau keluarga",
                     "Guru",
                     "Tetangga",
+		    "Petugas bank, polisi, pajak, atau keluarga",
                     "Ojek online"
                 ],
-                correct: 1
+                correct: 3
             },
             {
                 question: "Ciri khas Vishing adalah:",
@@ -542,12 +542,12 @@
                 question: "Apa yang dimaksud dengan Smishing?",
                 options: [
                     "Penipuan lewat telepon",
-                    "Penipuan melalui WhatsApp, SMS, Telegram dengan pesan yang mengelabui",
                     "Penipuan lewat email",
                     "Penipuan lewat ATM",
+		    "Penipuan melalui WhatsApp, SMS, Telegram dengan pesan yang mengelabui",
                     "Penipuan lewat toko online"
                 ],
-                correct: 1
+                correct: 3
             },
             {
                 question: "Contoh modus Smishing adalah:",
@@ -564,12 +564,12 @@
                 question: "File berbahaya yang sering dikirim penipu biasanya berformat:",
                 options: [
                     ".jpg dan .png",
-                    ".apk, .pdf, .zip",
                     ".mp3 dan .mp4",
                     ".doc dan .txt",
-                    "Tidak ada format khusus"
+                    "Tidak ada format khusus",
+		    ".apk, .pdf, .zip"
                 ],
-                correct: 1
+                correct: 4
             },
             {
                 question: "Dampak dari menginstal file berbahaya adalah:",
@@ -585,13 +585,13 @@
             {
                 question: "Apa yang dimaksud dengan SIM Swap?",
                 options: [
-                    "Menukar kartu SIM dengan teman",
                     "Penipu mengambil alih nomor ponselmu untuk menerima OTP",
+		    "Menukar kartu SIM dengan teman",
                     "Mengganti provider telekomunikasi",
                     "Membeli SIM card baru",
                     "Upgrade kartu SIM ke 5G"
                 ],
-                correct: 1
+                correct: 0
             },
             {
                 question: "Apa yang harus dilakukan untuk melindungi diri dari penipuan?",
@@ -608,12 +608,12 @@
                 question: "Apa kunci utama menghindari penipuan lewat smartphone?",
                 options: [
                     "Membeli HP yang mahal",
-                    "Sikap skeptis dan selalu verifikasi",
                     "Tidak pernah menggunakan smartphone",
                     "Hanya menggunakan smartphone di rumah",
+		    "Sikap skeptis dan selalu verifikasi",
                     "Berganti nomor setiap bulan"
                 ],
-                correct: 1
+                correct: 3
             }
         ];
 
@@ -791,26 +791,22 @@
                     </div>
                     <div class="champion-animation">
                         <div class="trophy">🏆</div>
-                        <div class="champion-text">SELAMAT! ANDA JUARA!</div>
+                        <div class="champion-text">SELANGKAH LAGI! <br>ANDA BISA JUARA!</div>
                     </div>
                     <div class="lock-animation">🔒</div>
                     <h1 class="result-title score-perfect">KAMU HEBAT!</h1>
-                    <p>Selamat! Anda telah menguasai semua konsep tentang modus penipuan smartphone dengan sempurna.</p>
                     <div class="final-score">Skor Anda: ${score}/100</div>
-                    <p>Anda memahami berbagai ancaman digital dan cara melindungi diri dengan baik.</p>
-                    <div class="security-icons">
-                        🔒 🔐 📱 ✅
-                    </div>
+                    
                     <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 15px; margin: 20px 0;">
-                        <p style="font-size: 16px; color: #856404; font-weight: bold;">
-                            ⚠️ 3 ATURAN EMAS:<br>
-                            1️⃣ Jangan Panik<br>
-                            2️⃣ Jangan Beri OTP/PIN<br>
-                            3️⃣ Verifikasi via Saluran Resmi
+                        <p style="font-size: 12px; color: #856404; font-weight: bold;">
+                            ⚠️ 3 ATURAN DAPAT 50.000:<br>
+                            1️⃣ Jadilah 3 orang pertama yang KLAIM HADIAH<br>
+                            2️⃣ KLAIM harus sampai kirim nomor WA<br>
+                            3️⃣ Lanjutkan ke Level Hadiah ⬇️
                         </p>
                     </div>
                     <div style="margin-top: 40px;">
-                        <button class="btn btn-levelup" id="levelup-btn">Naik Level</button>
+                        <button class="btn btn-levelup" id="levelup-btn">Level Hadiah</button>
                     </div>
                 `;
             } else {
@@ -835,7 +831,7 @@
             if (score === 100) {
                 document.getElementById('levelup-btn').addEventListener('click', function() {
                     // Link ke halaman utama atau kuis berikutnya
-                    window.location.href = 'https://muin123-dr.github.io/HP/Quiz/';
+                    window.location.href = 'https://muin123-dr.github.io/HP/Quiz/hadiah.html';
                 });
             } else {
                 document.getElementById('restart-btn').addEventListener('click', restartQuiz);
