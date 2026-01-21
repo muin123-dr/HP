@@ -345,7 +345,6 @@
 </head>
 <body>
 
-    <!-- Background Icons -->
     <div class="bg-icons" id="bg-icons"></div>
 
     <div id="feedback-overlay">
@@ -355,9 +354,6 @@
     <div id="start-page" class="container">
         <img src="https://muin123-dr.github.io/Website/gen%20zehat.png" alt="Logo" class="logo">
         <h2 class="glow-text">🎯 QUIZ SPESIAL 🎯<br> BERHADIAH</h2>
-        
-        
-        <!-- Icon Row -->
         <div class="icon-row">
             <div class="icon-item">📱</div>
             <div class="icon-item">💬</div>
@@ -378,7 +374,6 @@
             <h3 id="question-text" class="glow-text"></h3>
             <div id="options" class="options-container"></div>
         </div>
-        
         <div class="icon-row" style="margin-top: 30px;">
             <div class="icon-item">⏰</div>
             <div class="icon-item">❓</div>
@@ -390,18 +385,15 @@
     <div id="success-page" class="container hidden">
         <span class="winner-anim">🏆🎉</span>
         <h2 class="glow-text">SELAMAT! 🎊</h2>
-        <h3 style="color: #4caf50;">ANDA BERKESEMPATAN DAPAT HADIAH!</h3>
-        
+        <h3 id="text-status" style="color: #4caf50;">ANDA BERKESEMPATAN DAPAT HADIAH!</h3>
         <div class="icon-row">
             <div class="icon-item">💰</div>
             <div class="icon-item">🎁</div>
             <div class="icon-item">🏅</div>
         </div>
-        
         <button id="wa-btn">📱 KLAIM HADIAH SEKARANG!</button>
         <p class="subtitle">
-            ⚡ <strong>BURUAN!</strong> Jika kamu termasuk 3 orang pertama yang mengirim WA "KLAIM HADIAH", 
-            kamu berhak mendapatkan <strong>Rp 50.000</strong>!
+            ⚡ <strong>BURUAN!</strong> Jika kamu termasuk 3 orang pertama yang mengirim WA "KLAIM HADIAH", kamu berhak mendapatkan <strong>Rp 50.000</strong>!
         </p>
     </div>
 
@@ -409,20 +401,20 @@
         <div style="font-size: 5rem; animation: celebrate 1s infinite alternate;">💡</div>
         <h2 class="glow-text">JANGAN MENYERAH!</h2>
         <h3 style="color: #d32f2f;">AYO COBA LAGI DAN RAIH KEMENANGAN! 💪</h3>
-        
         <div class="icon-row">
             <div class="icon-item">🔄</div>
             <div class="icon-item">🔥</div>
             <div class="icon-item">🚀</div>
         </div>
-        
         <button onclick="location.reload()">🔄 ULANGI QUIZ</button>
-        <p class="subtitle">
-            Setiap kesalahan adalah langkah menuju kesuksesan. Pelajari lagi dan coba sekali lagi!
-        </p>
+        <p class="subtitle">Setiap kesalahan adalah langkah menuju kesuksesan. Pelajari lagi dan coba sekali lagi!</p>
     </div>
 
     <script>
+        // --- KONFIGURASI SINKRONISASI ---
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwBacE9ADi7OdUi9EVqu_a-rI2AOiPTGRXzDiXr6pg-9xSN_uArgMLDgaVi9PXlHyotIg/exec'; // <--- GANTI INI DENGAN URL APPS SCRIPT ANDA
+        const WA_ADMIN = '+6289695177102';
+
         const questions = [
             { q: "Contoh dampak negatif dari suka membandingkan diri adalah:", a: ["Menjadi lebih rajin belajar", "Lebih banyak teman", "Diet ketat sampai sakit atau nekat ambil pinjol", "Lebih percaya diri", "Menjadi lebih bahagia"], correct: 2 },
             { q: "Apa yang dimaksud dengan efek 'Mesin Judi' pada smartphone?", a: ["HP bisa dipakai untuk judi online", "HP bisa mengeluarkan uang seperti mesin ATM", "Semua game di HP adalah judi", "HP berbunyi seperti mesin kasino", "Notifikasi, like, dan pesan muncul tidak menentu sehingga bikin penasaran"], correct: 4 },
@@ -441,57 +433,39 @@
             { q: "Contoh modus Smishing adalah:", a: ["Datang ke rumah", "Menang undian palsu dengan link berbahaya atau salah transfer", "Menelepon terus", "Mengirim surat pos", "Memasang iklan TV"], correct: 1 }
         ];
 
-        // Background Icons Generator
-        function createBackgroundIcons() {
-            const bgIcons = document.getElementById('bg-icons');
-            const icons = ['📱', '💬', '📞', '📶', '🔒', '⏰', '❓', '💡', '🎯', '💰', '🎁', '🏆', '📨', '📲', '📡', '🔔', '🔑', '🛡️', '⚠️', '✅', '❌', '✨', '🎮', '🌐'];
-            
-            for (let i = 0; i < 25; i++) {
-                const icon = document.createElement('div');
-                icon.className = 'bg-icon';
-                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
-                
-                // Random position
-                icon.style.left = Math.random() * 100 + '%';
-                icon.style.top = Math.random() * 100 + '%';
-                
-                // Random size
-                const size = 0.5 + Math.random() * 2.5;
-                icon.style.fontSize = size + 'rem';
-                
-                // Random animation speed
-                const duration = 10 + Math.random() * 20;
-                icon.style.animationDuration = duration + 's';
-                
-                // Random animation delay
-                const delay = Math.random() * 5;
-                icon.style.animationDelay = delay + 's';
-                
-                bgIcons.appendChild(icon);
-            }
-        }
-
         let currentQuestionIndex = 0;
-        let timeLeft = 150;
+        let timeLeft = 250;
         let timerId;
         let userData = {};
         let shuffledQuestions = [];
         let wrongAnswers = 0;
 
+        function createBackgroundIcons() {
+            const bgIcons = document.getElementById('bg-icons');
+            const icons = ['📱', '💬', '📞', '📶', '🔒', '⏰', '❓', '💡', '🎯', '💰', '🎁', '🏆', '📨', '📲', '📡', '🔔', '🔑', '🛡️', '⚠️', '✅', '❌', '✨', '🎮', '🌐'];
+            for (let i = 0; i < 25; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'bg-icon';
+                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+                icon.style.left = Math.random() * 100 + '%';
+                icon.style.top = Math.random() * 100 + '%';
+                icon.style.fontSize = (0.5 + Math.random() * 2.5) + 'rem';
+                icon.style.animationDuration = (10 + Math.random() * 20) + 's';
+                icon.style.animationDelay = (Math.random() * 5) + 's';
+                bgIcons.appendChild(icon);
+            }
+        }
+
         function startQuiz() {
             userData.nama = document.getElementById('nama').value;
             userData.kelas = document.getElementById('kelas').value;
             userData.alamat = document.getElementById('alamat').value;
-
             if(!userData.nama || !userData.kelas || !userData.alamat) {
                 alert("Mohon isi semua data terlebih dahulu! ✏️");
                 return;
             }
-
             document.getElementById('start-page').classList.add('hidden');
             document.getElementById('quiz-page').classList.remove('hidden');
-            
-            // Acak soal
             shuffledQuestions = questions.sort(() => Math.random() - 0.5);
             startTimer();
             showQuestion();
@@ -501,10 +475,7 @@
             timerId = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timer-box').innerText = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timerId);
-                    showFail();
-                }
+                if (timeLeft <= 0) { clearInterval(timerId); showFail(); }
             }, 1000);
         }
 
@@ -513,8 +484,6 @@
             document.getElementById('question-text').innerText = `${currentQuestionIndex + 1}. ${q.q}`;
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = '';
-
-            // Render opsi jawaban
             q.a.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -528,7 +497,6 @@
             const isCorrect = selectedIndex === shuffledQuestions[currentQuestionIndex].correct;
             const overlay = document.getElementById('feedback-overlay');
             const content = document.getElementById('feedback-content');
-
             if (!isCorrect) {
                 wrongAnswers++;
                 content.innerHTML = "❌ SALAH";
@@ -537,43 +505,79 @@
                 content.innerHTML = "✅ BENAR";
                 content.style.color = "#4CAF50";
             }
-
-            // Jalankan animasi flash
             overlay.classList.remove('flash-active');
             void overlay.offsetWidth;
             overlay.classList.add('flash-active');
-
-            // Pindah ke soal berikutnya setelah animasi
             setTimeout(() => {
                 overlay.classList.remove('flash-active');
                 currentQuestionIndex++;
-                
-                if (currentQuestionIndex < shuffledQuestions.length) {
-                    showQuestion();
-                } else {
-                    finishQuiz();
-                }
+                if (currentQuestionIndex < shuffledQuestions.length) { showQuestion(); } 
+                else { finishQuiz(); }
             }, 800);
         }
 
         function finishQuiz() {
             clearInterval(timerId);
-            // Syarat Berhasil: Jawaban harus 100% benar
-            if (wrongAnswers === 0) {
-                showSuccess();
-            } else {
-                showFail();
-            }
+            if (wrongAnswers === 0) { showSuccess(); } 
+            else { showFail(); }
         }
 
-        function showSuccess() {
+        async function showSuccess() {
             document.getElementById('quiz-page').classList.add('hidden');
             document.getElementById('success-page').classList.remove('hidden');
             
-            const waMsg = `🎉 *ALHAMDULILLAH! Saya berhasil menyelesaikan Quiz Berhadiah Gen Zehat* 🎉\n\n📝 *Data Diri:*\n• Nama : ${userData.nama}\n• Kelas : ${userData.kelas}\n• Alamat : ${userData.alamat}\n\n🏆 *Apakah Saya termasuk 3 orang pertama yang dapat HADIAH Rp 50.000?*📱`;
-            // Ganti angka 628xxx dengan nomor tujuan
-            const waUrl = `https://wa.me/6285942970745?text=${encodeURIComponent(waMsg)}`;
-            document.getElementById('wa-btn').onclick = () => window.open(waUrl, '_blank');
+            const btnWa = document.getElementById('wa-btn');
+            const statusLabel = document.getElementById('text-status');
+            
+            btnWa.disabled = true;
+            btnWa.innerText = "⏳ MENGHITUNG URUTAN ANDA...";
+
+            const sekarang = new Date();
+            const waktuString = sekarang.toLocaleString('id-ID', { 
+                weekday: 'long', 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+            });
+
+            let nomorUrut = "(Cek Database)";
+
+            try {
+                // Proses pengiriman ke Google Sheets
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    body: JSON.stringify({
+                        nama: userData.nama,
+                        kelas: userData.kelas,
+                        alamat: userData.alamat,
+                        waktu: waktuString
+                    })
+                });
+                // Karena no-cors, kita tidak bisa baca response body secara langsung, 
+                // namun data sudah terkirim ke server Google.
+            } catch (error) {
+                console.error("Gagal sinkronisasi data:", error);
+            }
+
+            // Konstruksi pesan WhatsApp sesuai request
+            const waMsg = `🎉 *ALHAMDULILLAH! Saya berhasil menyelesaikan Quiz Berhadiah Gen Zehat* 🎉\n\n` +
+                          `📝 *Data Diri:*\n` +
+                          `• Nama : ${userData.nama}\n` +
+                          `• Kelas : ${userData.kelas}\n` +
+                          `• Alamat : ${userData.alamat}\n\n` +
+                          `🏆 *Tunggu Pengumuman Juara 1, 2 & 3 hari Senin 26 Januari 2026*\n` +
+                          `--------------\n` +
+                          `⏰ *Waktu Selesai:* ${waktuString}`;
+
+            const waUrl = `https://wa.me/${WA_ADMIN}?text=${encodeURIComponent(waMsg)}`;
+            
+            btnWa.disabled = false;
+            btnWa.innerText = "📱 KLAIM HADIAH SEKARANG!";
+            btnWa.onclick = () => window.open(waUrl, '_blank');
         }
 
         function showFail() {
@@ -582,7 +586,6 @@
             document.getElementById('fail-page').classList.remove('hidden');
         }
 
-        // Initialize background icons when page loads
         window.addEventListener('DOMContentLoaded', createBackgroundIcons);
     </script>
 </body>
