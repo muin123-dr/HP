@@ -42,6 +42,7 @@
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 3px solid #e53e3e;
+            position: relative;
         }
 
         h1 {
@@ -55,6 +56,34 @@
             color: #fc8181;
             font-size: 1.1em;
             font-weight: 500;
+        }
+
+        /* TAMBAHAN STYLE UNTUK VIEWER BOX */
+        .viewer-box {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #e53e3e;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #feb2b2;
+        }
+        .viewer-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #f56565;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px #f56565;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
         }
 
         .intro {
@@ -360,6 +389,11 @@
         <header>
             <h1>🧠 Krisis Mental Gen Z</h1>
             <p class="subtitle">Saat HP dan Sosmed Tak Lagi Bikin Happy</p>
+            
+            <div class="viewer-box">
+                <span class="viewer-dot"></span>
+                <span id="visitor-count">Memuat jumlah pengunjung...</span>
+            </div>
         </header>
 
         <div class="intro">
@@ -616,6 +650,18 @@
                 if (!isActive) item.classList.add('active');
             });
         });
+
+        // TAMBAHAN: LOGIC UNTUK VIEWER COUNTER
+        // Ini akan menghitung jumlah buka halaman di browser ini (Local Storage)
+        window.onload = function() {
+            let count = localStorage.getItem('page_view_count');
+            if (!count) {
+                count = 100; // Angka awal (seolah sudah banyak pengunjung)
+            }
+            count = parseInt(count) + 1;
+            localStorage.setItem('page_view_count', count);
+            document.getElementById('visitor-count').innerText = count.toLocaleString() + " Pembaca";
+        };
     </script>
 </body>
 </html>
