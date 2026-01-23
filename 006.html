@@ -56,6 +56,34 @@
             font-weight: 500;
         }
 
+        /* TAMBAHAN STYLE UNTUK VIEWER BOX */
+        .viewer-box {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #4299e1;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #bee3f8;
+        }
+        .viewer-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #63b3ed;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px #63b3ed;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
         .intro {
             background: rgba(66, 153, 225, 0.1);
             padding: 25px;
@@ -214,8 +242,7 @@
         }
 
         ul li {
-            padding: 8px 0;
-            padding-left: 25px;
+            padding: 5px 0 5px 25px;
             position: relative;
         }
 
@@ -225,8 +252,6 @@
             left: 0;
             color: #4299e1;
             font-weight: bold;
-            font-size: 1.5em;
-            line-height: 1;
         }
 
         .conclusion {
@@ -255,7 +280,7 @@
         }
 
         .stat-number {
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #90cdf4;
         }
@@ -263,6 +288,12 @@
         .stat-label {
             color: #a0aec0;
             font-size: 0.85em;
+        }
+
+        .danger-list li::before {
+            content: '⚠️';
+            font-size: 0.9em;
+            left: -5px;
         }
 
         @media (max-width: 768px) {
@@ -308,204 +339,137 @@
 
     <div class="container">
         <header>
-            <h1>Erosi Keterampilan Sosial:</h1>
-            <p class="subtitle">Mengapa Semakin Canggung di Dunia Nyata?</p>
+            <h1>Erosi Keterampilan Sosial</h1>
+            <p class="subtitle">Saat Layar Smartphone Menghalangi Tatapan Mata!</p>
+            
+            <div class="viewer-box">
+                <span class="viewer-dot"></span>
+                <span id="visitor-count">Memuat jumlah pengunjung...</span>
+            </div>
         </header>
 
         <div class="intro">
-            
-            <p>Mayoritas Gen Z sangat mahir berkomunikasi lewat layar, namun justru mengalami penurunan kemampuan yang signifikan dalam interaksi tatap muka. <br>Fenomena ini dikenal sebagai erosi keterampilan sosial tatap muka. <br><br> Penjelasan lebih detail klik icon-icon dibawah ini!</p>
+            <p>Manusia adalah makhluk sosial, namun teknologi yang seharusnya "menghubungkan" justru sering kali menciptakan "tembok" dalam interaksi nyata.</p>
+            <p>Erosi ini terjadi secara perlahan, membuat kita lebih nyaman berinteraksi dengan layar daripada dengan manusia di hadapan kita.</p>
         </div>
 
         <div class="main-menu-grid">
-            <div class="menu-card" onclick="showSection('gejala', this)">
-                <span class="floating-emoji">🚩</span>
-                <span class="menu-title">Gejala Utama</span>
+            <div class="menu-card" onclick="showSection('fenomena', this)">
+                <span class="floating-emoji">📵</span>
+                <span class="menu-title">Fenomena Phubbing</span>
             </div>
-            <div class="menu-card" onclick="showSection('penyebab', this)">
-                <span class="floating-emoji">🧠</span>
-                <span class="menu-title">Mengapa Terjadi</span>
+            <div class="menu-card" onclick="showSection('hilang', this)">
+                <span class="floating-emoji">📉</span>
+                <span class="menu-title">Skill yang Hilang</span>
             </div>
             <div class="menu-card" onclick="showSection('dampak', this)">
-                <span class="floating-emoji">📉</span>
-                <span class="menu-title">Dampak Nyata</span>
+                <span class="floating-emoji">💔</span>
+                <span class="menu-title">Dampak Sosial</span>
             </div>
-            <div class="menu-card" onclick="showSection('solusi', this)">
+            <div class="menu-card" onclick="showSection('recovery', this)">
                 <span class="floating-emoji">🤝</span>
-                <span class="menu-title">Solusi Total</span>
+                <span class="menu-title">Cara Pemulihan</span>
             </div>
         </div>
 
-        <div id="gejala" class="content-container">
-            <h2 class="section-title">Tanda-Tanda Kehilangan Keahlian Sosial</h2>
-            
+        <div id="fenomena" class="content-container">
+            <h2 class="section-title">Phubbing: Penyakit Sosial Modern</h2>
             <div class="accordion-item">
-                <div class="accordion-header">a. Phubbing (Mengabaikan Orang demi Ponsel)</div>
+                <div class="accordion-header">1. Apa itu Phubbing?</div>
                 <div class="accordion-content">
                     <div class="accordion-content-inner">
-                        <p><strong>Phubbing</strong> adalah singkatan dari phone snubbing, yaitu perilaku mengabaikan lawan bicara karena sibuk dengan smartphone.</p>
-                        <p style="margin-top:10px;"><strong>Contoh Nyata:</strong> <br>▫️ Saat makan malam keluarga, semua orang menunduk menatap layar masing-masing, menciptakan keheningan di meja makan. <br>▫️ Atau saat kumpul bersama teman-teman, semua sibuk membalas chat orang lain daripada mengobrol dengan teman di sebelahnya.</p>
-                        <p style="margin-top:10px;"><strong>Dampaknya:</strong> <br>Ini seperti mengirim pesan menyakitkan bahwa <strong>"ponselku lebih penting darimu,"</strong> yang merusak kepercayaan dan membuat orang lain merasa tidak dihargai.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header">b. Kecanggungan Sosial & Hilangnya Bahasa Tubuh</div>
-                <div class="accordion-content">
-                    <div class="accordion-content-inner">
-                        <p>Komunikasi manusia 70% terdiri dari sinyal non-verbal (ekspresi wajah, kontak mata, atau intonasi suara). <br>Karena terbiasa dengan teks datar dan emoji, banyak Gen Z kini kesulitan membaca isyarat ini.</p>
-                        <p style="margin-top:10px;"><strong>Contoh Nyata:</strong></p>
+                        <p><strong>Phubbing</strong> (Phone Snubbing) adalah tindakan mengabaikan orang di sekitar demi smartphone.</p>
                         <ul>
-                            <li>Gugup saat harus menelepon atau memesan makanan langsung ke pelayan, atau bertanya pada orang asing.</li>
-                            <li>Salah menangkap emosi lawan bicara, misalnya menganggap teman sedang marah padahal ia sedih.</li>
-                            <li>Tidak bisa membedakan nada bicara serius atau bercanda saat bertatap muka.</li>
-                            <li>Grogi berlebihan saat presentasi atau wawancara kerja.</li>
+                            <li>Mengurangi kualitas percakapan secara drastis.</li>
+                            <li>Membuat lawan bicara merasa tidak dihargai atau "tidak penting".</li>
+                            <li>Menghilangkan empati dalam komunikasi langsung.</li>
                         </ul>
                     </div>
                 </div>
             </div>
-
             <div class="accordion-item">
-                <div class="accordion-header">c. Tidak Bisa Mengatasi Konflik</div>
+                <div class="accordion-header">2. Mengapa Ini Terjadi?</div>
                 <div class="accordion-content">
                     <div class="accordion-content-inner">
-                        <p>Di dunia maya, jika ada masalah, kita bisa dengan mudah melakukan block, mute, atau ghosting (menghilang tiba-tiba). <br><strong>Masalahnya:</strong> <br>Dunia nyata tidak punya tombol block.</p>
-                        <p style="margin-top:10px;"><strong>Akibatnya:</strong> <br>Banyak orang kini tidak memiliki kemampuan negosiasi atau kompromi saat menghadapi masalah secara langsung, lebih memilih diam atau kabur dari konflik.</p>
-                        <p style="margin-top:10px;"><strong>Contoh nyata:</strong></p>
-                        <ul>
-                            <li>Suami-istri bertengkar lalu memilih <strong>“silent treatment”</strong> sambil main ponsel masing-masing.</li>
-                            <li>Lebih memilih <strong>curhat di close friends Instagram</strong> daripada bicara langsung dengan ortu, saudara atau teman dekat.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header">d. Kesepian di Tengah Keramaian</div>
-                <div class="accordion-content">
-                    <div class="accordion-content-inner">
-                        <p>Ini adalah <strong>"Paradoks Konektivitas."</strong> <br>Seseorang bisa memiliki ribuan followers dan ratusan teman online, tetapi merasa sangat kesepian karena tidak ada koneksi emosional yang mendalam.</p>
-                        <p style="margin-top:10px;"><strong>Akibatnya:</strong> <br>Hubungan menjadi dangkal (superfisial), hanya sebatas like dan komentar, bukan dukungan nyata saat sedang sakit atau sedih.</p>
-                        <p style="margin-top:10px;"><strong>Contoh nyata:</strong></p>
-                        <ul>
-                            <li>Remaja yang menghabiskan 8 jam sehari di Instagram, tapi tidak punya sahabat untuk curhat.</li>
-                            <li>Memiliki banyak followers, tapi tak ada yang menjenguk saat sakit.</li>
-                        </ul>
+                        <p>Kecanduan Fear of Missing Out (FOMO) membuat kita selalu merasa ada hal lebih penting di internet daripada di dunia nyata.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="penyebab" class="content-container">
-            <h2 class="section-title">Mengapa Ini Bisa Terjadi?</h2>
-            <div class="intro">
-                <p>Otak manusia bekerja dengan prinsip <strong>"gunakan atau hilang" (use it or lose it)</strong>. <br>Keterampilan sosial itu seperti otot; jika tidak dilatih, ia akan melemah.</p>
+        <div id="hilang" class="content-container">
+            <h2 class="section-title">Keterampilan yang Mulai Terkikis</h2>
+            <div class="sub-point">
+                <h4>1. Kemampuan Membaca Bahasa Tubuh:</h4>
+                <p>Terlalu sering melihat teks membuat kita buta terhadap ekspresi mikro dan nada bicara yang penting dalam komunikasi.</p>
             </div>
-            <ul>
-                <li><strong>Kecanduan Instan:</strong> <br>Konten singkat memberikan kepuasan cepat, membuat <strong>otak malas</strong> melakukan percakapan panjang dan mendalam yang butuh kesabaran.</li>
-                <li><strong>Multitasking:</strong> <br>Kebiasaan membagi perhatian antara layar dan orang lain membuat kita <strong>gagal menjadi pendengar yang baik (active listener)</strong>.</li>
-            </ul>
+            <div class="sub-point">
+                <h4>2. Small Talk (Basa-basi):</h4>
+                <p>Dulu kita mengobrol saat mengantre, sekarang semua menunduk ke HP. Kita kehilangan kemampuan memulai percakapan dengan orang baru.</p>
+            </div>
+            <div class="sub-point">
+                <h4>3. Eye Contact (Kontak Mata):</h4>
+                <p>Menatap layar mengurangi latihan kita dalam menjaga kontak mata yang merupakan kunci kepercayaan (trust) dalam hubungan.</p>
+            </div>
         </div>
 
         <div id="dampak" class="content-container">
-            <h2 class="section-title">Dampak dalam Kehidupan Nyata</h2>
-            <p style="margin-bottom: 20px;">Dampak dari erosi sosial ini sangat nyata dan merugikan:</p>
-            
+            <h2 class="section-title">Dampak Nyata dalam Hubungan</h2>
             <div class="example-card">
-                <span class="example-label">Aspek Karier</span>
-                <p>Banyak Gen Z gagal dalam wawancara kerja karena tidak berani menatap mata pewawancara atau tidak bisa membaca bahasa tubuh.</p>
+                <span class="example-label">Hubungan Keluarga & Pertemanan:</span>
+                <p>Kehadiran fisik tanpa kehadiran mental menciptakan perasaan kesepian meskipun sedang berkumpul.</p>
             </div>
-
             <div class="example-card">
-                <span class="example-label">Aspek Akademik</span>
-                <p>Gugup berlebihan saat presentasi karena tidak terbiasa berbicara di depan audiens nyata.</p>
-            </div>
-
-            <div class="example-card">
-                <span class="example-label">Aspek Hubungan</span>
-                <p>Pasangan yang duduk berdampingan tapi sibuk dengan layar masing-masing, menciptakan jarak psikologis meski fisik berdekatan.</p>
+                <span class="example-label">Dunia Kerja:</span>
+                <p>Karyawan yang phubbing saat meeting dianggap tidak profesional dan kurang memiliki jiwa kepemimpinan.</p>
             </div>
         </div>
 
-        <div id="solusi" class="content-container">
-            <h2 class="section-title">Solusi Komprehensif: Cara Memperbaikinya</h2>
-            
-            <div class="accordion-item active">
-                <div class="accordion-header">A. Untuk Individu (Kita Semua)</div>
-                <div class="accordion-content">
-                    <div class="accordion-content-inner">
-                        <ul>
-                            <li><strong>Aturan Mata ke Mata:</strong> <br>Jika seseorang berbicara padamu, letakkan ponsel dengan layar menghadap ke bawah dan tatap matanya.</li>
-                            <li><strong>Permainan Tumpuk Ponsel (Phone Stacking):</strong> <br>Saat kumpul makan, tumpuk semua ponsel di tengah meja. Siapa yang mengambil ponselnya duluan harus membayar tagihan makan teman-temannya.</li>
-                            <li><strong>Latihan Kecil:</strong> <br>Tantang diri untuk menyapa satpam, kasir, atau bertanya pada orang asing sekali sehari untuk melatih "otot sosial".</li>
-                            <li><strong>Detoks Digital:</strong> <br>Alokasikan 2-3 jam sehari tanpa smartphone khusus untuk interaksi dunia nyata.</li>
-                        </ul>
-                    </div>
-                </div>
+        <div id="recovery" class="content-container">
+            <h2 class="section-title">Memulihkan Keterampilan Sosial</h2>
+            <div class="example-card">
+                <span class="example-label">Smartphone Stack:</span>
+                <p>Saat makan bersama, semua HP ditumpuk di tengah. Siapa yang mengambil duluan, dia yang bayar makanannya.</p>
             </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header">B. Untuk Orang Tua</div>
-                <div class="accordion-content">
-                    <div class="accordion-content-inner">
-                        <ul>
-                            <li><strong>Jadilah Contoh (Role Model):</strong> <br>Jangan menyuruh anak lepas HP jika Anda sendiri main HP saat anak bercerita. Anak meniru apa yang Anda lakukan, bukan apa yang Anda katakan.</li>
-                            <li><strong>Zona Bebas Gawai:</strong> <br>Tetapkan aturan tegas, misalnya "Tidak ada HP di meja makan" atau "Tidak ada HP di kamar tidur setelah jam 10 malam".</li>
-                            <li><strong>Aktivitas Tanpa Layar:</strong> <br>Ajak anak melakukan kegiatan yang memaksa interaksi fisik, seperti olahraga tim, kemah, atau board game.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header">C. Untuk Sekolah dan Masyarakat</div>
-                <div class="accordion-content">
-                    <div class="accordion-content-inner">
-                        <ul>
-                            <li><strong>Kurikulum Komunikasi:</strong> <br>Sekolah perlu mengajarkan soft skills seperti debat, drama, dan presentasi lisan untuk melatih kepercayaan diri.</li>
-                            <li><strong>Kebijakan Sekolah:</strong> <br>Terapkan aturan ponsel disimpan di loker selama jam pelajaran agar siswa "terpaksa" mengobrol satu sama lain saat istirahat.</li>
-                            <li><strong>Budaya Kerja:</strong> <br>Perusahaan bisa menerapkan rapat bebas gawai (device-free meetings) untuk meningkatkan fokus dan interaksi tim.</li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="example-card">
+                <span class="example-label">Active Listening:</span>
+                <p>Berkomitmen untuk menyimpan HP di saku/tas saat berbicara dengan orang lain, dan berikan perhatian 100%.</p>
             </div>
         </div>
 
         <div class="conclusion">
-            <h3 style="color: #fff; margin-bottom: 15px;">Membangun Koneksi yang Nyata</h3>
-            <p>Erosi keterampilan sosial bukanlah takdir yang tidak bisa diubah. Otak kita masih bisa beradaptasi. <br>Kuncinya adalah kesadaran bahwa teknologi seharusnya menjadi alat yang melayani kita, bukan menggantikan kemanusiaan kita.</p>
-            <p style="margin-top: 15px; font-weight: bold; color: #bee3f8;">Mari kita mulai kembali menatap mata, bukan layar, untuk membangun koneksi yang nyata dan bermakna.</p>
+            <h3 style="color: #fff; margin-bottom: 15px;">Hubungkan Kembali dengan Dunia Nyata</h3>
+            <p>Teknologi adalah alat, bukan pengganti koneksi manusia. Jadilah pribadi yang hadir sepenuhnya untuk orang-orang yang Anda sayangi.</p>
             
-            <p style="margin-top: 25px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">Target Otot Sosial Baru:</p>
+            <p style="margin-top: 25px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">Target Sosial Anda:</p>
             <div class="stats-grid">
                 <div class="stat-card">
+                    <div class="stat-number">No Phone Meal</div>
+                    <div class="stat-label">Tanpa HP saat Makan</div>
+                </div>
+                <div class="stat-card">
                     <div class="stat-number">Eye Contact</div>
-                    <div class="stat-label">Tatap mata lawan bicara</div>
+                    <div class="stat-label">Latih saat Berbicara</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">Hadapi Konflik</div>
-                    <div class="stat-label">Bicara langsung, Jangan lari</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">Active Listening</div>
-                    <div class="stat-label">Pendengar yang baik, NO HP</div>
+                    <div class="stat-number">Real Meetup</div>
+                    <div class="stat-label">Lebih banyak Tatap Muka</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">Klik icon WA</div>
-                    <div class="stat-label">Utk artikel versi WA/div>
+                    <div class="stat-label">Utk artikel versi WA</div>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <a href="https://whatsapp.com/channel/0029VbAtZNp47Xe6JFu65N2u/298" class="social-btn whatsapp" target="_blank" rel="noopener noreferrer">
+        <a href="https://whatsapp.com/channel/0029VbAtZNp47Xe6JFu65N2u/295" class="social-btn whatsapp" target="_blank">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                 <path d="M20.52 3.48a11.9 11.9 0 00-16.84 0 11.89 11.89 0 00-3.5 8.42c0 2.1.55 4.15 1.6 5.95L2 22l4.25-1.4a11.83 11.83 0 005.95 1.6c4.46 0 8.6-2.8 10.02-7.07a11.9 11.9 0 00-1.7-10.65zm-8.2 14.6a9.52 9.52 0 01-4.8-1.3l-.35-.2-3 1 1-3.1-.23-.36a9.5 9.5 0 0115.7-11.2 9.48 9.48 0 01-7.3 14.3zm5.07-6.4c-.28-.14-1.67-.82-1.93-.91-.26-.1-.45-.14-.64.14s-.73.9-.9 1.08c-.16.18-.32.2-.6.07a7.8 7.8 0 01-2.3-1.42 8.8 8.8 0 01-1.63-2c-.18-.3 0-.46.13-.6.14-.14.3-.34.44-.5a1.76 1.76 0 00.26-.44c.09-.15.05-.27-.02-.4-.07-.13-.64-1.54-.88-2.1-.23-.55-.46-.48-.64-.49a1.2 1.2 0 00-.45-.02c-.15 0-.4.06-.6.3-.2.24-.77.75-.77 1.83s.79 2.12.9 2.28c.1.15 1.55 2.37 3.77 3.32a13.4 13.4 0 001.76.74 1.78 1.78 0 002.03-2.57z"/>
             </svg>
         </a>
-        <a href="https://instagram.com" class="social-btn instagram" target="_blank">
+        <a href="https://instagram.com/dr.msmuin" class="social-btn instagram" target="_blank">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                 <path d="M7.75 2h8.5A5.75 5.75 0 0122 7.75v8.5A5.75 5.75 0 0116.25 22h-8.5A5.75 5.75 0 012 16.25v-8.5A5.75 5.75 0 017.75 2zm0 1.5a4.25 4.25 0 00-4.25 4.25v8.5a4.25 4.25 0 004.25 4.25h8.5a4.25 4.25 0 004.25-4.25v-8.5a4.25 4.25 0 00-4.25-4.25h-8.5zm8.75 2.25a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5zM12 7a5 5 0 110 10 5 5 0 010-10zm0 1.5a3.5 3.5 0 100 7 3.5 3.5 0 000-7z"/>
             </svg>
@@ -519,25 +483,14 @@
 
     <script>
     function showSection(sectionId, element) {
-        document.querySelectorAll('.content-container').forEach(el => {
-            el.style.display = 'none';
-        });
-
-        document.querySelectorAll('.menu-card').forEach(card => {
-            card.classList.remove('active-tab');
-        });
-        
+        document.querySelectorAll('.content-container').forEach(el => { el.style.display = 'none'; });
+        document.querySelectorAll('.menu-card').forEach(card => { card.classList.remove('active-tab'); });
         const target = document.getElementById(sectionId);
         if (target) {
             target.style.display = 'block';
-            setTimeout(() => {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
+            setTimeout(() => { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
         }
-
-        if (element) {
-            element.classList.add('active-tab');
-        }
+        if (element) { element.classList.add('active-tab'); }
     }
 
     const accordionItems = document.querySelectorAll('.accordion-item');
@@ -546,11 +499,20 @@
         header.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
             accordionItems.forEach(i => i.classList.remove('active'));
-            if (!isActive) {
-                item.classList.add('active');
-            }
+            if (!isActive) { item.classList.add('active'); }
         });
     });
-    </script>
+
+    // TAMBAHAN: LOGIC UNTUK VIEWER COUNTER
+    window.onload = function() {
+        let count = localStorage.getItem('page_view_count_006');
+        if (!count) {
+            count = 100; // Angka awal simulasi
+        }
+        count = parseInt(count) + 1;
+        localStorage.setItem('page_view_count_006', count);
+        document.getElementById('visitor-count').innerText = count.toLocaleString() + " Pembaca";
+    };
+</script>
 </body>
 </html>

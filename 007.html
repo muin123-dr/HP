@@ -55,6 +55,34 @@
             font-weight: 500;
         }
 
+        /* TAMBAHAN STYLE UNTUK VIEWER BOX */
+        .viewer-box {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #38a169;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #9ae6b4;
+        }
+        .viewer-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #48bb78;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px #48bb78;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
         .intro {
             background: rgba(56, 161, 105, 0.1);
             padding: 20px;
@@ -335,6 +363,11 @@
         <header>
             <h1>🛡️ Konten Berbahaya & Cyber Bullying</h1>
             <p class="subtitle">Racun di Ujung Jari: Lindungi Diri di Dunia Digital</p>
+            
+            <div class="viewer-box">
+                <span class="viewer-dot"></span>
+                <span id="visitor-count">Memuat jumlah pengunjung...</span>
+            </div>
         </header>
 
         <div class="intro">
@@ -602,6 +635,17 @@
                 if (!isActive) item.classList.add('active');
             });
         });
+
+        // TAMBAHAN: LOGIC UNTUK VIEWER COUNTER
+        window.onload = function() {
+            let count = localStorage.getItem('page_view_count_007');
+            if (!count) {
+                count = 100; // Angka awal simulasi
+            }
+            count = parseInt(count) + 1;
+            localStorage.setItem('page_view_count_007', count);
+            document.getElementById('visitor-count').innerText = count.toLocaleString() + " Pembaca";
+        };
     </script>
 </body>
 </html>

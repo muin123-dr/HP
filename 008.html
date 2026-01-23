@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masalah Privasi & Jejak Digital</title>
+    <title>Konten Berbahaya & Cyber Bullying - Racun di Ujung Jari</title>
     <style>
         * {
             margin: 0;
@@ -14,21 +14,21 @@
 
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1a0f00 0%, #3e2723 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #064e3b 100%);
             background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
             line-height: 1.6;
-            color: #f5ebe0;
+            color: #e2e8f0;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background: rgba(43, 30, 22, 0.96);
+            background: rgba(10, 40, 30, 0.95);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             animation: fadeIn 0.6s ease;
             position: relative;
             min-height: 80vh;
@@ -39,35 +39,62 @@
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 3px solid #8d6e63;
+            border-bottom: 3px solid #38a169;
         }
 
         h1 {
-            color: #d4a373;
-            font-size: 1.8em;
+            color: #FFEB3B;
+            font-size: 2em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 2px 2px 10px rgba(56, 161, 105, 0.3);
         }
 
         .subtitle {
-            color: #bcaaa4;
+            color: #9ae6b4;
             font-size: 1.1em;
             font-weight: 500;
         }
 
+        /* TAMBAHAN STYLE UNTUK VIEWER BOX */
+        .viewer-box {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #38a169;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #9ae6b4;
+        }
+        .viewer-dot {
+            height: 8px;
+            width: 8px;
+            background-color: #48bb78;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px #48bb78;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+
         .intro {
-            background: rgba(141, 110, 99, 0.1);
+            background: rgba(56, 161, 105, 0.1);
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 30px;
-            border-left: 5px solid #8d6e63;
-            text-align: left;
+            border-left: 5px solid #38a169;
+            text-align: center;
         }
 
         .intro p {
-            color: #d7ccc8;
-            font-weight: 400;
-            margin-bottom: 10px;
+            color: #cbd5e0;
+            font-weight: 500;
         }
 
         .main-menu-grid {
@@ -78,12 +105,12 @@
         }
 
         .menu-card {
-            background: #3e2723;
+            background: #2d2d2d;
             padding: 20px 10px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            border: 2px solid #5d4037;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            border: 2px solid #3d3d3d;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
@@ -91,10 +118,10 @@
         }
 
         .menu-card:hover, .menu-card.active-tab {
-            border-color: #d4a373;
-            background: #4e342e;
+            border-color: #38a169;
+            background: #1a3a2a;
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(212, 163, 115, 0.2);
+            box-shadow: 0 10px 20px rgba(56, 161, 105, 0.2);
         }
 
         .menu-card.active-tab::after {
@@ -107,15 +134,15 @@
             height: 0; 
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
-            border-bottom: 10px solid #d4a373;
+            border-bottom: 10px solid #38a169;
         }
 
         .menu-title {
             display: block;
             margin-top: 10px;
             font-weight: 700;
-            color: #d4a373;
-            font-size: 0.9em;
+            color: #9ae6b4;
+            font-size: 1em;
             line-height: 1.2;
         }
 
@@ -145,19 +172,19 @@
         }
 
         .section-title {
-            color: #d4a373;
-            font-size: 1.4em;
+            color: #9ae6b4;
+            font-size: 1.5em;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
-            border-bottom: 2px solid #5d4037;
+            border-bottom: 2px solid #3d3d3d;
             padding-bottom: 10px;
         }
 
         .accordion-item {
-            background: #2b1d19;
-            border: 1px solid #5d4037;
+            background: #262626;
+            border: 2px solid #3d3d3d;
             border-radius: 12px;
             margin-bottom: 15px;
             overflow: hidden;
@@ -165,24 +192,24 @@
         }
 
         .accordion-item:hover {
-            border-color: #8d6e63;
+            border-color: #38a169;
         }
 
         .accordion-header {
-            background: linear-gradient(135deg, #4e342e 0%, #2b1d19 100%);
-            color: #f5ebe0;
+            background: linear-gradient(135deg, #276749 0%, #064e3b 100%);
+            color: #fff;
             padding: 18px 20px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
-            font-size: 1em;
+            font-size: 1.05em;
             user-select: none;
         }
 
         .accordion-icon {
-            font-size: 1.1em;
+            font-size: 1.3em;
             transition: transform 0.3s ease;
         }
 
@@ -194,76 +221,74 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease;
-            background: #1e1411;
+            background: #1f1f1f;
         }
 
         .accordion-content-inner {
             padding: 20px;
-            color: #d7ccc8;
+            color: #cbd5e0;
         }
 
         .accordion-item.active .accordion-content {
-            max-height: 2500px;
+            max-height: 2000px;
         }
 
         .highlight {
-            background: rgba(212, 163, 115, 0.2);
-            padding: 2px 6px;
-            border-radius: 4px;
+            background: rgba(56, 161, 105, 0.3);
+            padding: 3px 8px;
+            border-radius: 5px;
             font-weight: 600;
-            color: #d4a373;
+            color: #fff;
         }
 
         .example-card {
-            background: #3e2723;
+            background: #2d2d2d;
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #d4a373;
+            margin-bottom: 10px;
+            border-left: 4px solid #38a169;
         }
 
         .example-label {
             font-weight: 700;
-            color: #d4a373;
+            color: #68d391;
             margin-bottom: 5px;
             display: block;
         }
 
         .conclusion {
-            background: linear-gradient(135deg, #3e2723 0%, #1a0f00 100%);
-            color: #f5ebe0;
+            background: linear-gradient(135deg, #22543d 0%, #064e3b 100%);
+            color: white;
             padding: 25px;
             border-radius: 15px;
             margin-top: 40px;
             text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            border: 1px solid #5d4037;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .stat-card {
-            background: rgba(0, 0, 0, 0.2);
+            background: #2d2d2d;
             padding: 15px;
             border-radius: 10px;
-            text-align: left;
-            border-left: 3px solid #8d6e63;
+            text-align: center;
+            border-left: 4px solid #38a169;
         }
 
         .stat-number {
             font-size: 1.1em;
             font-weight: bold;
-            color: #d4a373;
-            margin-bottom: 5px;
+            color: #68d391;
         }
 
         .stat-label {
-            color: #bcaaa4;
+            color: #a0aec0;
             font-size: 0.85em;
         }
 
@@ -273,27 +298,30 @@
         }
 
         ul li {
-            padding: 6px 0;
+            padding: 8px 0;
             padding-left: 25px;
             position: relative;
         }
 
         ul li::before {
-            content: '▹';
+            content: '•';
             position: absolute;
             left: 0;
-            color: #d4a373;
+            color: #38a169;
             font-weight: bold;
+            font-size: 1.5em;
+            line-height: 1;
         }
 
         .danger-list li::before {
             content: '⚠️';
-            font-size: 0.9em;
+            color: #38a169;
+            font-size: 1em;
         }
 
         @media (max-width: 768px) {
             .container { padding: 15px; margin: 10px; }
-            h1 { font-size: 1.4em; }
+            h1 { font-size: 1.5em; }
             .main-menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
         }
 
@@ -321,7 +349,7 @@
         }
 
         .social-btn:hover { transform: scale(1.1); }
-        .whatsapp { background-color: #25D366; }
+        .whatsapp { background-color: #128C7E; }
         .instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
 
         @keyframes fadeIn {
@@ -333,183 +361,157 @@
 <body>
     <div class="container">
         <header>
-            <h1>🔒 Masalah Privasi dan Jejak Digital</h1>
-            <p class="subtitle">Mengapa Setiap Klik Kita Menciptakan Jejak Digital yang Berbahaya?</p>
+            <h1>🛡️ Konten Berbahaya & Cyber Bullying</h1>
+            <p class="subtitle">Racun di Ujung Jari: Lindungi Diri di Dunia Digital</p>
+            
+            <div class="viewer-box">
+                <span class="viewer-dot"></span>
+                <span id="visitor-count">Memuat jumlah pengunjung...</span>
+            </div>
         </header>
 
         <div class="intro">
-            <p>Setiap aktivitas secara online—mulai dari like, unggahan, hingga riwayat pencarian atau sekedar membuka aplikasi—menciptakan Jejak Digital yang <b>permanen, dikumpulkan, diperjualbelikan, atau disalahgunakan</b> oleh pihak lain.</p>
-            <p>Privasi digital bukan lagi isu teknis, melainkan hak fundamental yang menentukan reputasi, keamanan, dan bahkan peluang hidup kita di masa depan Gen Z.</p>
+            <p>Smartphone dan internet bagaikan pedang bermata dua. <br>Di satu sisi membuka gerbang pengetahuan, di sisi lain memberikan akses luas terhadap konten berbahaya yang merusak mental dan moral. <br><br>Klik menu di bawah untuk mempelajari ancaman digital ini:</p>
         </div>
 
         <div class="main-menu-grid">
-            <div class="menu-card" onclick="showSection('eksploitasi', this)">
-                <span class="floating-emoji" style="animation-delay: 0s;">🔎</span>
-                <span class="menu-title">Eksploitasi Data</span>
+            <div class="menu-card" onclick="showSection('algoritma', this)">
+                <span class="floating-emoji" style="animation-delay: 0s;">🌪️</span>
+                <span class="menu-title">Jebakan Algoritma</span>
             </div>
-            <div class="menu-card" onclick="showSection('bahaya-jejak', this)">
-                <span class="floating-emoji" style="animation-delay: 0.5s;">👣</span>
-                <span class="menu-title">Bahaya Jejak</span>
+            <div class="menu-card" onclick="showSection('cyberbullying', this)">
+                <span class="floating-emoji" style="animation-delay: 0.5s;">🚫</span>
+                <span class="menu-title">Cyberbullying</span>
             </div>
-            <div class="menu-card" onclick="showSection('realtime', this)">
-                <span class="floating-emoji" style="animation-delay: 1s;">📍</span>
-                <span class="menu-title">Data Real-Time</span>
+            <div class="menu-card" onclick="showSection('dampak', this)">
+                <span class="floating-emoji" style="animation-delay: 1s;">🧠</span>
+                <span class="menu-title">Dampak Psikologis</span>
             </div>
             <div class="menu-card" onclick="showSection('solusi', this)">
                 <span class="floating-emoji" style="animation-delay: 1.5s;">🛡️</span>
-                <span class="menu-title">Solusi & Proteksi</span>
+                <span class="menu-title">Solusi Berlapis</span>
             </div>
         </div>
 
-        <div id="eksploitasi" class="content-container">
+        <div id="algoritma" class="content-container">
             <div class="section">
-                <h2 class="section-title">1. Data sebagai "Bayaran Tak Terlihat"</h2>
+                <h2 class="section-title">1. Jebakan Algoritma dan Konten Berbahaya</h2>
                 <div class="example-card">
-                    <p><b>Prinsip dasar di internet</b> adalah: <br>jika suatu layanan gratis, maka Andalah produknya. <br>Aplikasi dan platform "gratis" secara masif mengumpulkan data pribadi Anda sebagai bayaran tak terlihat (data harvesting).</p>
+                    <p>Masalah utama bukan hanya keberadaan konten negatif, melainkan cara kerja algoritma media sosial yang cenderung mempromosikan konten negatif tersebut demi mempertahankan perhatian pengguna (engagement).</p>
                 </div>
                 
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>A. Mekanisme Eksploitasi Data</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>📢 a. Ujaran Kebencian & Radikalisme</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
-                            <ul>
-                                <li><b>Pengumpulan Massif:</b> <br>Platform mengumpulkan data yang sangat detail, seperti lokasi real-time, daftar kontak, riwayat browsing, pola tidur, hingga suara dan wajah (melalui voice assistant dan face recognition).</li>
-                                <li><b>Syarat & Ketentuan yang Tersembunyi:</b> <br>Aplikasi sengaja membuat Syarat & Ketentuan (Terms & Conditions atau T&C) sangat panjang dan rumit agar pengguna tidak membacanya. Hanya sekitar 1% pengguna yang benar-benar membaca T&C sebelum mengklik "Setuju".</li>
-                                <li><b>Permintaan Izin Aneh:</b> <br>Banyak aplikasi meminta izin yang tidak relevan dengan fungsinya. Contohnya, aplikasi senter (flashlight) yang meminta akses ke mikrofon dan lokasi padahal hanya perlu kamera.</li>
-                            </ul>
+                            <p><b>Contoh:</b> <br>Algoritma media sosial dapat menggiring remaja dari konten hiburan biasa menuju <br>▫️ konten ekstrem, <br>▫️ rasis, <br>▫️ teori konspirasi, <br>▫️ intoleransi agama <br>yang dikemas dalam meme maupun video pendek.</p>
+                            <br>
+                            <p><b>Dampak:</b> <br>Paparan berulang dapat <br>▫️ menormalisasi kebencian, <br>▫️ mengurangi empati, <br>▫️ dan dalam kasus ekstrem, merekrut remaja ke dalam ideologi berbahaya.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>B. Penyalahgunaan Data Pribadi</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>📰 b. Misinformasi (Hoaks)</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
-                            <p><b>🔸 Manipulasi Psikologis & Iklan Bertarget</b></p>
-                            <p>Mekanisme yang terjadi adalah pengumpulan data untuk membangun profil psikologis yang sangat rinci tentang kebiasaan, ketakutan, minat, dan preferensi Anda.</p>
+                            <p>Berita palsu dan manipulasi informasi sering menyebar lebih cepat daripada fakta.</p>
                             <br>
-                            <p><b>Bentuk Penyalahgunaan:</b></p>
-                            <ul>
-                                <li><b>Iklan Manipulatif:</b> <br>Profil ini digunakan untuk menampilkan iklan yang sangat persuasif dan personal, yang tidak hanya mendorong pembelian produk, tetapi juga berpotensi memengaruhi pilihan politik atau opini Anda.</li>
-                                <li><b>Monetisasi Data Sensitif:</b> <br>Data sensitif—seperti riwayat kesehatan dari fitness tracker atau aplikasi kebugaran—dapat dijual ke pihak ketiga, seperti perusahaan asuransi. Hal ini berpotensi memengaruhi premi atau penolakan layanan yang Anda terima di masa depan.</li>
-                            </ul>
+                            <p><b>Contoh:</b> <br>▫️ Video deepfake, <br>▫️ narasi politik/kesehatan yang dimanipulasi, <br>▫️ teori konspirasi vaksin atau COVID-19.</p>
                             <br>
-                            <p><b>🔸 Penyalahgunaan oleh Aplikasi & Perusahaan</b></p>
-                            <p>Banyak aplikasi "gratis" menjadikan data pribadi Anda sebagai "mata uang" terselubung.</p>
-                            <ul>
-                                <li><b>Akses Berlebihan:</b> <br>Aplikasi meminta izin akses ke lokasi GPS, galeri, daftar kontak, mikrofon, dan kamera, yang sering kali tidak relevan dengan fungsinya.</li>
-                                <li><b>Dampak Lanjutan:</b> <br>Data yang terkumpul dirangkai menjadi profil lengkap, lalu diperjualbelikan ke data broker. Profil ini dapat digunakan untuk berbagai tujuan, mulai dari pemasaran hingga penilaian risiko untuk pinjaman dan asuransi.</li>
-                            </ul>
-                            <br>
-                            <p><b>🔸 Pencurian Identitas & Penipuan Digital</b></p>
-                            <ul>
-                                <li><b>Kepingan Puzzle Identitas:</b> <br>Tanggal lahir di bio media sosial, nama ibu, foto rumah, atau bahkan tiket pesawat dapat dikumpulkan untuk meretas akun atau mencuri identitas.</li>
-                                <li><b>Contoh:</b> <br>Pembobol rekening menjawab pertanyaan keamanan bank menggunakan info dari media sosial korban. <br>Kode barcode pada tiket pesawat yang diunggah tanpa disensor dapat menyimpan data pribadi lengkap.</li>
-                                <li><b>Riset Teknologi:</b> <br>Teknologi deepfake dapat menyalahgunakan wajah dan suara Anda untuk membuat konten palsu yang digunakan untuk pemerasan atau penipuan.</li>
-                            </ul>
-                            <br>
-                            <p><b>🔸 Doxing & Ancaman Keamanan Fisik</b></p>
-                            <p>Doxing adalah tindakan menyebarkan informasi pribadi (seperti alamat, nomor telepon, tempat kerja, atau foto keluarga) secara publik dengan maksud mengancam, mengintimidasi, atau membahayakan korban.</p>
-                            <br>
-                            <p><b>Contoh Nyata:</b> <br>Seorang remaja diteror debt collector karena alamat rumahnya diketahui dari geotag di foto "pulang sekolah" yang diunggah ke media sosial.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="bahaya-jejak" class="content-container">
-            <div class="section">
-                <h2 class="section-title">2. Bahaya Jejak Digital</h2>
-                <div class="example-card">
-                    <p>Jejak digital adalah semua informasi tentang Anda yang ada di internet. <br>Karakteristiknya yang permanen dan sulit dikontrol menjadikannya risiko besar, terutama bagi generasi muda.</p>
-                </div>
-                
-                <div class="accordion-item">
-                    <div class="accordion-header"><span>Sifat Permanen yang Menghantui</span><span class="accordion-icon">▼</span></div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>Internet tidak pernah melupakan. Data yang Anda ciptakan hari ini dapat muncul kembali bertahun-tahun kemudian.</p>
-                            <ul>
-                                <li><b>Sulit Dihapus Secara Utuh:</b> <br>Meski unggahan dihapus, salinannya sering tersisa di server, cache mesin pencari, atau diarsipkan pihak ketiga.</li>
-                                <li><b>Kenyataan Pahit:</b> <br>Konten bisa tetap hidup melalui screenshot, arsip web, atau penyimpanan oleh perusahaan.</li>
-                            </ul>
+                            <p><b>Dampak:</b> <br>▫️ Membentuk pemahaman dunia yang keliru, <br>▫️ mendorong keputusan berbahaya (misal menolak vaksin), <br>▫️ dan memecah belah masyarakat.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>Risiko Reputasi, Karir, dan Pendidikan</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>🔞 c. Pornografi & Konten Seksual</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
-                            <p>Jejak digital dapat membekukan masa lalu Anda tanpa konteks, tanpa memberikan kesempatan untuk menunjukkan perkembangan diri.</p>
-                            <ul>
-                                <li><b>Pemeriksaan oleh Institusi:</b> <br>Sekitar 80% pemberi kerja (HRD) dan banyak universitas memeriksa media sosial pelamar. Satu unggahan bermasalah dari masa lalu dapat menggagalkan peluang kerja atau penerimaan studi.</li>
-                                <li><b>Dampak Jangka Panjang:</b> <br>Jejak digital membentuk persepsi yang bisa merugikan karier dan pendidikan di masa depan.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
- 		<div class="accordion-item">
-                    <div class="accordion-header"><span>Risiko Keamanan Fisik dan Pencurian Identitas</span><span class="accordion-icon">▼</span></div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <p>JBerbagi informasi secara tidak bijak dapat membuka pintu bagi kejahatan.</p>
-                            <ul>
-                                <li><b>Ancaman Keamanan Fisik:</b> <br>Mengunggah tiket pesawat, selfie di lokasi rutin (seperti gym), atau menunjukkan rumah kosong saat liburan dapat memicu risiko perampokan atau penguntitan (stalking).</li>
-                                <li><b>Pencurian Identitas:</b> <br>Foto, nama, dan detail pribadi dapat disalahgunakan untuk membuat akun palsu, menipu orang lain, atau bahkan digunakan untuk pinjaman online ilegal.</li>
-                            </ul>
+                            <p><b>Realita:</b> <br>Mayoritas remaja terpapar pertama kali pada usia 11–13 tahun, sering kali tidak disengaja, melalui iklan pop-up atau pencarian biasa.</p>
+                            <br>
+                            <p><b>Dampak Jangka Panjang:</b> <br>▫️ Ekspektasi hubungan seksual yang tidak realistis, <br>▫️ memandang pasangan sebagai objek, <br>▫️ dan gangguan dalam membina hubungan intim yang sehat.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>Oversharing & Hilangnya Batas Privasi</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>🩸 d. Kekerasan & Konten Gore</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
-                            <p>Budaya "share is care" mendorong banyak generasi muda terbiasa membagikan detail intim kehidupan.</p>
-                            <ul>
-                                <li><b>Contoh Oversharing:</b> Yaitu bermudah-mudah meng-upload yang sifatnya privasi, seperti: <br>▫️ Masalah keluarga, <br>▫️ perjuangan kesehatan yang dijalani, <br>▫️ drama hubungan dg sesorang atau instansi, <br>▫️ atau situasi keuangan.</li>
-                                <li><b>Risiko:</b> Informasi ini dapat: <br>▫️ dimanfaatkan untuk stalking, pemerasan, merusak reputasi profesional, <br>▫️ dan melanggar privasi orang lain yang terlibat tanpa seizin mereka.</li>
-                                
-                            </ul>
+                            <p><b>Contoh:</b> <br>▫️ Video perkelahian brutal, <br>▫️ kecelakaan fatal, <br>▫️ kekerasan fisik, <br>▫️ atau penyiksaan hewan <br>yang mudah ditemukan di grup WhatsApp, Telegram, atau TikTok/YouTube.</p>
+                            <br>
+                            <p><b>Dampak:</b> <br>▫️ Trauma psikologis, <br>▫️ mimpi buruk, <br>▫️ kecemasan, <br>▫️ desensitisasi (otak menjadi “kebal” sehingga kekerasan dianggap wajar), dan menurunnya kepekaan sosial.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>💅 e. Standar Kecantikan Beracun</span><span>▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <p><b>Contoh:</b> <br>▫️ Konten pro-ana (promosi anoreksia), <br>▫️ diet ekstrem, <br>▫️ dan filter kecantikan tidak realistis di Instagram dan TikTok.</p>
+                            <br>
+                            <p><b>Dampak:</b> <br>▫️ Gangguan makan, <br>▫️ body dysmorphia, <br>▫️ depresi, <br>▫️ dan obsesi berlebihan untuk tampil sempurna.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="realtime" class="content-container">
+        <div id="cyberbullying" class="content-container">
             <div class="section">
-                <h2 class="section-title">3. Bahaya Berbagi Data Real-Time</h2>
-                <div class="intro">
-                    <p>Membagikan lokasi atau aktivitas secara real-time di jaman "now" terasa wajar —entah lewat media sosial, aplikasi pelacak, atau fitur berbagi lokasi. <br>Namun, di balik kemudahan itu, tersembunyi potensi risiko serius.</p>
-                </div>
-                
+                <h2 class="section-title">2. Cyberbullying: Teror Tanpa Henti</h2>
                 <div class="example-card">
-                    <span class="example-label">Risiko terhadap Pengguna & Properti:</span>
+                    <span class="example-label">Mengapa Lebih Berbahaya?</span>
                     <ul class="danger-list">
-                        <li><b>Stalking & Perencanaan Kejahatan:</b> <br>Lokasi real-time memudahkan pelaku mengikuti pergerakan atau mengetahui rute rutin korban.</li>
-                        <li><b>Pencurian Rumah Kosong:</b> <br>Postingan “Liburan ke Bali selama seminggu!” adalah undangan terbuka bagi pencuri.</li>
-                        <li><b>Target Barang Mewah:</b> <br>Membagikan foto mobil/gadget baru memancing perampokan atau penipuan.</li>
-                        <li><b>Penculikan Anak:</b> <br>Data sekolah dan jam antar-jemput terbaca jelas oleh pelaku.</li>
+                        <li><b>24/7 tanpa henti:</b> <br>Serangan dapat terjadi kapan saja, bahkan di kamar tidur korban.</li>
+                        <li><b>Jejak digital permanen:</b> <br>Konten memalukan sulit dihapus dan dapat beredar ulang.</li>
+                        <li><b>Viral dan masif:</b> <br>Satu unggahan dapat menyebar ke ribuan orang dalam hitungan jam.</li>
+                        <li><b>Anonimitas:</b> <br>Pelaku merasa aman bersembunyi di balik akun palsu.</li>
                     </ul>
                 </div>
+                
+                <div class="example-card" style="margin-top: 20px;">
+                    <span class="example-label">Bentuk-Bentuk Cyberbullying:</span>
+                    <ul>
+                        <li><span class="highlight">Doxing:</span> <br>Menyebarkan data pribadi korban (alamat, nomor telepon).</li>
+                        <li><span class="highlight">Pengucilan sosial (exclusion):</span> <br>Mengeluarkan korban dari grup dengan sengaja.</li>
+                        <li><span class="highlight">Sexual cyberbullying:</span> <br>Revenge porn atau deepfake manipulasi wajah.</li>
+                        <li><span class="highlight">Dogpiling:</span> <br>Serangan terkoordinasi oleh banyak akun sekaligus.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+        <div id="dampak" class="content-container">
+            <div class="section">
+                <h2 class="section-title">3. Dampak Psikologis yang Serius</h2>
+                
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>Kesalahan Umum & Prinsip Aman</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>📉 Dampak Jangka Pendek</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
-                            <p><b>Kesalahan Umum:</b> <br>Share story “lagi di sini sekarang”, live location tanpa sadar, dan menganggap “akun kecil” tidak berisiko.</p>
-                            <br>
-                            <p><b>Tanyakan Sebelum Posting:</b></p>
                             <ul>
-                                <li>Apakah ini menunjukkan lokasi saya sekarang?</li>
-                                <li>Apakah orang asing bisa tahu rumah saya kosong?</li>
-                                <li>Apakah ini membahayakan anak & keluarga?</li>
+                                <li>Kecemasan (anxiety)</li>
+                                <li>Depresi</li>
+                                <li>Gangguan tidur</li>
+                                <li>Penurunan prestasi akademik</li>
                             </ul>
-                            <p style="margin-top:10px"><b>Solusi Praktis:</b> <br>Nonaktifkan live location, tunda unggahan liburan hingga kembali ke rumah, dan batasi audience (close friends).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header"><span>🛑 Dampak Jangka Panjang</span><span>▼</span></div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            <ul>
+                                <li>Trauma berkepanjangan (PTSD)</li>
+                                <li>Keinginan menyakiti diri sendiri (self-harm)</li>
+                                <li>Peningkatan risiko bunuh diri</li>
+                            </ul>
+                            <p style="margin-top: 10px;">Dampak ini sangat nyata bagi otak remaja yang masih berkembang.</p>
                         </div>
                     </div>
                 </div>
@@ -518,45 +520,44 @@
 
         <div id="solusi" class="content-container">
             <div class="section">
-                <h2 class="section-title">4. Solusi & Langkah Perlindungan</h2>
+                <h2 class="section-title">4. Solusi Komprehensif: Tameng Berlapis</h2>
 
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>a. Untuk Individu (Remaja dan Semua Pengguna)</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>👤 A. Untuk Individu (Remaja / Gen Z)</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
                             <ul>
-                                <li><b>Berpikir Sebelum Mengunggah:</b> <br>▫️ Terapkan aturan "pause before posting". <br>▫️ Tanyakan dampaknya 10 tahun lagi.</li>
-                                <li><b>Audit Digital Berkala:</b> <br>▫️ Google nama sendiri, <br>▫️ hapus unggahan lama berisiko, <br>▫️ gunakan HaveIBeenPwned.com. untuk mengcek keamanan akun</li>
-                                <li><b>Maksimalkan Pengaturan Privasi:</b> <br>▫️ Akun private, <br>▫️ matikan location tagging, <br>▫️ gunakan 2FA dan password manager.</li>
-                                <li><b>Pisahkan Identitas:</b> <br>▫️ Gunakan email/nomor berbeda untuk urusan penting dan hiburan.</li>
-                                <li><b>Hentikan Tren Data:</b> <br>▫️ Jangan ikut kuis viral yang menanyakan data pribadi (nama ibu, tgl lahir).</li>
+                                <li><b>Saring tontonan:</b> <br>Unfollow/mute/blokir akun negatif.</li>
+                                <li><b>Dokumentasi bukti:</b> <br>Screenshot, simpan URL, lalu blokir pelaku (jangan membalas).</li>
+                                <li><b>Verifikasi informasi:</b> <br>Cek fakta sebelum membagikan ulang.</li>
+                                <li><b>Teknik “Batu Kelabu”:</b> <br>Respon datar tanpa emosi agar pelaku hilang minat.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>b. Untuk Orang Tua & Keluarga</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>👨‍👩‍👧 B. Untuk Orang Tua</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
                             <ul>
-                                <li><b>Edukasi Sejak Dini:</b> <br>▫️ Ajarkan anak bahwa internet seperti menulis di batu, bersifat permanen.</li>
-                                <li><b>Jadilah Contoh:</b> <br>▫️ Hentikan "sharenting" (unggah foto anak berlebihan tanpa izin mereka).</li>
-                                <li><b>Bimbing, Jangan Awasi:</b> <br>▫️ Lakukan pengecekan privasi dan diskusi konten dalam suasana terbuka.</li>
-                                <li><b>Kesepakatan Keluarga:</b> <br>▫️ Tetapkan aturan bersama tentang apa yang boleh diunggah.</li>
+                                <li>Bangun komunikasi terbuka (safe harbor).</li>
+                                <li>Pendampingan digital (co-viewing/co-playing).</li>
+                                <li>Kontrak digital (aturan tertulis penggunaan gadget).</li>
+                                <li>Ajarkan literasi daripada sekadar melarang total.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
                 <div class="accordion-item">
-                    <div class="accordion-header"><span>c. Untuk Pihak Lain (Sekolah & Pemerintah)</span><span class="accordion-icon">▼</span></div>
+                    <div class="accordion-header"><span>🏫 C. Sekolah, Platform, & Pemerintah</span><span>▼</span></div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
                             <ul>
-                                <li><b>Sekolah:</b> <br>▫️ Integrasikan literasi digital <br>▫️ dan adakan workshop "digital spring cleaning".</li>
-                                <li><b>Platform:</b> <br>▫️ Terapkan privacy by default <br>▫️ dan perlindungan khusus bagi pengguna muda.</li>
-                                <li><b>Pemerintah:</b> <br>▫️ Perkuat penegakan UU PDP, <br>▫️ buat dukungan bagi korban, <br>▫️ dan dorong "Hak untuk Dilupakan".</li>
+                                <li><b>Kurikulum kewargaan digital:</b> <br>Etika online dan privasi.</li>
+                                <li><b>Verifikasi usia:</b> <br>Mencegah akses anak ke konten dewasa.</li>
+                                <li><b>Penegakan hukum:</b> <br>Memperkuat regulasi (UU ITE) dan hotline nasional.</li>
                             </ul>
                         </div>
                     </div>
@@ -565,22 +566,23 @@
         </div>
 
         <div class="conclusion">
-            <h3 style="margin-bottom: 20px;">💡 Penutup</h3>
-            <p>Privasi di era digital bukan lagi tentang menyembunyikan segalanya, tetapi tentang memegang kendali atas data diri sendiri. <br>Jejak digital tidak harus menjadi beban yang menghantui, tetapi bisa dikelola menjadi portofolio yang mencerminkan perkembangan diri kita.</p>
-            <p style="margin-top: 10px;">Perubahan dimulai dari mindset: sadari bahwa <b>data pribadi adalah aset berharga.</b> <br>Setiap kali akan mengklik "setuju" atau mengunggah sesuatu, ingatlah bahwa Anda sedang membentuk narasi digital untuk diri sendiri di masa depan.</p>
+            <h3 style="margin-bottom: 20px;">💡 Kesimpulan</h3>
+            <p>Kita tidak bisa melindungi anak dengan menjauhkan mereka dari internet. <br>Yang jauh lebih penting adalah mempersiapkan mereka untuk menghadapinya.</p>
+            <p style="margin-top: 10px;">Fokus utamanya adalah membangun <b>Ketahanan Digital (Digital Resilience)</b>.</p>
             
+            <p style="margin-top: 25px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">Target Ketahanan Digital:</p>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">Digital Assets</div>
-                    <div class="stat-label">Data Anda adalah aset berharga.</div>
+                    <div class="stat-number">Ketahanan Digital</div>
+                    <div class="stat-label">Kenali, Hadapi, Bangkit, Belajar</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">Control</div>
-                    <div class="stat-label">Pegang kendali penuh atas identitasmu.</div>
+                    <div class="stat-number">Nutrisi Digital</div>
+                    <div class="stat-label">Pilih Konten yang Positif</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">Digital Literacy</div>
-                    <div class="stat-label">Berpikir kritis sebelum Upload.</div>
+                    <div class="stat-number">Komunitas Tangguh</div>
+                    <div class="stat-label">Sharing, cari Solusi Tepat</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">Klik icon WA</div>
@@ -591,7 +593,7 @@
     </div>
 
     <footer>
-        <a href="https://whatsapp.com/channel/0029VbAtZNp47Xe6JFu65N2u/305" class="social-btn whatsapp" target="_blank" rel="noopener noreferrer">
+        <a href="https://whatsapp.com/channel/0029VbAtZNp47Xe6JFu65N2u/300" class="social-btn whatsapp" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
                 <path d="M20.52 3.48a11.9 11.9 0 00-16.84 0 11.89 11.89 0 00-3.5 8.42c0 2.1.55 4.15 1.6 5.95L2 22l4.25-1.4a11.83 11.83 0 005.95 1.6c4.46 0 8.6-2.8 10.02-7.07a11.9 11.9 0 00-1.7-10.65zm-8.2 14.6a9.52 9.52 0 01-4.8-1.3l-.35-.2-3 1 1-3.1-.23-.36a9.5 9.5 0 0115.7-11.2 9.48 9.48 0 01-7.3 14.3zm5.07-6.4c-.28-.14-1.67-.82-1.93-.91-.26-.1-.45-.14-.64.14s-.73.9-.9 1.08c-.16.18-.32.2-.6.07a7.8 7.8 0 01-2.3-1.42 8.8 8.8 0 01-1.63-2c-.18-.3 0-.46.13-.6.14-.14.3-.34.44-.5a1.76 1.76 0 00.26-.44c.09-.15.05-.27-.02-.4-.07-.13-.64-1.54-.88-2.1-.23-.55-.46-.48-.64-.49a1.2 1.2 0 00-.45-.02c-.15 0-.4.06-.6.3-.2.24-.77.75-.77 1.83s.79 2.12.9 2.28c.1.15 1.55 2.37 3.77 3.32a13.4 13.4 0 001.76.74 1.78 1.78 0 002.03-2.57z"/>
             </svg>
@@ -603,7 +605,7 @@
         </a>
     </footer>
 
-    <div style="text-align: center; margin-top: 40px; color: #8d6e63; padding-bottom: 100px;">
+    <div style="text-align: center; margin-top: 40px; color: #718096; padding-bottom: 100px;">
         <p>© 2025 Gen Zehat - Dr. Muin</p>
         <p>Ikhtiar Sehat adalah bentuk rasa Syukur</p>
         <p>🔅🔅🔅</p>
@@ -633,6 +635,17 @@
                 if (!isActive) item.classList.add('active');
             });
         });
+
+        // TAMBAHAN: LOGIC UNTUK VIEWER COUNTER
+        window.onload = function() {
+            let count = localStorage.getItem('page_view_count_007');
+            if (!count) {
+                count = 100; // Angka awal simulasi
+            }
+            count = parseInt(count) + 1;
+            localStorage.setItem('page_view_count_007', count);
+            document.getElementById('visitor-count').innerText = count.toLocaleString() + " Pembaca";
+        };
     </script>
 </body>
 </html>
