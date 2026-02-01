@@ -515,29 +515,35 @@
   }
 
   function kirimWA() {
-    if(!window.currentFiltered || window.currentFiltered.length === 0) {
-      showNotification('Data kosong, tidak ada yang dikirim.', 'warning');
-      return;
-    }
-    
-    const nomorTujuan = "6285226242661"; // Ganti dengan nomor tujuan
-    
-    let teks = `*REKAP BIAYA PASIEN*\n`;
-    teks += `Waktu: ${document.getElementById('labelWaktu').textContent}\n`;
-    teks += `Tanggal: ${document.getElementById('tglHari').textContent || new Date().toLocaleDateString('id-ID')}\n\n`;
-    
-    teks += `*DAFTAR PASIEN:*\n`;
-    window.currentFiltered.forEach((r, i) => {
-      teks += `${i+1}. ${r[3]} - Rp ${parseInt(r[5]).toLocaleString()}\n`;
-    });
-    
-    teks += `\n────────────────\n`;
-    teks += `*TOTAL PASIEN:* ${window.currentFiltered.length}\n`;
-    teks += `*TOTAL BIAYA:* Rp ${window.currentTotal.toLocaleString()}\n\n`;
-    teks += `_Data dikirim dari Sistem Rekap Pasien_`;
-    
-    window.open(`https://wa.me/${nomorTujuan}?text=${encodeURIComponent(teks)}`, '_blank');
-  }
+  if(!window.currentFiltered || window.currentFiltered.length === 0) return alert("Data kosong");
+
+  // 1. Ambil Waktu Saat Ini (Waktu Klik Tombol)
+  const sekarang = new Date();
+  const opsiTanggal = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const tanggalSekarang = sekarang.toLocaleDateString('id-ID', opsiTanggal);
+  const jamSekarang = sekarang.getHours().toString().padStart(2, '0') + ":" + 
+                      sekarang.getMinutes().toString().padStart(2, '0');
+
+  // 2. Tentukan nomor tujuan (kosongkan jika ingin pilih manual)
+  const nomorTujuan = "628123456789"; 
+
+  // 3. Susun Teks Pesan
+  let teks = `*REKAP BIAYA PASIEN*\n`;
+  teks += `Waktu Kirim: ${tanggalSekarang} | Jam ${jamSekarang}\n`; // Menggunakan waktu real-time
+  teks += `Sesi: ${document.getElementById('labelWaktu').innerText}\n`;
+  teks += `--------------------------------\n\n`;
+
+  window.currentFiltered.forEach((r, index) => {
+    teks += `${index + 1}. ${r[3]} (Rp ${parseInt(r[5]).toLocaleString()})\n`;
+  });
+
+  teks += `\n__________________________\n`;
+  teks += `*Total Biaya: Rp ${window.currentTotal.toLocaleString()}*`;
+  
+  // 4. Buka WhatsApp
+  const encoded = encodeURIComponent(teks);
+  window.open(`https://wa.me/${nomorTujuan}?text=${encoded}`, '_blank');
+}
 
   // Initialize
   setCurrentDate();
