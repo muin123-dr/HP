@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekap Biaya Pasien</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { 
+      padding: 20px; 
+      background-color: #f4f7f6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .card { 
+      margin-bottom: 20px; 
+      border: none; 
+      border-radius: 15px; 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+    }
+    .hidden { display: none; }
+    .btn-custom { 
+      border-radius: 10px; 
+      padding: 12px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .btn-custom:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      max-width: 350px;
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    .spinner-container {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .table th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+    .confirm-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    .confirm-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .confirm-content {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .badge-time {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .summary-card {
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-left: 4px solid #28a745;
+    }
+    .input-label {
+      font-weight: 600;
+      color: #495057;
+      margin-bottom: 5px;
+    }
+    .form-control:focus {
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.25rem rgba(0,123,255,0.25);
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" style="max-width: 700px;">
+  <!-- Notification Container -->
+  <div id="notificationContainer"></div>
+  
+  <!-- Confirmation Modal -->
+  <div id="confirmModal" class="confirm-modal">
+    <div class="confirm-content">
+      <h5 class="mb-3" id="confirmTitle"></h5>
+      <p id="confirmMessage"></p>
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="hideConfirmModal()">Batal</button>
+        <button type="button" class="btn btn-danger btn-sm" id="confirmActionBtn">Ya, Lanjutkan</button>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="text-center mb-4" style="color: #2c3e50;">
+    <i class="fas fa-file-invoice me-2"></i>Rekap Biaya Pasien
+  </h3>
+
+  <div class="d-flex mb-4">
+    <button class="btn btn-primary w-50 me-1 btn-custom" onclick="showPage('inputPage')">
+      <i class="fas fa-edit me-2"></i>Input Data
+    </button>
+    <button class="btn btn-success w-50 btn-custom" onclick="showPage('outputPage'); muatData();">
+      <i class="fas fa-list me-2"></i>Lihat Rekap
+    </button>
+  </div>
+
+  <div id="inputPage" class="card p-4">
+    <h5 class="mb-4" style="color: #2c3e50;">
+      <i class="fas fa-user-plus me-2"></i>Input Data Pasien
+    </h5>
+    <form id="formInput">
+      <div class="mb-3">
+        <div class="input-label">Nama Pasien</div>
+        <div class="input-group">
+          <span class="input-group-text"><i class="fas fa-user"></i></span>
+          <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan nama pasien" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="input-label">Alamat</div>
+        <div class="input-group">
+          <span class="input-group-text"><i class="fas fa-home"></i></span>
+          <textarea id="alamat" name="alamat" class="form-control" rows="2" placeholder="Masukkan alamat pasien" required></textarea>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="input-label">Biaya (Rp)</div>
+        <div class="input-group">
+          <span class="input-group-text">Rp</span>
+          <input type="number" id="biaya" name="biaya" class="form-control" placeholder="Masukkan jumlah biaya" required>
+          <span class="input-group-text">,00</span>
+        </div>
+      </div>
+      <button type="submit" id="btnSimpan" class="btn btn-primary w-100 btn-custom">
+        <span id="btnText">Simpan Data</span>
+      </button>
+    </form>
+  </div>
+
+  <div id="outputPage" class="card p-4 hidden">
+    <h5 class="mb-4" style="color: #2c3e50;">
+      <i class="fas fa-database me-2"></i>Data Rekap
+    </h5>
+    
+    <div class="mb-4">
+      <div class="input-label mb-2">Filter Waktu</div>
+      <select id="filterWaktu" class="form-select" onchange="renderTabel()">
+        <option value="pagi"><i class="fas fa-sun me-2"></i>Pagi (Sebelum 12:00)</option>
+        <option value="sore"><i class="fas fa-moon me-2"></i>Sore (Sesudah 12:00)</option>
+      </select>
+    </div>
+
+    <div id="tabelArea">
+      <p class="text-muted mb-2" id="tglHari">
+        <i class="far fa-calendar me-2"></i>Tanggal: <span id="currentDate">-</span>
+      </p>
+      
+      <div class="table-responsive mb-4">
+        <table class="table table-hover table-striped">
+          <thead class="table-light">
+            <tr>
+              <th width="10%">No</th>
+              <th width="45%">Nama Pasien</th>
+              <th width="25%">Biaya</th>
+              <th width="20%">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="isiTabel">
+            <tr>
+              <td colspan="4" class="text-center text-muted py-4">
+                <i class="fas fa-database fa-lg mb-2 d-block"></i>
+                Data belum dimuat
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="summary-card p-4 rounded mb-4">
+        <h6 class="mb-3">
+          <i class="fas fa-chart-bar me-2"></i>
+          Rekap <span id="labelWaktu" class="badge bg-success badge-time">Pagi</span>
+        </h6>
+        <div class="row">
+          <div class="col-6">
+            <div class="d-flex align-items-center mb-2">
+              <div class="bg-primary rounded-circle p-2 me-3">
+                <i class="fas fa-users text-white"></i>
+              </div>
+              <div>
+                <small class="text-muted d-block">Jumlah Pasien</small>
+                <strong id="totalPasien" class="fs-5">0</strong>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex align-items-center mb-2">
+              <div class="bg-success rounded-circle p-2 me-3">
+                <i class="fas fa-money-bill-wave text-white"></i>
+              </div>
+              <div>
+                <small class="text-muted d-block">Total Biaya</small>
+                <strong id="totalBiaya" class="fs-5">Rp 0</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="d-grid gap-2">
+        <button class="btn btn-success btn-custom" onclick="kirimWA()">
+          <i class="fab fa-whatsapp me-2"></i>Kirim ke WhatsApp
+        </button>
+        <button class="btn btn-outline-danger btn-custom" onclick="showResetConfirm()">
+          <i class="fas fa-trash-alt me-2"></i>Reset Semua Data
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // GANTI INI DENGAN URL WEB APP KAMU
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5UCXZb1RiLQWWgB3JS87Kk1RPdGEqCTyRtp7OcAhKomz4MKF3pTle8jkMOFJvKJNqvA/exec";
+
+  let allData = [];
+  let currentConfirmCallback = null;
+
+  // Show notification function
+  function showNotification(message, type = 'success') {
+    const types = {
+      success: { icon: 'check-circle', color: 'success', bg: 'bg-success' },
+      error: { icon: 'exclamation-circle', color: 'danger', bg: 'bg-danger' },
+      warning: { icon: 'exclamation-triangle', color: 'warning', bg: 'bg-warning' },
+      info: { icon: 'info-circle', color: 'info', bg: 'bg-info' }
+    };
+    
+    const config = types[type] || types.success;
+    
+    const notification = document.createElement('div');
+    notification.className = `notification alert alert-${config.color} alert-dismissible fade show`;
+    notification.innerHTML = `
+      <div class="d-flex align-items-center">
+        <i class="fas fa-${config.icon} fa-lg me-3"></i>
+        <div class="flex-grow-1">${message}</div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    `;
+    
+    const container = document.getElementById('notificationContainer');
+    container.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 3000);
+  }
+
+  // Confirmation modal functions
+  function showConfirmModal(title, message, callback) {
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMessage').textContent = message;
+    document.getElementById('confirmActionBtn').onclick = callback;
+    document.getElementById('confirmModal').classList.add('show');
+    currentConfirmCallback = callback;
+  }
+
+  function hideConfirmModal() {
+    document.getElementById('confirmModal').classList.remove('show');
+    currentConfirmCallback = null;
+  }
+
+  function showResetConfirm() {
+    showConfirmModal(
+      'Reset Semua Data',
+      'Apakah Anda yakin ingin menghapus SEMUA data? Tindakan ini tidak dapat dibatalkan.',
+      resetData
+    );
+  }
+
+  // Set current date
+  function setCurrentDate() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', options);
+  }
+
+  // Page navigation
+  function showPage(pageId) {
+    document.getElementById('inputPage').classList.add('hidden');
+    document.getElementById('outputPage').classList.add('hidden');
+    document.getElementById(pageId).classList.remove('hidden');
+    
+    if (pageId === 'outputPage') {
+      setCurrentDate();
+    }
+  }
+
+  // SIMPAN DATA (POST)
+  document.getElementById('formInput').onsubmit = function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('btnSimpan');
+    const btnText = document.getElementById('btnText');
+    
+    // Show loading state
+    btn.disabled = true;
+    btnText.innerHTML = `
+      <div class="spinner-container">
+        <div class="spinner-border spinner-border-sm" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      Menyimpan Data...
+    `;
+
+    const formData = new URLSearchParams(new FormData(this));
+    formData.append('action', 'insert');
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: formData,
+      mode: 'no-cors'
+    }).then(() => {
+      // Show success notification
+      showNotification('Data berhasil disimpan!', 'success');
+      
+      // Reset form
+      document.getElementById('formInput').reset();
+      
+      // Restore button state
+      btn.disabled = false;
+      btnText.textContent = 'Simpan Data';
+      
+    }).catch(err => {
+      // Show error notification
+      showNotification('Gagal menyimpan data. Silakan coba lagi.', 'error');
+      
+      // Restore button state
+      btn.disabled = false;
+      btnText.textContent = 'Simpan Data';
+    });
+  };
+
+  // AMBIL DATA (GET)
+  async function muatData() {
+    const tbody = document.getElementById('isiTabel');
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2 text-muted">Memuat data...</p>
+        </td>
+      </tr>
+    `;
+    
+    try {
+      const response = await fetch(`${SCRIPT_URL}?action=read`);
+      allData = await response.json();
+      renderTabel();
+    } catch (err) {
+      showNotification('Gagal memuat data. Periksa koneksi internet Anda.', 'error');
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center text-danger py-4">
+            <i class="fas fa-exclamation-triangle fa-lg mb-2 d-block"></i>
+            Gagal memuat data
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  function renderTabel() {
+    const filter = document.getElementById('filterWaktu').value;
+    const tbody = document.getElementById('isiTabel');
+    
+    // Filter data berdasarkan waktu
+    let filtered = allData.filter(r => (filter === 'pagi' ? r[6] < 12 : r[6] >= 12));
+    
+    if (filtered.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center text-muted py-4">
+            <i class="far fa-folder-open fa-lg mb-2 d-block"></i>
+            Tidak ada data untuk ditampilkan
+          </td>
+        </tr>
+      `;
+    } else {
+      tbody.innerHTML = '';
+      let totalBiaya = 0;
+      
+      filtered.forEach((row, index) => {
+        totalBiaya += parseInt(row[5] || 0);
+        const waktu = row[6] < 12 ? 
+          `<span class="badge bg-warning badge-time">Pagi</span>` : 
+          `<span class="badge bg-info badge-time">Sore</span>`;
+        
+        tbody.innerHTML += `
+          <tr>
+            <td class="align-middle">${index + 1}</td>
+            <td class="align-middle">
+              <div class="fw-semibold">${row[3] || '-'}</div>
+              <small class="text-muted">${row[4] || '-'}</small>
+              <div class="mt-1">${waktu}</div>
+            </td>
+            <td class="align-middle fw-semibold">Rp ${parseInt(row[5] || 0).toLocaleString()}</td>
+            <td class="align-middle">
+              <button class="btn btn-sm btn-outline-danger" onclick="hapusSatu(${allData.indexOf(row)})" title="Hapus data">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    // Update summary
+    const totalBiaya = filtered.reduce((sum, row) => sum + parseInt(row[5] || 0), 0);
+    document.getElementById('labelWaktu').textContent = filter === 'pagi' ? "Pagi" : "Sore";
+    document.getElementById('labelWaktu').className = filter === 'pagi' ? 
+      "badge bg-warning badge-time" : "badge bg-info badge-time";
+    document.getElementById('totalPasien').textContent = filtered.length;
+    document.getElementById('totalBiaya').textContent = `Rp ${totalBiaya.toLocaleString()}`;
+    
+    if (filtered.length > 0 && filtered[0][1]) {
+      document.getElementById('tglHari').innerHTML = `
+        <i class="far fa-calendar me-2"></i>Tanggal: ${filtered[0][1]}
+      `;
+    }
+    
+    window.currentFiltered = filtered;
+    window.currentTotal = totalBiaya;
+  }
+
+  function hapusSatu(idx) {
+    showConfirmModal(
+      'Hapus Data',
+      'Apakah Anda yakin ingin menghapus data ini?',
+      function() {
+        const params = new URLSearchParams();
+        params.append('action', 'delete');
+        params.append('index', idx);
+        
+        fetch(SCRIPT_URL, { 
+          method: 'POST', 
+          body: params, 
+          mode: 'no-cors' 
+        }).then(() => {
+          showNotification('Data berhasil dihapus!', 'success');
+          muatData();
+          hideConfirmModal();
+        }).catch(() => {
+          showNotification('Gagal menghapus data.', 'error');
+          hideConfirmModal();
+        });
+      }
+    );
+  }
+
+  function resetData() {
+    const params = new URLSearchParams();
+    params.append('action', 'reset');
+    
+    fetch(SCRIPT_URL, { 
+      method: 'POST', 
+      body: params, 
+      mode: 'no-cors' 
+    }).then(() => {
+      showNotification('Semua data berhasil direset!', 'success');
+      muatData();
+      hideConfirmModal();
+    }).catch(() => {
+      showNotification('Gagal mereset data.', 'error');
+      hideConfirmModal();
+    });
+  }
+
+  function kirimWA() {
+    if(!window.currentFiltered || window.currentFiltered.length === 0) {
+      showNotification('Data kosong, tidak ada yang dikirim.', 'warning');
+      return;
+    }
+    
+    const nomorTujuan = "6285226242661"; // Ganti dengan nomor tujuan
+    
+    let teks = `*REKAP BIAYA PASIEN*\n`;
+    teks += `Waktu: ${document.getElementById('labelWaktu').textContent}\n`;
+    teks += `Tanggal: ${document.getElementById('tglHari').textContent || new Date().toLocaleDateString('id-ID')}\n\n`;
+    
+    teks += `*DAFTAR PASIEN:*\n`;
+    window.currentFiltered.forEach((r, i) => {
+      teks += `${i+1}. ${r[3]} - Rp ${parseInt(r[5]).toLocaleString()}\n`;
+    });
+    
+    teks += `\n────────────────\n`;
+    teks += `*TOTAL PASIEN:* ${window.currentFiltered.length}\n`;
+    teks += `*TOTAL BIAYA:* Rp ${window.currentTotal.toLocaleString()}\n\n`;
+    teks += `_Data dikirim dari Sistem Rekap Pasien_`;
+    
+    window.open(`https://wa.me/${nomorTujuan}?text=${encodeURIComponent(teks)}`, '_blank');
+  }
+
+  // Initialize
+  setCurrentDate();
+</script>
+
+</body>
+</html>
