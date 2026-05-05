@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#0f4c35" />
+  <title>Kata Pengantar – Gen Zehat 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:   #0f4c35;
+      --green-mid:    #1a6b4a;
+      --green-light:  #2d9b6a;
+      --green-pale:   #e8f5ee;
+      --gold:         #c8973a;
+      --gold-light:   #f0d080;
+      --cream:        #fdf8f0;
+      --text-dark:    #1c2b22;
+      --text-body:    #2e4038;
+      --text-muted:   #5a7a65;
+      --white:        #ffffff;
+      --shadow-soft:  0 4px 24px rgba(15,76,53,.10);
+      --shadow-card:  0 8px 40px rgba(15,76,53,.13);
+      --radius:       18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--cream);
+      color: var(--text-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(160deg, var(--green-deep) 0%, var(--green-mid) 55%, var(--green-light) 100%);
+      padding: 48px 20px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+      pointer-events: none;
+    }
+    .hero-deco {
+      position: absolute;
+      border-radius: 50%;
+      opacity: .08;
+      background: var(--gold-light);
+    }
+    .hero-deco.d1 { width: 300px; height: 300px; top: -80px; right: -60px; }
+    .hero-deco.d2 { width: 180px; height: 180px; bottom: -40px; left: -40px; }
+
+    .logo-wrap {
+      position: relative; z-index: 1;
+      margin-bottom: 12px;
+      animation: fadeDown .7s ease both;
+    }
+    .logo-wrap img {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: var(--white);
+      padding: 8px;
+      box-shadow: 0 6px 32px rgba(0,0,0,.25);
+      border: 3px solid var(--gold);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      color: var(--gold-light);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 99px;
+      margin-bottom: 18px;
+      animation: fadeDown .7s .1s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 6vw, 3rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.2;
+      animation: fadeDown .7s .2s ease both;
+    }
+    .hero h1 span { color: var(--gold-light); font-style: italic; }
+
+    .hero-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(.99rem, 4vw, 2rem);
+      color: rgba(255,255,255,.75);
+      margin-top: 12px;
+      animation: fadeDown .7s .3s ease both;
+    }
+
+    .scroll-hint {
+      margin-top: 36px;
+      animation: fadeDown .7s .5s ease both;
+    }
+    .scroll-hint span {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem;
+      color: rgba(255,255,255,.55);
+      letter-spacing: .1em;
+      margin-bottom: 8px;
+    }
+    .scroll-hint .arrow {
+      width: 32px; height: 32px;
+      border: 2px solid rgba(255,255,255,.35);
+      border-radius: 50%;
+      margin: 0 auto;
+      display: flex; align-items: center; justify-content: center;
+      animation: bounce 2s infinite;
+    }
+    .scroll-hint .arrow svg { width: 14px; height: 14px; fill: rgba(255,255,255,.6); }
+
+    /* ── PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--green-light));
+      z-index: 999;
+      width: 0%;
+      transition: width .1s linear;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .container {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 0 18px 60px;
+    }
+
+    /* ── INTRO CARD ── */
+    .intro-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      margin-top: -32px;
+      position: relative;
+      z-index: 2;
+      box-shadow: var(--shadow-card);
+      border-top: 4px solid var(--gold);
+      animation: fadeUp .6s .4s ease both;
+    }
+    .intro-card p {
+      font-size: clamp(.93rem, 3vw, 1.05rem);
+      line-height: 1.85;
+      color: var(--text-body);
+    }
+    .salutation {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .salutation::before {
+      content: '';
+      display: inline-block;
+      width: 28px; height: 2px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-label {
+      display: flex; align-items: center; gap: 12px;
+      margin: 40px 0 16px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s, transform .6s;
+    }
+    .section-label.visible { opacity: 1; transform: none; }
+    .section-label .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .section-label span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--green-pale), transparent);
+    }
+
+    /* ── CONTENT BLOCKS ── */
+    .content-block {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 26px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-soft);
+      border-left: 4px solid transparent;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .55s, transform .55s, border-color .3s, box-shadow .3s;
+    }
+    .content-block.visible { opacity: 1; transform: none; }
+    .content-block:hover {
+      border-left-color: var(--green-light);
+      box-shadow: var(--shadow-card);
+    }
+    .content-block p {
+      font-size: clamp(.92rem, 3vw, 1.03rem);
+      line-height: 1.88;
+      color: var(--text-body);
+    }
+    .block-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: var(--green-pale);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+      font-size: 1.3rem;
+    }
+
+    /* ── HIGHLIGHT QUOTE ── */
+    .highlight-quote {
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-mid) 100%);
+      border-radius: var(--radius);
+      padding: 30px 28px;
+      margin: 28px 0;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s, transform .6s;
+    }
+    .highlight-quote.visible { opacity: 1; transform: none; }
+    .highlight-quote::before {
+      content: '"';
+      position: absolute;
+      top: -10px; left: 16px;
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: rgba(255,255,255,.07);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .highlight-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      font-style: italic;
+      color: var(--white);
+      line-height: 1.7;
+      position: relative;
+    }
+    .highlight-quote .hl-source {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem;
+      color: var(--gold-light);
+      margin-top: 12px;
+      letter-spacing: .05em;
+    }
+
+    /* ── STATS ROW (enhanced with animation & pernik-pernik) ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin: 28px 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s, transform .6s;
+    }
+    .stats-row.visible { opacity: 1; transform: none; }
+    
+    .stat-card {
+      background: var(--green-pale);
+      border-radius: var(--radius);
+      padding: 20px 12px;
+      text-align: center;
+      border: 1px solid rgba(45,155,106,.2);
+      transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.3s ease, border-color 0.2s;
+      position: relative;
+      backdrop-filter: blur(0px);
+      overflow: hidden;
+    }
+    /* pernik-pernik: latar gradien halus saat hover + little shine */
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,220,0.2), transparent);
+      transition: left 0.65s ease;
+      pointer-events: none;
+    }
+    .stat-card:hover::after {
+      left: 120%;
+    }
+    .stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 32px rgba(15,76,53,.18);
+      border-color: var(--gold);
+      background: linear-gradient(135deg, var(--green-pale), #f3fcf7);
+    }
+    
+    /* Icon emoji naik turun (sesuai permintaan) */
+    .stat-card .stat-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: text-shadow 0.2s;
+      animation: gentleFloat 1.5s infinite alternate ease-in-out;
+      transform-origin: center;
+      will-change: transform;
+    }
+    /* sedikit sentuhan ekstra saat hover pada icon */
+    .stat-card:hover .stat-icon {
+      text-shadow: 0 0 6px rgba(200,151,58,0.5);
+    }
+    
+    @keyframes gentleFloat {
+      0% {
+        transform: translateY(0px);
+      }
+      100% {
+        transform: translateY(-7px);
+      }
+    }
+    
+    .stat-card .stat-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      line-height: 1.5;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .stat-card:hover .stat-label {
+      color: var(--green-deep);
+    }
+    /* Decorative tiny spark di sudut stat-card (pernak-pernik) */
+    .stat-card::before {
+      content: "✨";
+      position: absolute;
+      bottom: 8px;
+      right: 12px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+    .stat-card:hover::before {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+
+    /* ── WARNING BOX ── */
+    .warning-box {
+      background: #fff8ee;
+      border: 1px solid #f0c060;
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 22px 22px;
+      margin: 24px 0;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s, transform .6s;
+    }
+    .warning-box.visible { opacity: 1; transform: none; }
+    .warning-box .wb-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      color: #a07000;
+      font-size: .85rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .warning-box p {
+      font-size: clamp(.9rem, 3vw, 1rem);
+      line-height: 1.8;
+      color: #6b4800;
+    }
+
+    /* ── CLOSING ── */
+    .closing-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      box-shadow: var(--shadow-card);
+      border-top: 4px solid var(--green-light);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s, transform .6s;
+      margin-top: 28px;
+    }
+    .closing-card.visible { opacity: 1; transform: none; }
+    .closing-card p {
+      font-size: clamp(.92rem, 3vw, 1.03rem);
+      line-height: 1.88;
+      color: var(--text-body);
+    }
+    .closing-final {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1rem, 3.5vw, 1.15rem);
+      font-style: italic;
+      color: var(--green-mid);
+      border-top: 1px solid var(--green-pale);
+      margin-top: 18px;
+      padding-top: 18px;
+    }
+
+    /* ── SIGNATURE ── */
+    .signature {
+      text-align: center;
+      margin-top: 40px;
+      padding: 32px 24px;
+      background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+      border-radius: var(--radius);
+      color: var(--white);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s, transform .6s;
+    }
+    .signature.visible { opacity: 1; transform: none; }
+    .signature .sig-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.15rem, 4vw, 1.4rem);
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 4px;
+    }
+    .signature .sig-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem;
+      color: rgba(255,255,255,.7);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .sig-logo {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: var(--white);
+      padding: 5px;
+      border: 2px solid var(--gold);
+    }
+
+    /* ── BACK TO TOP ── */
+    #back-top {
+      position: fixed;
+      bottom: 24px; right: 20px;
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: var(--green-deep);
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .3s, transform .3s;
+      z-index: 100;
+    }
+    #back-top.show { opacity: 1; pointer-events: auto; }
+    #back-top:hover { transform: translateY(-3px); }
+    #back-top svg { width: 18px; height: 18px; fill: var(--white); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-18px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(6px); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .stats-row .stat-card:last-child { grid-column: span 2; }
+      .intro-card, .content-block, .highlight-quote,
+      .warning-box, .closing-card, .signature { padding: 22px 18px; }
+      .stat-card .stat-icon { font-size: 1.9rem; }
+      .stat-card .stat-label { font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-deco d1"></div>
+  <div class="hero-deco d2"></div>
+
+  <div class="logo-wrap">
+    <img src="https://muin123-dr.github.io/Website/gen%20zehat.png"
+         alt="Logo Gen Zehat"
+         onerror="this.style.background='#1a6b4a';this.alt='GZ';" />
+  </div>
+
+  <h1><span>Kata Pengantar</span></h1>
+  <p class="hero-sub"><span>Mengapa Usia 5–10 Tahun<br/>Sangat Rentan?</span></p>
+
+  <div class="scroll-hint">
+    <span>GULIR KE BAWAH</span>
+    <div class="arrow">
+      <svg viewBox="0 0 24 24"><path d="M12 16l-6-6h12z"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- Intro card -->
+  <div class="intro-card">
+    <div class="salutation">Bapak dan Ibu yang kami hormati</div>
+    <p>Sebagai orang tua, kita semua ingin memberikan yang terbaik untuk anak-anak kita. Di zaman sekarang, smartphone sudah menjadi bagian dari kehidupan sehari-hari. Tidak sedikit dari kita yang memberikannya kepada anak dengan niat baik—agar anak percaya diri karena hampir semua temannya memiliki smartphone, atau agar anak tenang, bisa belajar, atau sekadar sebagai hiburan di saat kita lelah dan sibuk.</p>
+  </div>
+
+  <!-- Quote -->
+  <div class="highlight-quote">
+    <p>Sekali sentuh, anak diam. Sekali geser, tangis berhenti. Rasanya seperti solusi instan yang tidak merugikan siapapun.</p>
+    <div class="hl-source">— Realita keseharian orang tua modern</div>
+  </div>
+
+  <!-- Stats Row (dengan animasi naik turun pada emoji + pernik-pernik) -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon">🧠</div>
+      <div class="stat-label">Otak berkembang<br/>paling pesat</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📱</div>
+      <div class="stat-label">Rangsangan<br/>instan berlebih</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-label">Belum mampu<br/>kendalikan diri</div>
+    </div>
+  </div>
+
+  <!-- Section label -->
+  <div class="section-label">
+    <div class="dot"></div>
+    <span>Masa Emas & Risiko</span>
+  </div>
+
+  <!-- Block 1 -->
+  <div class="content-block">
+    <div class="block-icon">🧬</div>
+    <p>Pada rentang usia 5 hingga 10 tahun, otak anak sedang berkembang dengan sangat pesat. Ibarat spons, otak mereka menyerap segala informasi dengan cepat. Area otak yang mengatur perhatian, pengendalian emosi, kemampuan berbahasa, dan pemecahan masalah sedang dibangun pondasinya.</p>
+  </div>
+
+  <!-- Block 2 -->
+  <div class="content-block">
+    <div class="block-icon">🛤️</div>
+    <p>Setiap pengalaman yang anak lewati—baik di dunia nyata maupun di layar—akan membentuk jalur-jalur di otaknya. Ibarat jalan setapak, semakin sering dilalui, semakin lebar dan permanen jalan itu terbentuk.</p>
+  </div>
+
+  <!-- Warning box -->
+  <div class="warning-box">
+    <div class="wb-title">⚡ Perhatian Penting</div>
+    <p>Smartphone menawarkan "kesenangan instan" yang bisa mengganggu proses alami tersebut. Video pendek yang berganti setiap beberapa detik, game dengan hadiah instan, notifikasi yang terus berbunyi—semua ini melatih otak anak untuk selalu menginginkan rangsangan cepat dan mudah.</p>
+  </div>
+
+  <!-- Block 3 -->
+  <div class="content-block">
+    <div class="block-icon">📚</div>
+    <p>Perlahan-lahan, anak menjadi sulit fokus pada kegiatan yang lebih "lambat" seperti membaca buku, menyelesaikan puzzle, atau sekadar mendengarkan guru di kelas.</p>
+  </div>
+
+  <!-- Section label -->
+  <div class="section-label">
+    <div class="dot"></div>
+    <span>Kemampuan Diri Anak</span>
+  </div>
+
+  <!-- Block 4 -->
+  <div class="content-block">
+    <div class="block-icon">🛡️</div>
+    <p>Di usia ini anak belum memiliki kemampuan mengendalikan diri yang matang. Mereka belum bisa mengatakan "cukup" pada dirinya sendiri. Mereka belum paham kapan harus berhenti. Mereka cenderung menerima apa saja yang ditampilkan di layar tanpa bisa menyaring baik buruknya.</p>
+  </div>
+
+  <!-- Quote 2 -->
+  <div class="highlight-quote">
+    <p>Menyerahkan smartphone kepada anak tanpa batasan yang jelas sama artinya dengan membiarkan mereka berenang di lautan luas sendirian—tanpa pelampung, tanpa pengawasan.</p>
+  </div>
+
+  <!-- Section label -->
+  <div class="section-label">
+    <div class="dot"></div>
+    <span>Dampak Jangka Panjang</span>
+  </div>
+
+  <!-- Block 5 -->
+  <div class="content-block">
+    <div class="block-icon">⏳</div>
+    <p>Kita perlu menyadari bahwa dampak dari paparan layar ini tidak selalu terlihat seketika. Seorang anak yang hari ini tenang dengan gadget di tangannya, bisa jadi akan mengalami kesulitan mengelola emosi satu atau dua tahun ke depan.</p>
+  </div>
+
+  <!-- Block 6 -->
+  <div class="content-block">
+    <div class="block-icon">💬</div>
+    <p>Anak yang hari ini terlihat pintar meniru tarian di video pendek, bisa jadi akan kesulitan berbicara dengan teman sebayanya karena jarang berlatih komunikasi tatap muka. Sedangkan waktu yang hilang di depan layar tidak bisa dikembalikan.</p>
+  </div>
+
+  <!-- Section label -->
+  <div class="section-label">
+    <div class="dot"></div>
+    <span>Pesan & Harapan</span>
+  </div>
+
+  <!-- Closing card -->
+  <div class="closing-card">
+    <p>Tulisan ini disusun bukan untuk menakut-nakuti atau membuat kita merasa bersalah sebagai orang tua. Bukan juga untuk mengatakan bahwa teknologi itu jahat. Smartphone dan teknologi digital adalah bagian dari zaman yang tidak mungkin kita hindari.</p>
+    <p style="margin-top:16px;">Namun, kita sebagai orang tua memiliki kekuatan yang tidak dimiliki oleh algoritma: yaitu <strong>cinta, perhatian, dan kehadiran kita secara nyata.</strong></p>
+    <p style="margin-top:16px;">Tugas kita bukanlah melarang total, melainkan <strong>mendampingi dengan bijak.</strong> Karena di usia emas ini, anak-anak kita membutuhkan lebih banyak interaksi langsung dengan orang tua, teman, dan alam—lebih banyak dari sekadar interaksi dengan layar.</p>
+
+    <p class="closing-final">Masa kecil adalah fondasi utama bagi masa depan mereka, dan kitalah yang memegang kendali atas fondasi itu.</p>
+  </div>
+
+  <!-- Signature -->
+  <div class="signature">
+    <img class="sig-logo"
+         src="https://muin123-dr.github.io/Website/gen%20zehat.png"
+         alt="Logo Gen Zehat"
+         onerror="this.style.display='none';" />
+    <div style="margin-top:14px;" class="sig-name">Dr. Mochamad Syamsul Muin</div>
+    <div class="sig-title">
+      Gen Zehat · 2026<br/>
+      <em>Gen Z yang Peduli Anak</em>
+    </div>
+    <div style="font-family:'DM Sans',sans-serif; font-size:.78rem; color:rgba(255,255,255,.5); margin-top:6px; font-style:italic;">
+      Selamat membaca — semoga menjadi bekal berharga
+    </div>
+  </div>
+
+</main>
+
+<!-- Back to top -->
+<button id="back-top" aria-label="Kembali ke atas" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><path d="M12 8l6 6H6z"/></svg>
+</button>
+
+<script>
+  // Progress bar and back-to-top visibility
+  const bar = document.getElementById('progress-bar');
+  const btn = document.getElementById('back-top');
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement;
+    const pct = s.scrollTop / (s.scrollHeight - s.clientHeight) * 100;
+    bar.style.width = pct + '%';
+    btn.classList.toggle('show', s.scrollTop > 300);
+  }, { passive: true });
+
+  // Scroll reveal with improved visibility (termasuk stats row dan semua elemen dgn .visible)
+  const revealEls = document.querySelectorAll(
+    '.content-block, .highlight-quote, .stats-row, .warning-box, .closing-card, .signature, .section-label'
+  );
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, idx) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), idx * 50);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
