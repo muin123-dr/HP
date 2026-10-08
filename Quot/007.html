@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surga Alloh — Kalimat Bijak penuh Hikmah</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap" rel="stylesheet">
+
+<style>
+/* ============ VARIABEL TEMA (PARCHMENT–EMERALD) ============ */
+:root{
+  --bg:#faf5e8;
+  --bg2:#f0e4cc;
+  --card:#fffdf6;
+  --text:#2d2419;
+  --muted:#7a6a52;
+  --accent:#2d5a3d;
+  --accent-soft:rgba(45,90,61,.10);
+  --gold:#b87333;
+  --gold-soft:rgba(184,115,51,.14);
+  --border:rgba(80,55,25,.14);
+  --shadow:0 12px 34px rgba(80,55,25,.12);
+  --shadow-lg:0 24px 60px rgba(80,55,25,.22);
+
+  --arab-text:#3d2a17;
+  --arab-bg:#f7efdc;
+  --arab-border:rgba(61,42,23,.16);
+  --arab-quote-bg:rgba(45,90,61,.10);
+
+  --wc-1:rgba(122,156,120,.35);   /* sage */
+  --wc-2:rgba(212,160,140,.30);   /* dusty rose */
+  --wc-3:rgba(232,190,120,.32);   /* amber */
+  --wc-4:rgba(140,175,150,.28);   /* mint */
+}
+[data-theme="dark"]{
+  --bg:#100e0b;
+  --bg2:#1a1610;
+  --card:#1d1812;
+  --text:#efe4d0;
+  --muted:#a89678;
+  --accent:#8ed4a8;
+  --accent-soft:rgba(142,212,168,.12);
+  --gold:#e8b878;
+  --gold-soft:rgba(232,184,120,.14);
+  --border:rgba(255,235,200,.10);
+  --shadow:0 12px 34px rgba(0,0,0,.55);
+  --shadow-lg:0 24px 60px rgba(0,0,0,.7);
+
+  --arab-text:#e8d4b0;
+  --arab-bg:#221c14;
+  --arab-border:rgba(232,212,176,.16);
+  --arab-quote-bg:rgba(142,212,168,.10);
+
+  --wc-1:rgba(142,180,140,.20);
+  --wc-2:rgba(200,140,120,.16);
+  --wc-3:rgba(200,160,100,.20);
+  --wc-4:rgba(120,160,130,.16);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{
+  font-size:16px;
+  scroll-behavior:smooth;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.9;
+  min-height:100vh;
+  overflow-x:hidden;
+  transition:background .6s ease,color .6s ease;
+  padding-top:56px;
+  padding-bottom:40px;
+  position:relative;
+}
+
+/* ============================================================
+   BACKGROUND BARU: PARCHMENT + WATERCOLOR BOTANICAL
+   1) Base cream gradient
+   2) Watercolor splashes (soft irregular blobs)
+   3) Paper grain / fiber texture
+   4) Small botanical vine trails
+   ============================================================ */
+
+/* Base cream + soft warm gradient */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-4;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 15%, var(--wc-1) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 20%, var(--wc-2) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 55% at 15% 80%, var(--wc-3) 0%, transparent 65%),
+    radial-gradient(ellipse 55% 50% at 90% 90%, var(--wc-4) 0%, transparent 60%),
+    linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+  transition:background .6s ease;
+}
+
+/* Paper grain texture (subtle noise) */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  pointer-events:none;
+  opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-size:180px 180px;
+  mix-blend-mode:multiply;
+  transition:opacity .6s ease;
+}
+[data-theme="dark"] body::after{
+  opacity:.35;
+  mix-blend-mode:screen;
+}
+
+/* Watercolor blobs (soft moving overlays) */
+.wc-blob{
+  position:fixed;
+  z-index:-2;
+  pointer-events:none;
+  border-radius:50%;
+  filter:blur(60px);
+  opacity:.9;
+  transition:opacity .6s ease;
+}
+.wc-1{
+  width:520px;height:520px;
+  top:-140px;left:-160px;
+  background:radial-gradient(circle at 40% 40%, var(--wc-1), transparent 68%);
+  animation:wcFloat1 28s ease-in-out infinite;
+}
+.wc-2{
+  width:480px;height:480px;
+  bottom:-160px;right:-140px;
+  background:radial-gradient(circle at 60% 50%, var(--wc-2), transparent 68%);
+  animation:wcFloat2 32s ease-in-out infinite;
+}
+.wc-3{
+  width:400px;height:400px;
+  top:40%;left:55%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 50% 50%, var(--wc-3), transparent 70%);
+  animation:wcFloat3 36s ease-in-out infinite;
+}
+@keyframes wcFloat1{
+  0%,100%{ transform:translate(0,0) scale(1) }
+  50%{ transform:translate(60px,80px) scale(1.1) }
+}
+@keyframes wcFloat2{
+  0%,100%{ transform:translate(0,0) scale(1) }
+  50%{ transform:translate(-80px,-60px) scale(1.15) }
+}
+@keyframes wcFloat3{
+  0%,100%{ transform:translate(-50%,-50%) scale(1) rotate(0deg) }
+  50%{ transform:translate(-45%,-55%) scale(1.18) rotate(8deg) }
+}
+
+/* Botanical vine trails (decorative, subtle) */
+.vine-trail{
+  position:fixed;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.14;
+  color:var(--accent);
+  transition:opacity .6s ease,color .6s ease;
+}
+[data-theme="dark"] .vine-trail{ opacity:.18 }
+.vine-tl{
+  top:0;left:0;
+  width:280px;height:280px;
+}
+.vine-br{
+  bottom:0;right:0;
+  width:280px;height:280px;
+  transform:rotate(180deg);
+}
+
+/* ============ HEADER FIXED ============ */
+.site-header{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:56px;
+  z-index:60;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  padding:0 18px;
+  background:rgba(250,245,232,.85);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  backdrop-filter:blur(16px) saturate(150%);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 4px 22px rgba(80,55,25,.10);
+  transition:background .6s ease,border-color .6s ease,box-shadow .6s ease;
+}
+[data-theme="dark"] .site-header{
+  background:rgba(29,24,18,.85);
+  box-shadow:0 4px 22px rgba(0,0,0,.45);
+}
+.site-header h1{
+  font-family:'Lucida Handwriting','Segoe Script','Dancing Script',cursive;
+  font-size:1.16rem;
+  font-weight:700;
+  letter-spacing:1.4px;
+  color:var(--text);
+  line-height:1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.hdr-orn{
+  color:var(--gold);
+  font-size:1rem;
+  opacity:.9;
+  line-height:1;
+  flex-shrink:0;
+}
+.hdr-orn.spin{
+  display:inline-block;
+  animation:spinSlow 18s linear infinite;
+}
+.hdr-orn.float{
+  display:inline-block;
+  animation:floatY 3.4s ease-in-out infinite;
+}
+
+/* ============ ANIMASI IKON ============ */
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+@keyframes floatY{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+@keyframes pulseSoft{
+  0%,100%{opacity:.55;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.06)}
+}
+.spin-icon{
+  display:inline-block;
+  animation:spinSlow 18s linear infinite;
+  transform-origin:center;
+}
+
+/* ============ WRAP ============ */
+.wrap{
+  position:relative;
+  z-index:1;
+  max-width:820px;
+  margin:0 auto;
+  padding:24px 18px 10px;
+}
+
+/* ============ KARTU (manuscript style) ============ */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:26px 26px 28px;
+  margin-bottom:24px;
+  box-shadow:var(--shadow);
+  transition:background .6s ease,border-color .6s ease,box-shadow .4s ease;
+  position:relative;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border:1px solid var(--border);
+  border-radius:2px;
+  pointer-events:none;
+  opacity:.55;
+}
+.card:hover{
+  box-shadow:var(--shadow-lg);
+}
+
+/* ============ BINGKAI ISLAMI (PARCHMENT SCROLL) ============ */
+.basmalah-frame{
+  position: relative;
+  padding: 36px 26px 30px;
+  margin: 4px 0 26px;
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  background:
+    radial-gradient(ellipse at 50% 0%, var(--gold-soft), transparent 65%),
+    linear-gradient(165deg, var(--card) 0%, var(--arab-bg) 100%);
+  box-shadow:
+    0 8px 26px rgba(184,115,51,.16),
+    0 2px 6px rgba(80,55,25,.06);
+  transition: background .6s ease, border-color .6s ease, box-shadow .6s ease;
+}
+.basmalah-frame::before{
+  content:"";
+  position:absolute;
+  inset: 6px;
+  border: 1px dashed var(--gold);
+  border-radius: 2px;
+  opacity: .45;
+  pointer-events:none;
+}
+/* Corner leaf decorations */
+.basmalah-frame .corner{
+  position:absolute;
+  width: 34px;
+  height: 34px;
+  color: var(--gold);
+  z-index: 3;
+  opacity: .9;
+  filter: drop-shadow(0 1px 2px rgba(184,115,51,.35));
+}
+.basmalah-frame .corner svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.c-tl{ top:-8px; left:-8px }
+.c-tr{ top:-8px; right:-8px; transform:scaleX(-1) }
+.c-bl{ bottom:-8px; left:-8px; transform:scaleY(-1) }
+.c-br{ bottom:-8px; right:-8px; transform:scale(-1,-1) }
+
+/* Basmalah */
+.basmalah-frame .basmalah{
+  font-family:'Amiri',serif;
+  font-size:1.72rem;
+  line-height:1.7;
+  color: var(--gold);
+  text-align:center;
+  direction: rtl;
+  margin-bottom: 2px;
+  letter-spacing:.5px;
+  text-shadow: 0 1px 0 rgba(184,115,51,.16);
+}
+
+/* Garis hilang-timbul */
+.fade-line{
+  width: 62%;
+  max-width: 270px;
+  height: 1px;
+  margin: 14px auto 16px;
+  border-radius: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--gold) 35%,
+    var(--accent) 50%,
+    var(--gold) 65%,
+    transparent 100%);
+  animation: fadeLine 3.4s ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes fadeLine{
+  0%,100%{ opacity:0; transform:scaleX(.4); filter:blur(1.4px); }
+  50%{ opacity:1; transform:scaleX(1); filter:blur(0); }
+}
+
+/* Judul Artikel */
+.article-title{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size: 1.72rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  line-height: 1.3;
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+/* Ornamen berputar di bawah judul (vine circlet) */
+.ornament-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+  margin-top: 12px;
+  height: 44px;
+}
+.ornament-vine{
+  width: 80px;
+  height: 14px;
+  color: var(--gold);
+  opacity:.85;
+}
+.ornament-leaf{
+  width: 26px;
+  height: 26px;
+  color: var(--accent);
+  animation: leafSway 3.6s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+@keyframes leafSway{
+  0%,100%{ transform:rotate(-6deg) }
+  50%{ transform:rotate(6deg) }
+}
+
+/* ============ KOLOM ARAB ============ */
+.arabic-column{
+  background: var(--arab-bg);
+  border:1px solid var(--arab-border);
+  border-radius:4px;
+  padding:28px 26px 24px;
+  color: var(--arab-text);
+  direction: rtl;
+  text-align: right;
+  font-family:'Amiri',serif;
+  box-shadow: inset 0 0 40px rgba(184,115,51,.06);
+  transition: background .6s ease, border-color .6s ease, color .6s ease;
+  position: relative;
+  overflow: hidden;
+}
+.arabic-column::before{
+  content:"";
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,
+    transparent,
+    var(--gold) 30%,
+    var(--gold) 70%,
+    transparent);
+  opacity:.4;
+}
+
+.arabic-column p,
+.arabic-column li{
+  font-size:1.54rem;
+  line-height:2.15;
+  color: var(--arab-text);
+}
+.arabic-column p{
+  margin-bottom:14px;
+  text-indent: 1.4em;
+}
+.arabic-column p.ar-lead{
+  margin-bottom:16px;
+  text-indent:0;
+}
+
+/* Kotak syair khusus */
+.arabic-column .poem-box{
+  position:relative;
+  margin:22px 0;
+  padding:22px 24px;
+  border-radius:4px;
+  background: var(--arab-quote-bg);
+  border-top: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+  text-align:center;
+}
+.arabic-column .poem-box::before,
+.arabic-column .poem-box::after{
+  content:"❁";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  color: var(--gold);
+  font-size:.9rem;
+  background: var(--arab-bg);
+  padding:0 8px;
+  line-height:1;
+}
+.arabic-column .poem-box::before{ top:-9px }
+.arabic-column .poem-box::after{ bottom:-9px }
+
+.arabic-column .poem-box p{
+  text-indent:0;
+  margin-bottom:8px;
+  font-size:1.42rem;
+  line-height:2.1;
+}
+.arabic-column .poem-box p:last-child{ margin-bottom:0 }
+.arabic-column .poem-box p .sep{
+  color: var(--gold);
+  margin:0 6px;
+  font-size:.75em;
+}
+
+.arabic-column .said{
+  font-weight:600;
+  font-size:1.16rem;
+  color: var(--arab-text);
+  opacity:.82;
+  margin:16px 0 8px;
+  text-indent:0;
+  line-height:2.1;
+}
+
+.arabic-column .ref{
+  text-align:center;
+  font-family:'Amiri',serif;
+  font-size:1.15rem;
+  color: var(--gold);
+  font-weight:700;
+  letter-spacing:.6em;
+  margin-top:22px;
+  padding-right:.6em;
+  text-indent:0;
+}
+
+/* ============ TOMBOL TOGGLE TERJEMAHAN ============ */
+.toggle-trans{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-top:22px;
+  padding:14px 20px;
+  border:1px solid var(--accent);
+  border-radius:4px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: inherit;
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:.6px;
+  cursor:pointer;
+  transition: background .35s ease, color .35s ease, border-color .35s ease, transform .3s ease, box-shadow .3s ease;
+  -webkit-tap-highlight-color:transparent;
+  text-transform:uppercase;
+}
+.toggle-trans:hover{
+  background: var(--accent);
+  color:#fff;
+  transform:translateY(-1px);
+  box-shadow:0 8px 22px rgba(45,90,61,.24);
+}
+[data-theme="dark"] .toggle-trans:hover{ color:#100e0b }
+.toggle-trans:active{ transform:translateY(0) scale(.99) }
+.toggle-trans svg{
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1);
+  flex-shrink:0;
+}
+.toggle-trans .chev{
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1);
+}
+.toggle-trans.open .chev{ transform: rotate(180deg) }
+.toggle-trans.open .book{
+  animation: pulseBook 1.6s ease-in-out infinite;
+}
+@keyframes pulseBook{
+  0%,100%{ transform:translateY(0) scale(1) }
+  50%{ transform:translateY(-2px) scale(1.06) }
+}
+
+/* ============ KONTEN TERJEMAHAN ============ */
+.trans-wrapper{
+  display:grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .7s cubic-bezier(.2,.75,.3,1), opacity .5s ease;
+  opacity:0;
+}
+.trans-wrapper.open{
+  grid-template-rows: 1fr;
+  opacity:1;
+}
+.trans-inner{ overflow:hidden }
+
+.trans-content{
+  padding-top:26px;
+  margin-top:8px;
+  border-top:1px solid var(--border);
+  animation: fadeSlide .8s ease both;
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:1.14rem;
+  line-height:1.95;
+  color: var(--text);
+}
+@keyframes fadeSlide{
+  from{ opacity:0; transform:translateY(12px) }
+  to{ opacity:1; transform:translateY(0) }
+}
+
+.trans-title{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:1.42rem;
+  font-weight:700;
+  letter-spacing:2.4px;
+  color: var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:22px;
+  text-align:center;
+}
+.trans-title .mini-leaf{
+  width:22px;
+  height:22px;
+  color: var(--gold);
+  animation: leafSway 3.6s ease-in-out infinite;
+  transform-origin:50% 100%;
+  flex-shrink:0;
+}
+
+.trans-content p{ margin-bottom:14px }
+.trans-content p:last-child{ margin-bottom:0 }
+.trans-content strong{ color: var(--accent); font-weight:700 }
+
+/* Daftar poin bernomor dengan bullet emas */
+.trans-content .points{
+  list-style:none;
+  padding:0;
+  margin:0 0 18px;
+}
+.trans-content .points li{
+  position:relative;
+  padding-left:30px;
+  margin-bottom:14px;
+  font-size:1.12rem;
+  line-height:1.9;
+}
+.trans-content .points li::before{
+  content:"◆";
+  position:absolute;
+  left:0;
+  top:.15em;
+  font-size:.72em;
+  color: var(--gold);
+}
+
+/* Kotak syair dalam terjemahan */
+.trans-content .poem-box{
+  position:relative;
+  margin:24px 0;
+  padding:24px 26px;
+  border-radius:4px;
+  background: var(--gold-soft);
+  border-top:1px solid var(--gold);
+  border-bottom:1px solid var(--gold);
+  text-align:center;
+  font-style:italic;
+  font-size:1.1rem;
+  line-height:2;
+  color: var(--text);
+}
+.trans-content .poem-box::before,
+.trans-content .poem-box::after{
+  content:"❁";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  color: var(--gold);
+  font-size:.85rem;
+  background: var(--card);
+  padding:0 8px;
+  line-height:1;
+  font-style:normal;
+}
+.trans-content .poem-box::before{ top:-9px }
+.trans-content .poem-box::after{ bottom:-9px }
+.trans-content .poem-box .line{
+  display:block;
+  margin-bottom:6px;
+}
+.trans-content .poem-box .line:last-child{ margin-bottom:0 }
+
+/* Blockquote biasa */
+.trans-content blockquote{
+  position:relative;
+  margin:16px 0;
+  padding:14px 20px;
+  border-radius:4px;
+  background: var(--accent-soft);
+  border-left:3px solid var(--accent);
+  font-size:1.06rem;
+  font-style:italic;
+  color: var(--text);
+}
+
+/* Teks Arab dalam terjemahan */
+.ar-quote-inline{
+  display:inline-block;
+  font-family:'Amiri',serif;
+  direction:rtl;
+  color: var(--gold);
+  font-style:normal;
+  font-size:1.24rem;
+  padding:0 4px;
+}
+
+/* Footnote */
+.footnote{
+  margin-top:26px;
+  padding:16px 20px;
+  border-radius:4px;
+  background: var(--accent-soft);
+  border-left:3px solid var(--accent);
+  font-size:.96rem;
+  line-height:1.85;
+  font-style:italic;
+  color: var(--muted);
+}
+.footnote .fn-num{
+  display:inline-block;
+  color: var(--accent);
+  font-weight:700;
+  font-style:normal;
+  margin-right:4px;
+}
+.footnote .ar-inline{
+  font-family:'Amiri',serif;
+  direction:rtl;
+  color: var(--accent);
+  font-style:normal;
+  font-weight:700;
+  font-size:1.1rem;
+  padding:0 3px;
+}
+
+/* End ornament */
+.trans-content .ornament-end{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+  margin-top:26px;
+  color: var(--gold);
+  font-size:1rem;
+  opacity:.9;
+}
+.trans-content .ornament-end .line{
+  display:block;
+  width:50px;
+  height:1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.trans-content .ornament-end .dot{
+  display:inline-block;
+  animation: pulseSoft 3s ease-in-out infinite;
+}
+
+/* ============ ANIMASI MUNCUL ============ */
+.reveal{
+  opacity:0;
+  transform:translateY(28px);
+  transition: opacity .9s cubic-bezier(.2,.75,.3,1), transform .9s cubic-bezier(.2,.75,.3,1);
+}
+.reveal.in{ opacity:1; transform:none }
+
+/* ============ FOOTER ============ */
+.site-footer{
+  position:relative;
+  z-index:1;
+  max-width:820px;
+  margin:10px auto 0;
+  padding:30px 22px 26px;
+  text-align:center;
+  border-top:1px solid var(--border);
+}
+
+.share-row{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:22px;
+}
+
+.share-btn{
+  width:50px;height:50px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background: var(--card);
+  border:1px solid var(--border);
+  color: var(--muted);
+  box-shadow: var(--shadow);
+  cursor:pointer;
+  text-decoration:none;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), color .35s, background .35s, border-color .35s;
+}
+.share-btn:hover{ transform:translateY(-6px) scale(1.08) }
+.share-btn.wa:hover{ color:#25D366; border-color:#25D366; background:rgba(37,211,102,.10) }
+.share-btn.ig:hover{ color:#E1306C; border-color:#E1306C; background:rgba(225,48,108,.10) }
+.share-btn svg{ width:22px; height:22px }
+.share-btn:active{ transform:translateY(-2px) scale(.96) }
+
+.footer-title{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:1.12rem;
+  font-weight:600;
+  letter-spacing:1.4px;
+  color: var(--muted);
+  margin-bottom:6px;
+}
+.footer-name{
+  font-family:'Lucida Handwriting','Segoe Script','Dancing Script',cursive;
+  font-style: italic;
+  font-weight:400;
+  font-size:1rem;
+  color: var(--muted);
+  opacity:.75;
+  letter-spacing:1px;
+}
+
+/* ============ TOOLBAR ============ */
+.toolbar{
+  position:fixed;
+  right:16px;
+  top:72px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:50;
+}
+.tool-btn{
+  width:46px;height:46px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background: var(--card);
+  border:1px solid var(--border);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  cursor:pointer;
+  font-family: inherit;
+  font-size:1.22rem;
+  font-weight:700;
+  line-height:1;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), color .3s, border-color .3s, background .3s;
+  -webkit-tap-highlight-color:transparent;
+}
+.tool-btn:hover{
+  transform: scale(1.13);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.tool-btn:active{ transform:scale(.9) }
+.tool-btn svg{ width:20px; height:20px; transition: transform .5s cubic-bezier(.34,1.56,.64,1) }
+#themeToggle:hover svg{ transform: rotate(35deg) }
+
+.icon-moon{ display:none }
+[data-theme="dark"] .icon-sun{ display:none }
+[data-theme="dark"] .icon-moon{ display:block }
+
+.tool-btn.pop{ animation: pop .38s cubic-bezier(.34,1.56,.64,1) }
+@keyframes pop{
+  0%{ transform:scale(1) }
+  45%{ transform:scale(1.28) }
+  100%{ transform:scale(1) }
+}
+
+/* ============ NOTIFIKASI TERIMA KASIH ============ */
+.thanks-toast{
+  position:fixed;
+  left:50%;
+  bottom:26px;
+  transform: translate(-50%, 150%) scale(.94);
+  opacity:0;
+  width: min(92vw, 420px);
+  background: var(--card);
+  border:1px solid var(--gold);
+  border-radius:6px;
+  padding:26px 26px 24px;
+  text-align:center;
+  box-shadow: var(--shadow-lg);
+  z-index:90;
+  transition: transform .8s cubic-bezier(.2,.85,.3,1), opacity .6s ease;
+  overflow:hidden;
+  pointer-events:none;
+}
+.thanks-toast.show{
+  transform: translate(-50%, 0) scale(1);
+  opacity:1;
+  pointer-events:auto;
+}
+.thanks-toast::before{
+  content:"";
+  position:absolute;
+  inset:6px;
+  border:1px dashed var(--gold);
+  border-radius:2px;
+  opacity:.35;
+  pointer-events:none;
+}
+.thanks-icon{
+  font-size:1.7rem;
+  color: var(--gold);
+  line-height:1;
+  margin-bottom:12px;
+  display:inline-block;
+}
+.thanks-toast h3{
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:1.24rem;
+  font-weight:700;
+  color: var(--accent);
+  margin-bottom:10px;
+  letter-spacing:1px;
+}
+.thanks-toast .ar{
+  font-family:'Amiri',serif;
+  font-size:1.55rem;
+  color: var(--gold);
+  direction:rtl;
+  text-align:center;
+  line-height:1.9;
+}
+.thanks-close{
+  position:absolute;
+  top:10px; right:12px;
+  width:30px; height:30px;
+  border:none;
+  border-radius:50%;
+  background:transparent;
+  color: var(--muted);
+  font-size:1.15rem;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition: background .3s, color .3s, transform .3s;
+  z-index:2;
+}
+.thanks-close:hover{ background: var(--accent-soft); color: var(--accent); transform: rotate(90deg) }
+
+.mini-toast{
+  position:fixed;
+  left:50%;
+  bottom:100px;
+  transform: translate(-50%, 20px);
+  opacity:0;
+  background: var(--accent);
+  color:#fff;
+  padding:10px 20px;
+  border-radius:30px;
+  font-size:.85rem;
+  font-weight:600;
+  box-shadow: var(--shadow-lg);
+  z-index:95;
+  pointer-events:none;
+  transition: opacity .4s, transform .4s;
+  white-space:nowrap;
+}
+[data-theme="dark"] .mini-toast{ color:#100e0b }
+.mini-toast.show{ opacity:1; transform: translate(-50%, 0) }
+
+/* ============ RESPONSIF ============ */
+@media (max-width:600px){
+  body{ padding-top:52px }
+  .site-header{ height:52px; gap:11px; padding:0 12px }
+  .site-header h1{ font-size:.96rem; letter-spacing:.8px }
+  .hdr-orn{ font-size:.85rem }
+
+  .wc-1,.wc-2{ width:340px;height:340px }
+  .wc-3{ width:260px;height:260px }
+  .vine-tl,.vine-br{ width:180px;height:180px }
+
+  .wrap{ padding:18px 12px 6px }
+  .card{ padding:20px 16px 22px; border-radius:4px }
+  .card::before{ inset:4px }
+
+  .basmalah-frame{ padding:28px 18px 24px; border-radius:3px }
+  .basmalah-frame::before{ inset:5px }
+  .basmalah-frame .corner{ width:26px; height:26px }
+  .c-tl{ top:-6px; left:-6px }
+  .c-tr{ top:-6px; right:-6px }
+  .c-bl{ bottom:-6px; left:-6px }
+  .c-br{ bottom:-6px; right:-6px }
+
+  .basmalah-frame .basmalah{ font-size:1.4rem }
+  .fade-line{ width:78%; margin:12px auto 14px }
+  .article-title{ font-size:1.38rem; letter-spacing:2px }
+  .ornament-vine{ width:60px }
+  .ornament-leaf{ width:22px; height:22px }
+  .ornament-wrap{ height:40px; margin-top:10px }
+
+  .arabic-column{ padding:22px 18px 20px; border-radius:3px }
+  .arabic-column p,
+  .arabic-column li{ font-size:1.32rem; line-height:2.08 }
+  .arabic-column .poem-box{ padding:18px 16px; margin:18px 0 }
+  .arabic-column .poem-box p{ font-size:1.22rem; line-height:2 }
+  .arabic-column .said{ font-size:1.05rem }
+  .arabic-column .ref{ font-size:1rem }
+
+  .toggle-trans{ padding:13px 16px; font-size:.82rem; gap:8px; letter-spacing:.4px }
+
+  .trans-content{ font-size:1.05rem }
+  .trans-title{ font-size:1.18rem; letter-spacing:1.6px }
+  .trans-content .points li{ font-size:1.02rem; padding-left:26px }
+  .trans-content .poem-box{ padding:20px 18px; font-size:1rem }
+  .footnote{ font-size:.9rem; padding:14px 16px }
+
+  .toolbar{ right:11px; top:66px; gap:8px }
+  .tool-btn{ width:42px; height:42px; font-size:1.08rem }
+  .tool-btn svg{ width:18px; height:18px }
+
+  .thanks-toast{ padding:22px 18px 20px; bottom:18px }
+  .thanks-toast .ar{ font-size:1.4rem }
+  .share-btn{ width:46px; height:46px }
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.15s !important;
+  }
+  .wc-blob{ animation:none !important }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============ BACKGROUND LAYERS ============ -->
+<div class="wc-blob wc-1" aria-hidden="true"></div>
+<div class="wc-blob wc-2" aria-hidden="true"></div>
+<div class="wc-blob wc-3" aria-hidden="true"></div>
+
+<!-- Vine trail TL -->
+<svg class="vine-trail vine-tl" viewBox="0 0 280 280" fill="none" stroke="currentColor"
+     stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+  <path d="M0 40 Q40 40 60 60 Q80 80 80 120 Q80 160 120 180 Q160 200 200 200 Q240 200 280 220"/>
+  <path d="M0 100 Q30 100 50 120 Q70 140 70 180"/>
+  <path d="M40 40 Q50 25 65 25 M80 120 Q95 105 110 108 M120 180 Q135 170 148 175 M200 200 Q210 185 225 188"/>
+  <ellipse cx="60" cy="60" rx="5" ry="9" transform="rotate(-30 60 60)"/>
+  <ellipse cx="70" cy="120" rx="5" ry="9" transform="rotate(20 70 120)"/>
+  <ellipse cx="140" cy="185" rx="5" ry="9" transform="rotate(30 140 185)"/>
+  <ellipse cx="215" cy="200" rx="5" ry="9" transform="rotate(-15 215 200)"/>
+  <circle cx="40" cy="40" r="3"/>
+  <circle cx="80" cy="120" r="3"/>
+  <circle cx="120" cy="180" r="3"/>
+  <circle cx="200" cy="200" r="3"/>
+</svg>
+
+<!-- Vine trail BR (rotated) -->
+<svg class="vine-trail vine-br" viewBox="0 0 280 280" fill="none" stroke="currentColor"
+     stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+  <path d="M0 40 Q40 40 60 60 Q80 80 80 120 Q80 160 120 180 Q160 200 200 200 Q240 200 280 220"/>
+  <path d="M0 100 Q30 100 50 120 Q70 140 70 180"/>
+  <path d="M40 40 Q50 25 65 25 M80 120 Q95 105 110 108 M120 180 Q135 170 148 175 M200 200 Q210 185 225 188"/>
+  <ellipse cx="60" cy="60" rx="5" ry="9" transform="rotate(-30 60 60)"/>
+  <ellipse cx="70" cy="120" rx="5" ry="9" transform="rotate(20 70 120)"/>
+  <ellipse cx="140" cy="185" rx="5" ry="9" transform="rotate(30 140 185)"/>
+  <ellipse cx="215" cy="200" rx="5" ry="9" transform="rotate(-15 215 200)"/>
+  <circle cx="40" cy="40" r="3"/>
+  <circle cx="80" cy="120" r="3"/>
+  <circle cx="120" cy="180" r="3"/>
+  <circle cx="200" cy="200" r="3"/>
+</svg>
+
+<!-- ================= HEADER FIXED ================= -->
+<header class="site-header">
+  <span class="hdr-orn spin-icon">❁</span>
+  <h1>Kalimat Bijak penuh Hikmah</h1>
+  <span class="hdr-orn float">❦</span>
+</header>
+
+<main class="wrap">
+
+  <article class="card reveal">
+
+    <!-- ============ BINGKAI ISLAMI: BASMALAH + JUDUL ============ -->
+    <div class="basmalah-frame">
+
+      <!-- Ornamen sudut dedaunan -->
+      <span class="corner c-tl" aria-hidden="true">
+        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round">
+          <path d="M8 52 Q8 30 26 18 Q44 8 54 8"/>
+          <path d="M26 18 Q22 14 22 10 Q28 10 30 14 Q30 18 26 18 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M38 14 Q40 8 44 6 Q46 12 42 16 Q38 18 38 14 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M14 34 Q8 34 4 30 Q8 24 14 26 Q18 30 14 34 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M18 42 Q14 46 10 46 Q12 40 16 40 Q20 40 18 42 Z" fill="currentColor" fill-opacity="0.18"/>
+          <circle cx="50" cy="50" r="2" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="corner c-tr" aria-hidden="true">
+        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round">
+          <path d="M8 52 Q8 30 26 18 Q44 8 54 8"/>
+          <path d="M26 18 Q22 14 22 10 Q28 10 30 14 Q30 18 26 18 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M38 14 Q40 8 44 6 Q46 12 42 16 Q38 18 38 14 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M14 34 Q8 34 4 30 Q8 24 14 26 Q18 30 14 34 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M18 42 Q14 46 10 46 Q12 40 16 40 Q20 40 18 42 Z" fill="currentColor" fill-opacity="0.18"/>
+          <circle cx="50" cy="50" r="2" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="corner c-bl" aria-hidden="true">
+        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round">
+          <path d="M8 52 Q8 30 26 18 Q44 8 54 8"/>
+          <path d="M26 18 Q22 14 22 10 Q28 10 30 14 Q30 18 26 18 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M38 14 Q40 8 44 6 Q46 12 42 16 Q38 18 38 14 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M14 34 Q8 34 4 30 Q8 24 14 26 Q18 30 14 34 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M18 42 Q14 46 10 46 Q12 40 16 40 Q20 40 18 42 Z" fill="currentColor" fill-opacity="0.18"/>
+          <circle cx="50" cy="50" r="2" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="corner c-br" aria-hidden="true">
+        <svg viewBox="0 0 60 60" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round">
+          <path d="M8 52 Q8 30 26 18 Q44 8 54 8"/>
+          <path d="M26 18 Q22 14 22 10 Q28 10 30 14 Q30 18 26 18 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M38 14 Q40 8 44 6 Q46 12 42 16 Q38 18 38 14 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M14 34 Q8 34 4 30 Q8 24 14 26 Q18 30 14 34 Z" fill="currentColor" fill-opacity="0.18"/>
+          <path d="M18 42 Q14 46 10 46 Q12 40 16 40 Q20 40 18 42 Z" fill="currentColor" fill-opacity="0.18"/>
+          <circle cx="50" cy="50" r="2" fill="currentColor"/>
+        </svg>
+      </span>
+
+      <!-- Basmalah -->
+      <p class="basmalah" dir="rtl" lang="ar">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+
+      <!-- Garis hilang-timbul -->
+      <div class="fade-line" aria-hidden="true"></div>
+
+      <!-- Judul -->
+      <h2 class="article-title">SURGA ALLOH</h2>
+
+      <!-- Ornamen daun berayun -->
+      <div class="ornament-wrap" aria-hidden="true">
+        <svg class="ornament-vine" viewBox="0 0 120 20" fill="none" stroke="currentColor"
+             stroke-width="1.4" stroke-linecap="round">
+          <path d="M2 10 Q20 4 40 10 T80 10 T118 10"/>
+          <ellipse cx="30" cy="8" rx="4" ry="6" transform="rotate(-25 30 8)"/>
+          <ellipse cx="60" cy="12" rx="4" ry="6" transform="rotate(25 60 12)"/>
+          <ellipse cx="90" cy="8" rx="4" ry="6" transform="rotate(-25 90 8)"/>
+        </svg>
+        <svg class="ornament-leaf" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true">
+          <path d="M30 4 Q42 20 42 34 Q42 48 30 56 Q18 48 18 34 Q18 20 30 4 Z"/>
+          <path d="M30 12 L30 50" stroke="#fff" stroke-width="1.2" opacity="0.4" fill="none"/>
+          <path d="M30 22 Q36 24 38 28 M30 30 Q36 32 38 36 M30 38 Q36 40 38 44" stroke="#fff" stroke-width="0.9" opacity="0.35" fill="none"/>
+          <path d="M30 22 Q24 24 22 28 M30 30 Q24 32 22 36 M30 38 Q24 40 22 44" stroke="#fff" stroke-width="0.9" opacity="0.35" fill="none"/>
+        </svg>
+        <svg class="ornament-vine" viewBox="0 0 120 20" fill="none" stroke="currentColor"
+             stroke-width="1.4" stroke-linecap="round">
+          <path d="M2 10 Q20 4 40 10 T80 10 T118 10"/>
+          <ellipse cx="30" cy="12" rx="4" ry="6" transform="rotate(25 30 12)"/>
+          <ellipse cx="60" cy="8" rx="4" ry="6" transform="rotate(-25 60 8)"/>
+          <ellipse cx="90" cy="12" rx="4" ry="6" transform="rotate(25 90 12)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ============ KOLOM ARAB ============ -->
+    <div class="arabic-column" dir="rtl" lang="ar">
+      <p class="ar-lead">هياها لامر عظيم، وأعدها لخطب جسيم، وذخر لها ما لا عين رأت، ولا ذن سمعت، ولا خطر على قلب بشر من النعيم المقيم. واقتضت حكمته البالغة أنها لا تصل إليه إلا من طريق المكاره والنصب، ولا تعبر إليه إلا على جسر المشقة والتعب، فحجبه بالمكروهات صيانة له عن الانفس الدنيات، المؤثرة للرذائل والسفليات، وشمرت إليه النفوس العلويات، والهمم العليات، فامتطت في السير إليه ظهور العزمات، فسارت في ظهورها إلى أشرف الغايات:</p>
+
+      <!-- Kotak syair -->
+      <div class="poem-box">
+        <p>وركب سروا والليل مرخ رواقه <span class="sep">❁</span> على كل مغبر الموارد قاتم</p>
+        <p>حدوا عزمات ضاعت الارض بينها <span class="sep">❁</span> فصار سراهم في ظهور العزائم</p>
+        <p>أرتهم نجوم الليل ما يطلبونه <span class="sep">❁</span> على عاتق الشعرى وهام النعائم</p>
+        <p>فاموا حمى لا ينبغي لسواهم <span class="sep">❁</span> وما أخذتهم فيه لومة لائم</p>
+      </div>
+
+      <p>أجابوا منادي الحبيب لما أذن بهم حي على الفلاح، وبذلوا نفوسهم في مرضاته بذل المحب بالرضا والسماح، وواصلوا السير إليه بالغدو والرواح، فحمدوا عند الوصول مسراهم، وإنما "يحمد القوم السرى عند الصباح".</p>
+
+      <p>تعبوا قليلا، فاستراحوا طويلا، وتركوا حقيرا، واعتاضوا عظيما.</p>
+
+      <p class="ref">❁ ❦ ❁</p>
+    </div>
+
+    <!-- ============ TOMBOL BUKA TERJEMAHAN ============ -->
+    <button class="toggle-trans" id="toggleTrans" aria-expanded="false" aria-controls="transWrapper">
+      <svg class="book" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      <span>Tampilkan Terjemahan</span>
+      <svg class="chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+
+    <!-- ============ TERJEMAHAN ============ -->
+    <div class="trans-wrapper" id="transWrapper">
+      <div class="trans-inner">
+        <div class="trans-content">
+
+          <h3 class="trans-title">
+            <svg class="mini-leaf" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true">
+              <path d="M30 4 Q42 20 42 34 Q42 48 30 56 Q18 48 18 34 Q18 20 30 4 Z"/>
+            </svg>
+            SURGA ALLOH
+            <svg class="mini-leaf" viewBox="0 0 60 60" fill="currentColor" aria-hidden="true">
+              <path d="M30 4 Q42 20 42 34 Q42 48 30 56 Q18 48 18 34 Q18 20 30 4 Z"/>
+            </svg>
+          </h3>
+
+          <ul class="points">
+            <li>Allah telah mempersiapkan jiwa (manusia) untuk suatu perkara yang agung, dan menciptakannya untuk urusan yang besar, serta telah menyimpan untuk jiwa tersebut kenikmatan abadi yang tak pernah dilihat mata, tak pernah didengar telinga, dan tak pernah terlintas di hati manusia.</li>
+
+            <li>Hikmah-Nya yang sempurna menghendaki bahwa jiwa tidak akan sampai kepadanya (tujuan agung itu) kecuali melalui jalan yang tidak disukai dan penuh derita, serta tidak dapat menyeberang kepadanya kecuali di atas jembatan kepayahan dan keletihan.</li>
+
+            <li>Maka, Allah menutupi (Surga) dengan hal-hal yang tidak disukai, sebagai penjagaan untuk melindunginya dari jiwa-jiwa yang rendah, yang lebih memilih keburukan dan hal-hal yang hina.</li>
+
+            <li>Namun, jiwa-jiwa yang luhur dan cita-cita yang tinggi bergegas menyingsingkan lengan ke arahnya. Mereka menunggangi punggung-punggung tekad yang kuat dalam menempuh perjalanan, dan bergerak di atas tekad itu menuju tujuan yang paling mulia:</li>
+          </ul>
+
+          <!-- Kotak syair terjemahan -->
+          <div class="poem-box">
+            <span class="line">Kafilah itu berjalan disaat malam telah merentangkan tirai gelapnya</span>
+            <span class="line">Menerjang setiap medan berdebu dan gelap gulita</span>
+            <span class="line">Mereka memacu tekad hingga bumi seakan terlipat di antaranya</span>
+            <span class="line">Maka jadilah perjalanan malam mereka bertumpu di atas punggung-punggung tekad</span>
+            <span class="line">Bintang-bintang malam menjadi penunjuk arah yang mereka tuju</span>
+            <span class="line">Di pundak bintang Syi'ra dan puncak gugusan Na'aim</span>
+            <span class="line">Maka mereka pun melangkah menuju kawasan suci yang tak pantas diraih oleh selain mereka</span>
+            <span class="line">Dan celaan para pencela tidak sedikit pun menyurutkan langkah mereka</span>
+          </div>
+
+          <p>Mereka menjawab panggilan Sang Kekasih ketika menyeru kepada mereka: <span class="ar-quote-inline">حي على الفلاح</span> "Marilah menuju kemenangan!"</p>
+
+          <p>Mereka mengorbankan jiwa demi meraih keridhaan-Nya, laksana seorang pecinta yang menyerahkan dirinya dengan penuh kerelaan dan kelapangan hati. Mereka terus menyambung perjalanan menuju-Nya di waktu pagi dan petang.</p>
+
+          <p>Hingga ketika telah tiba, mereka memuji (mensyukuri) perjalanan malam mereka. Sebab sesungguhnya, <em>"Sebuah kaum akan mensyukuri lelahnya perjalanan malam ketika pagi telah tiba."</em> <sup style="color:var(--accent);font-weight:700;">(1)</sup></p>
+
+          <p>Mereka bersusah payah sebentar, lalu beristirahat panjang nan abadi. Mereka meninggalkan hal yang hina, dan mendapat ganti hal yang teramat agung.</p>
+
+          <div class="footnote">
+            <span class="fn-num">(1)</span>
+            Pepatah Arab (<span class="ar-inline">عِنْدَ الصَّبَاحِ يَحْمَدُ القَوْمُ السُّرَى</span>) yang merupakan kiasan bahwa segala keletihan, pengorbanan, dan kesabaran di dunia ini akan disyukuri oleh seorang hamba kelak saat ia memetik hasilnya di akhirat (Surga).
+          </div>
+
+          <p class="ornament-end">
+            <span class="line"></span>
+            <span class="dot">❁</span>
+            <span class="line"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+  <div id="endSentinel" style="height:1px"></div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="share-row">
+    <a class="share-btn wa" id="shareWa" href="#" target="_blank" rel="noopener" aria-label="Bagikan ke WhatsApp" title="Bagikan ke WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+      </svg>
+    </a>
+    <a class="share-btn ig" id="shareIg" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Bagikan ke Instagram" title="Bagikan ke Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5.5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+  </div>
+
+  <p class="footer-title">Sebuah Catatan Pribadi</p>
+  <p class="footer-name">~ dr. Muin ~</p>
+</footer>
+
+<!-- ================= TOOLBAR ================= -->
+<div class="toolbar">
+  <button class="tool-btn" id="themeToggle" aria-label="Ganti tema terang / gelap" title="Ganti tema">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+    </svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <button class="tool-btn" id="fontPlus" aria-label="Perbesar huruf" title="Perbesar huruf">+</button>
+  <button class="tool-btn" id="fontMinus" aria-label="Perkecil huruf" title="Perkecil huruf">−</button>
+</div>
+
+<!-- ================= NOTIFIKASI TERIMA KASIH ================= -->
+<div class="thanks-toast" id="thanksToast" role="status" aria-live="polite">
+  <button class="thanks-close" id="thanksClose" aria-label="Tutup notifikasi">✕</button>
+  <div class="thanks-icon spin-icon">❁</div>
+  <h3>Terima Kasih Telah Membaca</h3>
+  <p class="ar" dir="rtl" lang="ar">بارك الله فيكم</p>
+</div>
+
+<div class="mini-toast" id="miniToast">Tautan disalin ✓</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var root = document.documentElement;
+
+  /* ---------- TEMA ---------- */
+  try{
+    var savedTheme = localStorage.getItem('hikmah9-theme');
+    if(savedTheme) root.setAttribute('data-theme', savedTheme);
+    else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      root.setAttribute('data-theme','dark');
+  }catch(e){}
+
+  var themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', function(){
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try{ localStorage.setItem('hikmah9-theme', next); }catch(e){}
+    pulse(themeToggle);
+  });
+
+  /* ---------- UKURAN FONT ---------- */
+  var size = 16;
+  try{
+    var savedSize = parseFloat(localStorage.getItem('hikmah9-fontsize'));
+    if(savedSize && savedSize >= 13 && savedSize <= 22) size = savedSize;
+  }catch(e){}
+
+  function applySize(){
+    root.style.fontSize = size + 'px';
+    try{ localStorage.setItem('hikmah9-fontsize', size); }catch(e){}
+  }
+  applySize();
+
+  var btnPlus  = document.getElementById('fontPlus');
+  var btnMinus = document.getElementById('fontMinus');
+
+  btnPlus.addEventListener('click', function(){
+    if(size < 22){ size += 1; applySize(); }
+    pulse(btnPlus);
+  });
+  btnMinus.addEventListener('click', function(){
+    if(size > 13){ size -= 1; applySize(); }
+    pulse(btnMinus);
+  });
+
+  function pulse(el){
+    el.classList.remove('pop');
+    void el.offsetWidth;
+    el.classList.add('pop');
+    setTimeout(function(){ el.classList.remove('pop'); }, 420);
+  }
+
+  /* ---------- TOGGLE TERJEMAHAN ---------- */
+  var toggleBtn = document.getElementById('toggleTrans');
+  var transWrapper = document.getElementById('transWrapper');
+  var toggleLabel = toggleBtn.querySelector('span');
+
+  toggleBtn.addEventListener('click', function(){
+    var isOpen = transWrapper.classList.toggle('open');
+    toggleBtn.classList.toggle('open', isOpen);
+    toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggleLabel.textContent = isOpen ? 'Sembunyikan Terjemahan' : 'Tampilkan Terjemahan';
+  });
+
+  /* ---------- REVEAL SAAT SCROLL ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var revObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add('in');
+          revObs.unobserve(en.target);
+        }
+      });
+    }, { threshold:0.08, rootMargin:'-70px 0px -40px 0px' });
+    revealEls.forEach(function(el){ revObs.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- NOTIFIKASI AKHIR ---------- */
+  var thanksToast = document.getElementById('thanksToast');
+  var sentinel = document.getElementById('endSentinel');
+  var toastShown = false;
+
+  function showThanks(){
+    if(toastShown) return;
+    thanksToast.classList.add('show');
+    toastShown = true;
+  }
+
+  if('IntersectionObserver' in window && sentinel){
+    var endObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting) showThanks();
+      });
+    }, { threshold:0.9 });
+    endObs.observe(sentinel);
+  }
+
+  window.addEventListener('scroll', function(){
+    if(toastShown) return;
+    var doc = document.documentElement;
+    if(window.innerHeight + window.scrollY >= doc.scrollHeight - 60) showThanks();
+  }, { passive:true });
+
+  document.getElementById('thanksClose').addEventListener('click', function(){
+    thanksToast.classList.remove('show');
+  });
+
+  /* ---------- SHARE ---------- */
+  var PAGE_URL = window.location.href;
+  var SHARE_TEXT = 'Surga Alloh — Kalimat Bijak penuh Hikmah\n\n' + PAGE_URL;
+
+  var wa = document.getElementById('shareWa');
+  wa.setAttribute('href', 'https://wa.me/?text=' + encodeURIComponent(SHARE_TEXT));
+
+  var ig = document.getElementById('shareIg');
+  ig.addEventListener('click', function(){
+    copyToClipboard(SHARE_TEXT);
+  });
+
+  function copyToClipboard(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){
+        showMini('Tautan disalin — tempelkan di Instagram ✓');
+      }).catch(function(){
+        fallbackCopy(text);
+      });
+    } else {
+      fallbackCopy(text);
+    }
+  }
+
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand('copy'); showMini('Tautan disalin — tempelkan di Instagram ✓'); }
+    catch(e){ showMini('Salin manual: ' + PAGE_URL); }
+    document.body.removeChild(ta);
+  }
+
+  var miniTimer = null;
+  function showMini(msg){
+    var mt = document.getElementById('miniToast');
+    mt.textContent = msg;
+    mt.classList.add('show');
+    clearTimeout(miniTimer);
+    miniTimer = setTimeout(function(){ mt.classList.remove('show'); }, 2600);
+  }
+
+})();
+</script>
+</body>
+</html>
